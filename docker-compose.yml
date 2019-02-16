@@ -1,0 +1,17 @@
+version: '3'
+services:
+  label-build:
+    command: npm start
+    build:
+      context: .
+    volumes:
+      - ./:/app
+  label:
+    command: npm start
+    ports:
+      - "3331:3000"
+    build:
+      context: ./
+    volumes:
+      - ./www:/app
+      - ./:/components/labellab-components
