@@ -1,1 +1,1 @@
-export const IMAGE_SIZE = 500
+export const IMAGE_SIZE = 400

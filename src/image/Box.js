@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import {
+  pointToCoord
+} from '../utils/coordinates'
 
 class Box extends Component {
   constructor() {
@@ -10,8 +13,15 @@ class Box extends Component {
     }
   }
 
+  callbackCompleteIfComplete() {
+    const { notComplete } = this.props
+    const complete = !(notComplete === true)
+    if (complete) {
+      if (this.props.onComplete) this.props.onComplete()
+    }
+  }
   render() {
-    const { box, size, notComplete, editing } = this.props
+    const { box, size, notComplete, editing, dimensions, viewSize } = this.props
     const complete = !(notComplete === true)
     const {name} = this.props
     const { hover, cornerHover, dragging } = this.state
@@ -29,7 +39,14 @@ class Box extends Component {
       containerStyle.zIndex = 15
       containerStyle.pointerEvents = 'none'
     }
-    const points = box.map((b) => b.x + "," + b.y).join(" ")
+    const points = box.map((b) => {
+      const coord = pointToCoord(b, dimensions, viewSize)
+      return coord
+    })
+    const joinedPoints = points.map((p) => {
+      return p.x + "," + p.y
+    }
+    ).join(" ")
 
     return <div style={containerStyle}
         >
@@ -37,6 +54,8 @@ class Box extends Component {
         <svg
           onMouseUp={(e) => {
             this.setState({dragging: null})
+
+            this.callbackCompleteIfComplete()
           }}
           onMouseLeave={() => {
             this.setState({dragging: null, cornerHover: null, hover: null})
@@ -51,9 +70,9 @@ class Box extends Component {
             }
           }}
           style={{ position: 'absolute', left: 0, top: 0}}
-          viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-          { box.length > 1 && !complete &&
-            <polyline points={points} fill="transparent" stroke={color} strokeWidth="3" />
+          viewBox={`0 0 ${viewSize} ${viewSize}`} xmlns="http://www.w3.org/2000/svg">
+          { points.length > 1 && !complete &&
+            <polyline points={joinedPoints} fill="transparent" stroke={color} strokeWidth="3" />
           }
 
           { complete &&
@@ -78,13 +97,13 @@ class Box extends Component {
                 if (isDragging) return
                 this.setState({hover: false})
               }}
-              points={points}
+              points={joinedPoints}
               strokeWidth="2"
               fill={hover ? colorTransparent : 'transparent'} stroke={color}
             >
             </polygon>
           }
-          { box.map((b, i) => {
+          { points.map((b, i) => {
             const active = i === cornerHover && editing
             const edgeColor = active || (editing && this.props.onComplete && i === 0 && !complete) ? "white" : color
             const edgeSize = active ? "4" : "3"
@@ -97,7 +116,7 @@ class Box extends Component {
             })
           }
 
-          { editing && !isDragging && box.map((b, i) => {
+          { editing && !isDragging && points.map((b, i) => {
             return <circle
               key={i + 'invis'}
               style={{ cursor: "pointer", pointerEvents: "auto", zIndex: 7}}
@@ -112,6 +131,7 @@ class Box extends Component {
               onMouseDown={(e) => {
                 if (i === 0 && complete === false) {
                   if (this.props.onComplete) this.props.onComplete()
+                } else {
                 }
                 this.setState({dragging: i})
               }}

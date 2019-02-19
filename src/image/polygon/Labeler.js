@@ -30,16 +30,22 @@ class Labeler extends Component {
   }
 
   toLabel() {
-    const {box} = this.state
+    const {box, dimensions} = this.state
 
     return {
       "state": box,
       "type": "PolygonAnnotation",
       "options": {
-          "viewSize": IMAGE_SIZE
+        "viewSize": IMAGE_SIZE,
+        dimensions
       },
     }
   }
+
+  setDimensions(dimensions) {
+    this.setState({dimensions})
+  }
+
   imageClick(x, y) {
     if (this.state.complete) return
     const {box} = this.state
@@ -84,6 +90,9 @@ class Labeler extends Component {
             this.onAllMove(b)
           }}
           box={box}
+          setDemensions={(d) => {
+            this.setDimensions(d)
+          }}
           size={size}
           rotation={rotation}
           complete={this.state.complete}

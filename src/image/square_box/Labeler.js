@@ -10,6 +10,7 @@ class Labeler extends Component {
 
   defaultState() {
     return {
+      dimensions: null,
       box: [],
       rotation: 0
     }
@@ -39,23 +40,29 @@ class Labeler extends Component {
       newBox.push({x, y: box[0].y})
       newBox.push({x, y})
       newBox.push({x: box[0].x, y})
+      this.props.onComplete(this.toLabel(newBox))
       this.setState({box: newBox})
-      this.props.onComplete(this.toLabel(label))
     }
   }
 
+  setDimensions(dimensions) {
+    this.setState({dimensions})
+  }
+
   toLabel(box) {
+    const {dimensions} = this.state
     return {
       "state": box,
       "type": "SquareBoxAnnotation",
       "options": {
-          "viewSize": IMAGE_SIZE
+          "viewSize": IMAGE_SIZE,
+          dimensions
       },
     }
   }
 
   onComplete() {
-    this.props.onComplete(label)
+    this.props.onComplete(this.toLabel(this.state.box))
   }
 
   onPointMove(point, i) {
@@ -69,6 +76,7 @@ class Labeler extends Component {
       if (i === 2) newBox[3].y = point.y
       if (i === 3) newBox[2].y = point.y
     }
+
     this.setState({box: newBox})
   }
 
@@ -80,13 +88,15 @@ class Labeler extends Component {
   }
 
   render() {
-    const { file } = this.props
+    const { file, containerStyle } = this.props
+    let cs = containerStyle ? JSON.parse(JSON.stringify(containerStyle)) : {}
     const { box, rotation } = this.state
     const size = this.props.size || IMAGE_SIZE
+    cs.width = size + "px"
 
     if (!file) return this.renderEmpty()
     return (
-      <div className="labeler">
+      <div style={cs} className="labeler">
         <BoundingImage
           onClear={() => this.clear()}
           onPointMove={(point, i) => {
@@ -94,6 +104,12 @@ class Labeler extends Component {
           }}
           onAllMove={(b) => {
             this.onAllMove(b)
+          }}
+          setDemensions={(d) => {
+            this.setDimensions(d)
+          }}
+          onComplete={(c) => {
+            this.onComplete(c)
           }}
           box={box}
           size={size}

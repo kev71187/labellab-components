@@ -22,10 +22,14 @@ class PreviewImage extends Component {
     return <Image file={file} size={containerSize}>
       { !hideLabels &&
         labels.map((label, i) => {
-          if (label.type === 'BoxAnnotation') {
-            const ratio = containerSize / label.options.viewSize
-            const box = label.state.map((b) => { return {x: b.x * ratio, y: b.y * ratio}})
-            return <Box key={i} box={box} name={label.name.name}/>
+          if (label.type === 'SquareBoxAnnotation' || label.type === 'PolygonAnnotation' ) {
+            return <Box
+              key={i}
+              box={label.state}
+              viewSize={containerSize}
+              dimensions={label.options.dimensions}
+              name={label.name}
+             />
           }
 
           return null

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ImagePreview from "../components/image/Preview"
+import ImageSquareBoxPreview from "../components/image/square_box/Preview"
 import ImageSquareBoxLabeler from "../components/image/square_box/Labeler"
 import ImagePolygonLabeler from "../components/image/polygon/Labeler"
+import ImagePolygonPreview from "../components/image/polygon/Preview"
 
 const contents = [
   {
     type: "Image",
     items: [
       "Labelers.Image.SquareBox.Labeler",
+      "Labelers.Image.Polygon.Labeler",
       "Labelers.Image.Preview",
     ]
   },
@@ -18,10 +20,18 @@ const contents = [
     ]
   }
 ]
+const blue = "#007bff"
+const bigHeader = {
+  backgroundColor: blue,
+  color: "white", width: "100%",
+  textAlign: "center",
+  padding: "10px",
+  marginTop: "30px"
+}
 class Home extends Component {
   render() {
     return <div>
-      <nav className="navbar navbar-dark" style={{backgroundColor: "#007bff"}}>
+      <nav className="navbar navbar-dark" style={{backgroundColor: blue}}>
         <a className="navbar-brand" href="#">
           <img
             style={{width: "40px", height: "40px"}}
@@ -33,7 +43,7 @@ class Home extends Component {
       </nav>
       <div className="container-fluid" style={{borderLeft: "1px solid lightgrey", borderRight: "1px solid lightgrey"}}>
         <div className="row">
-          <div className="col-3">
+          <div className="col-3" style={{paddingRight: 0}}>
             <div style={{borderRight: "1px solid lightgrey", height: "100%", paddingTop: "15px"}}>
               <h4>Components</h4>
               {
@@ -54,19 +64,31 @@ class Home extends Component {
               }
             </div>
           </div>
-          <div className="col-7" style={{paddingTop: "15px"}}>
+          <div className="col-9" style={{paddingTop: "15px"}}>
             <h4>Image:</h4>
-            <ImageSquareBoxLabeler/>
-            <hr style={{marginTop: "40px", marginBottom: "40px"}}/>
-            <ImagePreview/>
-            <hr style={{marginTop: "40px", marginBottom: "40px"}}/>
-            <ImagePolygonLabeler/>
-            <hr style={{marginTop: "40px", marginBottom: "40px"}}/>
-            <ImagePreview/>
-          </div>
-          <div className="col-2">
-            <div style={{borderLeft: "1px solid lightgrey", height: "100%", paddingTop: "15px"}}>
+            <div className="row">
+              <h4 style={bigHeader}>Labelers.Image.SquareBox</h4>
             </div>
+            <div className="row">
+              <div className="col-6">
+                <ImageSquareBoxLabeler/>
+              </div>
+              <div className="col-6">
+                  <ImageSquareBoxPreview/>
+              </div>
+            </div>
+            <div className="row">
+              <h4 style={bigHeader}>Labelers.Image.Polygon</h4>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <ImagePolygonLabeler/>
+              </div>
+              <div className="col-6">
+                <ImagePolygonPreview/>
+              </div>
+            </div>
+            <hr style={{marginTop: "40px", marginBottom: "40px"}}/>
           </div>
         </div>
       </div>
