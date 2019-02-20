@@ -15,6 +15,16 @@ module.exports = (distRoot, optimize) => ({
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: {
+          loader: 'style-loader!css-loader',
+          options: {
+            cacheDirectory: true,
+            envName: `dist-${optimize ? 'prod' : 'dev'}`,
+          },
+        },
+      },
+      {
         test: /\.js$/,
         use: {
           loader: 'babel-loader',

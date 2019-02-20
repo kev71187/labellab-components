@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import CommonClassifier from "../components/common/Classifier"
+import MultiCommonClassifier from "../components/common/MultiClassifier"
 import ImageSquareBoxPreview from "../components/image/square_box/Preview"
 import ImageSquareBoxLabeler from "../components/image/square_box/Labeler"
 import ImagePolygonLabeler from "../components/image/polygon/Labeler"
 import ImagePolygonPreview from "../components/image/polygon/Preview"
 
 const contents = [
+  {
+    type: "Common",
+    items: [
+      "Labelers.Common.Classifier",
+      "Labelers.Common.MultiClassifier",
+    ]
+  },
   {
     type: "Image",
     items: [
@@ -67,6 +76,17 @@ class Home extends Component {
           <div className="col-9" style={{paddingTop: "15px"}}>
             <h4>Image:</h4>
             <div className="row">
+              <h4 style={bigHeader}>Labelers.Common</h4>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <CommonClassifier/>
+              </div>
+              <div className="col-6">
+                <MultiCommonClassifier/>
+              </div>
+            </div>
+            <div className="row">
               <h4 style={bigHeader}>Labelers.Image.SquareBox</h4>
             </div>
             <div className="row">
@@ -88,7 +108,6 @@ class Home extends Component {
                 <ImagePolygonPreview/>
               </div>
             </div>
-            <hr style={{marginTop: "40px", marginBottom: "40px"}}/>
           </div>
         </div>
       </div>
