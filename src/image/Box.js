@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import colors from '../constants/colors'
+import LabelOverlay from '../common/LabelOverlay'
 import {
   pointToCoord
 } from '../utils/coordinates'
@@ -51,7 +52,7 @@ class Box extends Component {
 
     return <div style={containerStyle}
         >
-        { hover && name && <div style={{backgroundColor: color, color: "#fff", padding: "1px 5px", borderRadius: "2px", position: "absolute", top: "5px", left: "5px"}}>{name}</div> }
+          { hover && name && <LabelOverlay color={color} name={name}/> }
         <svg
           onMouseUp={(e) => {
             this.setState({dragging: null})

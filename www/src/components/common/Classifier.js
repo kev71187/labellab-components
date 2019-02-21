@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Labelers from "labellab-components"
+import Labellab from "labellab-components"
 
 const labels = [
   {id: 50,  name: "airplane"},
@@ -17,10 +17,10 @@ class Classifier extends Component {
   render() {
     return <div className="card">
       <div className="card-header">
-        <h4 className="text-center">{"<Labelers.Common.Classifier>"}</h4>
+        <h4 className="text-center">{"<Labellab.Common.Classifier>"}</h4>
       </div>
       <div className="card-body ">
-        <Labelers.Common.Classifier
+        <Labellab.Common.Classifier
           onSelect={(val) => {
             console.log(val)
           }}

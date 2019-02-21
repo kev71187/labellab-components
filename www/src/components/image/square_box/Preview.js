@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Labelers from "labellab-components"
+import Labellab from "labellab-components"
 
 const labels = [
   {
@@ -28,13 +28,13 @@ class Preview extends Component {
   render() {
     return <div className="card">
       <div className="card-header">
-        <h4 className="text-center">{"<Labelers.Image.Preview>"}</h4>
+        <h4 className="text-center">{"<Labellab.Image.Preview>"}</h4>
       </div>
       <div className="card-body">
         <div
           style={{margin: "0 auto", width: "400px"}}
         >
-          <Labelers.Image.Preview
+          <Labellab.Image.Preview
             file={{url: "http://www.nba.com/media/history/chamberlain_reb_200.jpg"}}
             hideLabels={false}
             size={400}

@@ -74,13 +74,15 @@ class Labeler extends Component {
   }
 
   render() {
-    const { file } = this.props
+    const { file, containerStyle } = this.props
+    let cs = containerStyle ? JSON.parse(JSON.stringify(containerStyle)) : {}
+    console.log(cs)
     const { box, rotation } = this.state
     const size = this.props.size || IMAGE_SIZE
 
     if (!file) return this.renderEmpty()
     return (
-      <div className="labeler">
+      <div style={cs} className="labeler">
         <BoundingImage
           onClear={() => this.clear()}
           onPointMove={(point, i) => {

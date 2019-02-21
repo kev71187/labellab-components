@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextClassificationLabeler from "../components/text/classification/Labeler"
+import TextClassificationPreview from "../components/text/classification/Preview"
 import CommonClassifier from "../components/common/Classifier"
 import MultiCommonClassifier from "../components/common/MultiClassifier"
 import ImageSquareBoxPreview from "../components/image/square_box/Preview"
@@ -9,25 +11,27 @@ import ImagePolygonPreview from "../components/image/polygon/Preview"
 
 const contents = [
   {
-    type: "Common",
-    items: [
-      "Labelers.Common.Classifier",
-      "Labelers.Common.MultiClassifier",
-    ]
-  },
-  {
     type: "Image",
     items: [
-      "Labelers.Image.SquareBox.Labeler",
-      "Labelers.Image.Polygon.Labeler",
-      "Labelers.Image.Preview",
+      "Labellab.Image.SquareBox",
+      "Labellab.Image.Polygon",
+      "Labellab.Image.Classification",
     ]
   },
   {
     type: "Text",
     items: [
+      "Labellab.Text.Classification",
     ]
-  }
+  },
+  {
+    type: "Common",
+    items: [
+      "Labellab.Common.Classifier",
+      "Labellab.Common.MultiClassifier",
+      "Labellab.Common.Preview",
+    ]
+  },
 ]
 const blue = "#007bff"
 const bigHeader = {
@@ -51,8 +55,8 @@ class Home extends Component {
         </a>
       </nav>
       <div className="container-fluid" style={{borderLeft: "1px solid lightgrey", borderRight: "1px solid lightgrey"}}>
-        <div className="row">
-          <div className="col-3" style={{paddingRight: 0}}>
+        <div style={{display: "flex", flexDirection: "row", paddingLeft: "15px", paddingRight: "15px"}}>
+          <div style={{paddingRight: 0, width: "300px"}}>
             <div style={{borderRight: "1px solid lightgrey", height: "100%", paddingTop: "15px"}}>
               <h4>Components</h4>
               {
@@ -73,19 +77,8 @@ class Home extends Component {
               }
             </div>
           </div>
-          <div className="col-9" style={{paddingTop: "15px"}}>
+          <div className="container-fluid" style={{marginLeft: "15px", paddingTop: "15px", flex: 1}}>
             <h4>Image:</h4>
-            <div className="row">
-              <h4 style={bigHeader}>Labelers.Common</h4>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <CommonClassifier/>
-              </div>
-              <div className="col-6">
-                <MultiCommonClassifier/>
-              </div>
-            </div>
             <div className="row">
               <h4 style={bigHeader}>Labelers.Image.SquareBox</h4>
             </div>
@@ -106,6 +99,26 @@ class Home extends Component {
               </div>
               <div className="col-6">
                 <ImagePolygonPreview/>
+              </div>
+            </div>
+            <h4>Text:</h4>
+            <div className="row">
+              <h4 style={bigHeader}>Labelers.Text.Classification</h4>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <TextClassificationPreview/>
+              </div>
+            </div>
+            <div className="row">
+              <h4 style={bigHeader}>Labelers.Common</h4>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <CommonClassifier/>
+              </div>
+              <div className="col-6">
+                <MultiCommonClassifier/>
               </div>
             </div>
           </div>

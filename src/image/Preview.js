@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 // import { connect } from 'react-redux'
 import Image from './Image'
 import Box from './Box'
+import colors from '../constants/colors'
+import LabelOverlay from '../common/LabelOverlay'
 
 class PreviewImage extends Component {
   render() {
@@ -30,6 +32,9 @@ class PreviewImage extends Component {
               dimensions={label.options.dimensions}
               name={label.name}
              />
+          }
+          if (label.type === 'ClassificationAnnotation') {
+            return <LabelOverlay color={colors.blue} name={name}/>
           }
 
           return null

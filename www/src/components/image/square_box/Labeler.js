@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import Labelers from "labellab-components"
+import Labellab from "labellab-components"
 
 class Labeler extends Component {
   render() {
     return <div className="card">
       <div className="card-header">
-        <h4 className="text-center">{"<Labelers.Image.SquareBox.Labeler>"}</h4>
+        <h4 className="text-center">{"<Labellab.Image.SquareBox.Labeler>"}</h4>
       </div>
       <div className="card-body ">
-        <Labelers.Image.SquareBox.Labeler
+        <Labellab.Image.SquareBox.Labeler
           file={{url: "http://www.nba.com/media/history/chamberlain_reb_200.jpg"}}
           containerStyle={{margin: "0 auto"}}
           ref="labeler"
