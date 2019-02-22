@@ -77,7 +77,7 @@ class Search extends Component {
     if (!placeholder) placeholder = 'Search'
     if (!width) width = '100%'
     return (
-      <div className="search-section">
+      <SearchBar>
         <div style={{width}} className={`search-bar${this.state.focused ? ' input-focused' : ''}${scope ? ' scoped' : ''}`}>
           <div className="the-bar">
             <input
@@ -109,10 +109,7 @@ class Search extends Component {
             </div>
           </div>
         </div>
-        <style>
-          {SearchBar.css}
-        </style>
-      </div>
+      </SearchBar>
     )
   }
 }

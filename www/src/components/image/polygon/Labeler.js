@@ -18,6 +18,8 @@ class Labeler extends Component {
         />
         <div onClick={() => {this.refs.labeler.clear()}}
           style={{marginTop: "10px", cursor: "pointer"}} className="btn btn-success">clear</div>
+        <div onClick={() => {this.refs.labeler.undo()}}
+          style={{marginTop: "10px", marginLeft: "10px", cursor: "pointer"}} className="btn btn-primary">undo</div>
       </div>
     </div>
   }

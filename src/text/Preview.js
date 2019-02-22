@@ -1,19 +1,60 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 
+const TextBox = styled.pre`
+  overflow: scroll;
+  height: 100%;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f3f3f3;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: lightgrey; 
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #grey; 
+  }
+`
+
+// Create a <Wrapper> react component that renders a <section> with
+// some padding and a papayawhip background
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`
 class Preview extends Component {
-  constructor() {
+  constructor(props) {
     super()
     this.state = {
-      contents: null
+      contents: props.data || null
     }
   }
   componentDidMount() {
-    const { file, size } = this.props
-    fetch(file.url).then((resp) => {
-      resp.text().then((text) => {
-        this.setState({contents: text})
+    const { file, type, size, json} = this.props
+    if (this.state.contents) {
+      fetch(file.url).then((resp) => {
+        if (type === "json") {
+          resp.json().then((text) => {
+            this.setState({contents: text})
+          })
+        } else {
+          resp.text().then((text) => {
+            this.setState({contents: text})
+          })
+        }
       })
-    })
+    }
   }
   onClick(e) {
     if (this.props.onClick) {
@@ -21,7 +62,9 @@ class Preview extends Component {
     }
   }
   render() {
-    const { file, size } = this.props
+    const { file, size, type } = this.props
+    const { contents } = this.state
+
     if (!file) return null
 
     const style = {
@@ -31,38 +74,26 @@ class Preview extends Component {
       zIndex: 1,
     }
 
+    let out = ""
+
+    if (contents) {
+      switch(type) {
+        case "json":
+          out = JSON.stringify(contents, null, 2)
+          break
+        default:
+          out = contents
+          break
+      }
+    }
+
     return <div
       className="ll-text"
       style={style}
       onClick={e => this.onClick(e)}>
-        <pre style={{overflow: "scroll", height: "100%"}}>
-          {this.state.contents}
-         </pre>
-        <style>
-          {
-            `
-              .ll-text pre:hover {
-                cursor: pointer;
-                background-color: #f3f3f3;
-              }
-              .ll-text pre::-webkit-scrollbar {
-                width: 10px;
-              }
-              /* Track */
-              .ll-text pre::-webkit-scrollbar-track {
-                background: #f1f1f1; 
-              }
-              /* Handle */
-              .ll-text pre::-webkit-scrollbar-thumb {
-                background: lightgrey; 
-              }
-              /* Handle on hover */
-              .ll-text pre::-webkit-scrollbar-thumb:hover {
-                background: #grey; 
-              }
-            `
-          }
-        </style>
+        <TextBox>
+          {out}
+        </TextBox>
       </div>
   }
 }

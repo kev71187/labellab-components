@@ -106,19 +106,23 @@ class Box extends Component {
             </polygon>
           }
           { points.map((b, i) => {
+            const completeWithMe = editing && this.props.onComplete && i === 0 && !complete
             const active = i === cornerHover && editing
-            const edgeColor = active || (editing && this.props.onComplete && i === 0 && !complete) ? "white" : color
-            const edgeSize = active ? "4" : "3"
+            const edgeColor = active || (completeWithMe) ? "white" : color
+            const edgeSize = active || completeWithMe ? "5" : "3"
 
             return <circle
               key={i + 'vis' }
               style={{zIndex: 7, position: "relative"}}
+              stroke={active || completeWithMe ? "rgba(0, 0, 0, 0.285)" : "transparent"}
               r={edgeSize} fill={edgeColor} cy={b.y} cx={b.x}
               />
             })
           }
 
           { editing && !isDragging && points.map((b, i) => {
+            const completeWithMe = editing && this.props.onComplete && i === 0 && !complete
+
             return <circle
               key={i + 'invis'}
               style={{ cursor: "pointer", pointerEvents: "auto", zIndex: 7}}
@@ -142,7 +146,7 @@ class Box extends Component {
                 if (isDragging) return
                 this.setState({cornerHover: null})
               }}
-              r="7" fill={"transparent"} cy={b.y} cx={b.x}/>
+              r={completeWithMe ? 8 : "7"} fill={"transparent"} cy={b.y} cx={b.x}/>
             })
           }
       </svg>

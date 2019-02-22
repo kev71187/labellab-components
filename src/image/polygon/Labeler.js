@@ -25,6 +25,15 @@ class Labeler extends Component {
     )
   }
 
+  undo() {
+    if (this.state.complete) {
+      this.setState({complete: false})
+    } else {
+      this.state.box.pop()
+      this.setState({box: this.state.box})
+    }
+  }
+
   clear() {
     this.setState(this.defaultState())
   }

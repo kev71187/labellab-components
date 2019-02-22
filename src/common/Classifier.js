@@ -1,5 +1,39 @@
 import React, { Component } from 'react'
 import Search from "./Search"
+import styled from 'styled-components'
+
+const LLClassifier = styled.div`
+  .classifier-item {
+    padding: 5px 15px;
+    border-bottom: 1px solid lightgrey;
+    color: rgb(0, 123, 255);
+  }
+  &.scrollable .classifier-item:hover {
+    cursor: pointer;
+    background-color: #f3f3f3;
+  }
+  &.scrollable ::-webkit-scrollbar {
+    width: 10px;
+  }
+  &.scrollable ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  &.scrollable ::-webkit-scrollbar-thumb {
+    background: lightgrey;
+  }
+  &.scrollable ::-webkit-scrollbar-thumb:hover {
+    background: #grey;
+  }
+  .ll-select-container {
+    margin-top: 5px;
+    border-top: 1px solid lightgrey;
+    webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    max-height: 200px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+  }
+`
+
 class Classifier extends Component {
   constructor(props) {
     super()
@@ -49,7 +83,7 @@ class Classifier extends Component {
     }
 
     return (
-      <div className={`ll-classifier ${this.state.labels.length > 5 ? 'scrollable' : ''}`}>
+      <LLClassifier className={this.state.labels.length > 5 ? 'scrollable' : ''}>
         <Search
           placeholder="Type Label"
           term={term}
@@ -68,64 +102,32 @@ class Classifier extends Component {
             if (labels.length === 0) return null
           }}
         />
-        <div style={{
-          marginTop: "5px",
-          borderTop: "1px solid lightgrey",
-          WebkitOverflowScrolling: "touch",
-          overflowY: "scroll",
-          maxHeight: "200px",
-          boxShadow: "0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08)"
-        }}>
+        <div className="ll-select-container">
         { labels.length === 0 && <div style={{padding: "5px"}}>
           No selectable labels
         </div>}
           { labels.map((label, i) => {
             const itemStyle =  {
-              padding: "5px 15px",
-              borderBottom: "1px solid lightgrey",
             }
+
             if (labels.length - 1 === i) {
               itemStyle.borderBottom = "none"
             }
-            return (
 
-              <div onClick={() => {
-                this.onSelect(label)
-              }} className="classifier-item" key={i} style={itemStyle}
-              value={label.id}>
+            return (
+              <div
+                key={i}
+                onClick={() => {
+                  this.onSelect(label)
+                }}
+                className="classifier-item"
+                style={itemStyle}
+                value={label.id}>
               <a href="javascript:void(0)">{label.name}</a></div>)
             })
           }
         </div>
-        <style>
-          {
-            `
-              .ll-classifier .classifier-item {
-                color: rgb(0, 123, 255);
-              }
-              .ll-classifier.scrollable .classifier-item:hover {
-                cursor: pointer;
-                background-color: #f3f3f3;
-              }
-              .ll-classifier.scrollable ::-webkit-scrollbar {
-                width: 10px;
-              }
-              /* Track */
-              .ll-classifier.scrollable ::-webkit-scrollbar-track {
-                background: #f1f1f1; 
-              }
-              /* Handle */
-              .ll-classifier.scrollable ::-webkit-scrollbar-thumb {
-                background: lightgrey; 
-              }
-              /* Handle on hover */
-              .ll-classifier.scrollable ::-webkit-scrollbar-thumb:hover {
-                background: #grey; 
-              }
-            `
-          }
-        </style>
-      </div>
+      </LLClassifier>
     )
   }
 }

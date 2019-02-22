@@ -1,4 +1,10 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
+
+const ImageView = styled.div`
+  position: relative;
+  z-index: 1;
+`
 
 class ImageComponent extends Component {
   onClick(e) {
@@ -32,17 +38,15 @@ class ImageComponent extends Component {
     const imageStyles = {
       width: size + 'px',
       height: size + 'px',
-      position: 'relative',
-      zIndex: 1,
       background: `#333 url("${file.url}") center/contain no-repeat`,
       transform: `rotate(${this.props.rotation}deg)`
     }
 
-    return <div
+    return <ImageView
       style={imageStyles}
       onClick={e => this.onClick(e)}>
        {this.props.children}
-      </div>
+      </ImageView>
   }
 }
 

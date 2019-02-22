@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TextClassificationLabeler from "../components/text/classification/Labeler"
+import TextJsonPreview from "../components/text/Json"
 import TextClassificationPreview from "../components/text/classification/Preview"
 import CommonClassifier from "../components/common/Classifier"
 import MultiCommonClassifier from "../components/common/MultiClassifier"
@@ -108,6 +109,9 @@ class Home extends Component {
             <div className="row">
               <div className="col-6">
                 <TextClassificationPreview/>
+              </div>
+              <div className="col-6">
+                <TextJsonPreview/>
               </div>
             </div>
             <div className="row">

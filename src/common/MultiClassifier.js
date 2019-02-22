@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import colors from "../constants/colors"
 import Classifier from "./Classifier"
 
+import styled from 'styled-components'
+
+const MultiClassifierComponent = styled.div`
+`
+
 class MultiClassifier extends Component {
   constructor(props) {
     super()
@@ -38,27 +43,14 @@ class MultiClassifier extends Component {
     const {labels, completeButtonStyles, completeButtonText, placeholder} = this.props
     const place = placeholder ? placeholder : "Type labeles"
     const {done, selected} = this.state
-    const compStyles = completeButtonStyles || {
-      marginTop: "5px",
-      color: colors.white,
-      backgroundColor: colors.blue,
-      cursor: "pointer",
-      textAlign: "center",
-      userSelect: "none",
-      borderRadius: "3px",
-      padding: "5px 10px",
-      outline: "none",
-      border: "none",
-      marginBottom: "5px"
-    }
     const compText = completeButtonText || "Done"
 
     return (
-      <div>
+      <MultiClassifierComponent>
         { !done &&
-          <button onClick={() => {
+          <button className="btn-complete-multi btn btn-primar" onClick={() => {
             this.done()
-          }} style={compStyles}>{compText}</button>
+          }}>{compText}</button>
         }
         {
           selected.map((item, i) => {
@@ -83,7 +75,7 @@ class MultiClassifier extends Component {
             />
           })
         }
-      </div>
+      </MultiClassifierComponent>
     )
   }
 }
