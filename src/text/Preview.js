@@ -33,6 +33,29 @@ const Wrapper = styled.section`
   padding: 4em;
   background: papayawhip;
 `
+const prettifyXml = (sourceXml) => {
+    var xmlDoc = new DOMParser().parseFromString(sourceXml, 'application/xml')
+    var xsltDoc = new DOMParser().parseFromString([
+        // describes how we want to modify the XML - indent everything
+        '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
+        '  <xsl:strip-space elements="*"/>',
+        '  <xsl:template match="para[content-style][not(text())]">', // change to just text() to strip space in text nodes
+        '    <xsl:value-of select="normalize-space(.)"/>',
+        '  </xsl:template>',
+        '  <xsl:template match="node()|@*">',
+        '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
+        '  </xsl:template>',
+        '  <xsl:output indent="yes"/>',
+        '</xsl:stylesheet>',
+    ].join('\n'), 'application/xml')
+
+    var xsltProcessor = new XSLTProcessor()
+    xsltProcessor.importStylesheet(xsltDoc)
+    var resultDoc = xsltProcessor.transformToDocument(xmlDoc)
+    var resultXml = new XMLSerializer().serializeToString(resultDoc)
+    return resultXml
+}
+
 class Preview extends Component {
   constructor(props) {
     super()
@@ -42,11 +65,11 @@ class Preview extends Component {
   }
   componentDidMount() {
     const { file, type, size, json} = this.props
-    if (this.state.contents) {
+    if (!this.state.contents) {
       fetch(file.url).then((resp) => {
         if (type === "json") {
-          resp.json().then((text) => {
-            this.setState({contents: text})
+          resp.json().then((json) => {
+            this.setState({contents: json})
           })
         } else {
           resp.text().then((text) => {
@@ -61,11 +84,12 @@ class Preview extends Component {
       this.props.onClick(e)
     }
   }
+
   render() {
-    const { file, size, type } = this.props
+    const { file, size, type, data } = this.props
     const { contents } = this.state
 
-    if (!file) return null
+    if (!file && !data) return null
 
     const style = {
       width: size + 'px',
@@ -80,6 +104,10 @@ class Preview extends Component {
       switch(type) {
         case "json":
           out = JSON.stringify(contents, null, 2)
+          break
+        case "xml":
+          out = prettifyXml(contents)
+          console.log(out)
           break
         default:
           out = contents

@@ -48,7 +48,7 @@ class MultiClassifier extends Component {
     return (
       <MultiClassifierComponent>
         { !done &&
-          <button className="btn-complete-multi btn btn-primar" onClick={() => {
+          <button style={{marginBottom: "10px"}} className="btn-complete-multi btn btn-primary" onClick={() => {
             this.done()
           }}>{compText}</button>
         }

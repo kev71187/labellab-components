@@ -6,7 +6,7 @@ class Preview extends Component {
   render() {
     return <div className="card">
       <div className="card-header">
-        <h4 className="text-center">{"<Labellab.Text.Preview>"}</h4>
+        <h4 className="text-center">{"Plain Text"}</h4>
       </div>
       <div className="card-body">
         <div
@@ -19,7 +19,7 @@ class Preview extends Component {
         </div>
         <div 
           style={{marginTop: "15px", marginBottom: "10px"}}
-          className="col-12 text-center">Annotated Text</div>
+          className="col-12 text-center">Plain Text</div>
       </div>
     </div>
   }

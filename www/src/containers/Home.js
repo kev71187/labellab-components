@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TextClassificationLabeler from "../components/text/classification/Labeler"
 import TextJsonPreview from "../components/text/Json"
+import TextXmlPreview from "../components/text/Xml"
 import TextClassificationPreview from "../components/text/classification/Preview"
 import CommonClassifier from "../components/common/Classifier"
 import MultiCommonClassifier from "../components/common/MultiClassifier"
@@ -9,6 +10,7 @@ import ImageSquareBoxPreview from "../components/image/square_box/Preview"
 import ImageSquareBoxLabeler from "../components/image/square_box/Labeler"
 import ImagePolygonLabeler from "../components/image/polygon/Labeler"
 import ImagePolygonPreview from "../components/image/polygon/Preview"
+import ImageClassification from "../components/image/Classification"
 
 const contents = [
   {
@@ -79,6 +81,7 @@ class Home extends Component {
             </div>
           </div>
           <div className="container-fluid" style={{marginLeft: "15px", paddingTop: "15px", flex: 1}}>
+            <ImageClassification/>
             <h4>Image:</h4>
             <div className="row">
               <h4 style={bigHeader}>Labelers.Image.SquareBox</h4>
@@ -112,6 +115,9 @@ class Home extends Component {
               </div>
               <div className="col-6">
                 <TextJsonPreview/>
+              </div>
+              <div className="col-6">
+                <TextXmlPreview/>
               </div>
             </div>
             <div className="row">
