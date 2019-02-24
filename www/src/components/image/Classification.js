@@ -10,32 +10,30 @@ const bigHeader = {
   marginTop: "30px"
 }
 const labels = [
-  {id: 50, name: "airplane"},
-  {id: 43, name: "automobile"},
-  {id: 49, name: "bird"},
-  {id: 48, name: "cat"},
-  {id: 47, name: "deer"},
-  {id: 45, name: "dog"},
-  {id: 52, name: "frog"},
-  {id: 46, name: "horse"},
-  {id: 44, name: "ship"},
-  {id: 51, name: "truck"},
+  "airplane",
+  "automobile",
+  "bird",
+  "cat",
+  "deer",
+  "dog",
+  "frog",
+  "horse",
+  "ship",
+  "truck",
 ]
 
 class Classification extends Component {
   renderLabeler() {
     return <div className="card">
       <div className="card-header">
-        <h4 className="text-center">{"Plain Text"}</h4>
+        <h4 className="text-center">{"Box Classification"}</h4>
       </div>
       <div className="card-body">
-        <div
-          style={{margin: "0 auto", width: "400px"}}
-        >
           <Labeler.Labeler
             url="http://www.nba.com/media/history/chamberlain_reb_200.jpg"
             fileType="image"
             labelType="classification"
+            labelGeometry="box"
             previewSize={400}
             labelChoices={labels}
             labels={[]}
@@ -43,7 +41,6 @@ class Classification extends Component {
               console.log(label)
             }}
           />
-        </div>
         <div
           style={{marginTop: "15px", marginBottom: "10px"}}
           className="col-12 text-center">Image Classification</div>
@@ -56,7 +53,7 @@ class Classification extends Component {
         <h4 style={bigHeader}>Image Classification Labeler</h4>
       </div>
       <div className="row">
-        <div className="col-6">
+        <div className="col-12">
           {this.renderLabeler()}
         </div>
       </div>

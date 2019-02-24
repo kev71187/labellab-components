@@ -19,13 +19,20 @@ class LabelerComponent extends Component {
     const { url,
       data,
       fileType,
-      labelType,
       format,
       previewSize,
       labelChoices,
       labels,
       hideLabels
     } = this.props
+
+    let {
+      labelType,
+      labelGeometry
+    } = this.props
+
+    labelType = labelType || "classification"
+    labelGeometry = labelGeometry || "none"
 
     let Labeler
 
@@ -43,8 +50,9 @@ class LabelerComponent extends Component {
           data={data}
           format={format}
           size={previewSize}
-          labelType={labelType}
           labelChoices={labelChoices}
+          labelGeometry={labelGeometry}
+          labelType={labelType}
           labels={labels}
           hideLabels={hideLabels}
         />
@@ -55,8 +63,10 @@ class LabelerComponent extends Component {
 
 LabelerComponent.propTypes = {
   fileType: PropTypes.oneOf(['text', 'json', 'xml', 'image']).isRequired,
-  labelType: PropTypes.oneOf(['classification', 'freeform']),
+  labelChoices: PropTypes.array,
   labelGeometry: PropTypes.oneOf(['none', 'box', 'polygon']),
+  labelType: PropTypes.oneOf(['classification', 'freeform']),
+  url: PropTypes.string,
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   interval: PropTypes.number
 }

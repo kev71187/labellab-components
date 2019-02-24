@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Search from "./Search"
 import styled from 'styled-components'
 
@@ -74,11 +75,11 @@ class Classifier extends Component {
 
     if (selected) {
       return <span style={selectedS}>
-        {selected.name}
+        {selected}
         <a href="javascript:void(0)" style={{marginLeft: "5px"}} onClick={() => {
           this.setState({selected: null})
           this.props.onRemove && this.props.onRemove()
-        }}>remove</a>
+        }}>change</a>
       </span>
     }
 
@@ -97,7 +98,7 @@ class Classifier extends Component {
             }
             this.setState({
               term,
-              labels: term ? this.state.defaultLabels.filter((label) => this.substring(term, label.name)) : this.state.defaultLabels
+              labels: term ? this.state.defaultLabels.filter((label) => this.substring(term, label)) : this.state.defaultLabels
             })
             if (labels.length === 0) return null
           }}
@@ -122,8 +123,8 @@ class Classifier extends Component {
                 }}
                 className="classifier-item"
                 style={itemStyle}
-                value={label.id}>
-              <a href="javascript:void(0)">{label.name}</a></div>)
+                value={label}>
+              <a href="javascript:void(0)">{label}</a></div>)
             })
           }
         </div>
@@ -132,5 +133,9 @@ class Classifier extends Component {
   }
 }
 
+Classifier.propTypes = {
+  selected: PropTypes.string,
+  labels: PropTypes.array.isRequired
+}
 
 export default Classifier

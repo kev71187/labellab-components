@@ -123,14 +123,6 @@ class Home extends Component {
             <div className="row">
               <h4 style={bigHeader}>Labelers.Common</h4>
             </div>
-            <div className="row">
-              <div className="col-6">
-                <CommonClassifier/>
-              </div>
-              <div className="col-6">
-                <MultiCommonClassifier/>
-              </div>
-            </div>
           </div>
         </div>
       </div>

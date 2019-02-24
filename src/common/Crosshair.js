@@ -5,8 +5,9 @@ const Cross = styled.div`
     pointer-events: none;
 
     .x-crosshair {
+      pointer-events: none;
       position: absolute;
-      right 10px;
+      right 0;
       z-index: 20;
       height: 1px;
       width: 100%;
@@ -14,6 +15,7 @@ const Cross = styled.div`
     }
 
     .y-crosshair {
+      pointer-events: none;
       position: absolute;
       right: 0;
       z-index: 20;

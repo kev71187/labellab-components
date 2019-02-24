@@ -18,7 +18,6 @@ const box = {
     help: "Click on the image and place a box around one of these labels."
   },
   next: [
-    "labelType"
   ]
 }
 
@@ -27,34 +26,41 @@ const polygon = {
     help: "Click on the image and place a polygon around one of these labels. Click on the first point to close the polygon."
   },
   next: [
-    "labelType"
   ]
 }
 
-const labelType = {
-  type: "labelType",
+const label = {
+  type: "label",
   types: {
     freeform,
     classification
-  }
+  },
+  requires: [
+    "label"
+  ]
 }
 
 const geometry = {
   type: "geometry",
-  types: {
+  types: [
     box,
     polygon
-  }
+  ],
+  requires: [
+    "geometry",
+    "label"
+  ]
 }
 
 export default {
-  labelType,
+  label,
   geometry,
   formats: {
     text: {
-      labelType
+      label
     },
     image: {
+      label,
       geometry
     }
   }

@@ -44,6 +44,7 @@ class ImageComponent extends Component {
 
     return <ImageView
       style={imageStyles}
+      className="ll-image-view"
       onClick={e => this.onClick(e)}>
        {this.props.children}
       </ImageView>
