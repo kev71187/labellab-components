@@ -11,7 +11,8 @@ class Labeler extends Component {
   defaultState() {
     return {
       box: [],
-      rotation: 0
+      rotation: 0,
+      complete: false,
     }
   }
 
@@ -24,47 +25,41 @@ class Labeler extends Component {
     )
   }
 
+  undo() {
+    if (this.state.complete) {
+      this.setState({complete: false})
+    } else {
+      this.state.box.pop()
+      this.setState({box: this.state.box})
+    }
+  }
+
   clear() {
     this.setState(this.defaultState())
   }
 
+  toLabel() {
+    return this.state.box
+  }
+
   imageClick(x, y) {
+    if (this.state.complete) return
     const {box} = this.state
     const newBox = JSON.parse(JSON.stringify(box))
-
-    if (box.length === 0) {
-      newBox.push({x, y})
-      this.setState({box: newBox})
-    } else if (box.length === 1) {
-      newBox.push({x, y: box[0].y})
-      newBox.push({x, y})
-      newBox.push({x: box[0].x, y})
-      this.setState({box: newBox})
-      this.onComplete(newBox)
-    }
-  }
-
-  toLabel(box) {
-    return box
-  }
-
-  onComplete(newBox) {
-    this.props.onComplete(newBox || this.state.box, "geometry")
+    newBox.push({x, y})
+    this.setState({box: newBox})
   }
 
   onPointMove(point, i) {
     const { box } = this.state
     const newBox = JSON.parse(JSON.stringify(box))
     newBox[i] = point
-    if (newBox.length > 1) {
-      newBox[3 - i].x = point.x
-      if (i === 0) newBox[1].y = point.y
-      if (i === 1) newBox[0].y = point.y
-      if (i === 2) newBox[3].y = point.y
-      if (i === 3) newBox[2].y = point.y
-    }
-
     this.setState({box: newBox})
+  }
+
+  onComplete() {
+    this.setState({complete: true})
+    this.props.onComplete(this.state.box, "geometry")
   }
 
   onAllMove(box) {
@@ -82,7 +77,7 @@ class Labeler extends Component {
     cs.width = size + "px"
 
     return (
-      <div className="box-labeler">
+      <div className="polygon-labeler">
         <Bounding
           onClear={() => this.clear()}
           onPointMove={(point, i) => {
@@ -98,7 +93,7 @@ class Labeler extends Component {
           size={size}
           dimensions={dimensions}
           rotation={rotation}
-          complete={box.length === 4}
+          complete={this.state.complete}
           file={file}
           onClick={(x,y) => this.imageClick(x, y)}
         >

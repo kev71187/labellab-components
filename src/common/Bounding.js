@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import Image from './Image'
 import Box from './Box'
 import Crosshair from '../common/Crosshair'
 import {
   mouseEventToCoordinate,
   coordToPoint
 } from '../utils/coordinates'
-import {IMAGE_SIZE} from "../constants/image"
 
 class Bounding extends Component {
   constructor() {
@@ -16,11 +14,11 @@ class Bounding extends Component {
     }
   }
 
-  imageClicked(e) {
-    const {dimensions} = this.props
+  contextClicked(e) {
+    const {dimensions, size} = this.props
     if (this.props.frozen) return false
     const coords = mouseEventToCoordinate(e, this._input)
-    const point = coordToPoint(coords, dimensions, IMAGE_SIZE)
+    const point = coordToPoint(coords, dimensions, size)
     if (this.invalidPoint(point)) {
       return
     }
@@ -38,22 +36,10 @@ class Bounding extends Component {
     return this.props.box.length === 4
   }
 
-  renderImage() {
-    const { file, size } = this.props
-    if (!file) return null
-
-    return <Image
-      ref={c => (this._obj = c)}
-      file={file}
-      size={size}
-      rotation={0}
-      onClick={e => this.imageClicked(e)}
-    />
-  }
-
   onPointMove(e, i) {
+    const {size} = this.props
     const coords = mouseEventToCoordinate(e, this._input)
-    const point = coordToPoint(coords, this.props.dimensions, IMAGE_SIZE)
+    const point = coordToPoint(coords, this.props.dimensions, size)
     if (this.invalidPoint(point)) {
       return
     }
@@ -62,9 +48,10 @@ class Bounding extends Component {
 
   onAllMove(e) {
     if (!this.state.anchor) {}
+    const {size} = this.props
     const {anchor: { point, box }} = this.state
     const coords = mouseEventToCoordinate(e, this._input)
-    const p = coordToPoint(coords, this.props.dimensions, IMAGE_SIZE)
+    const p = coordToPoint(coords, this.props.dimensions, size)
     const deltaX = p.x - point.x
     const deltaY = p.y - point.y
     const newBox = JSON.parse(JSON.stringify(box))
@@ -84,9 +71,9 @@ class Bounding extends Component {
   }
 
   setAnchor(e) {
-    const {box} = this.props
+    const {box, size} = this.props
     const coords = mouseEventToCoordinate(e, this._input)
-    const point = coordToPoint(coords, this.props.dimensions, IMAGE_SIZE)
+    const point = coordToPoint(coords, this.props.dimensions, size)
 
     this.setState({
       anchor: {
@@ -97,7 +84,7 @@ class Bounding extends Component {
   }
 
   render() {
-    const { file, complete, boxes, box, size } = this.props
+    const { complete, boxes, box, size } = this.props
 
 
     const containerStyle = {
@@ -124,7 +111,7 @@ class Bounding extends Component {
             this._crosshair.onMouseMove(coords)
           }
         }}
-        onClick={e => this.imageClicked(e)}
+        onClick={e => this.contextClicked(e)}
       >
         { !complete &&
           <Crosshair
@@ -135,7 +122,7 @@ class Bounding extends Component {
         <Box
           editing
           dimensions={this.props.dimensions}
-          viewSize={IMAGE_SIZE}
+          viewSize={size}
           onComplete={this.props.onComplete}
           onPointMove={(e, i) => {this.onPointMove(e, i)}}
           setAnchor={(e) => {

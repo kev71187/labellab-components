@@ -6,10 +6,13 @@ import Text from './text'
 import Image from './image'
 import Classifier from './common/Classifier'
 import KeyWatch from './common/KeyWatch'
-import SquareBox from './image/square_box'
+import PolygonLabeler from './common/labelers/PolygonLabeler'
+import BoxLabeler from './common/labelers/BoxLabeler'
+import Polygon from './image/polygon'
+import Default from './Default'
 import {IMAGE_SIZE} from "./constants/image"
 
-const DefaultLabeler = styled.div`
+const Main = styled.div`
   display: flex;
 `
 
@@ -31,6 +34,7 @@ class LabelerComponent extends Component {
 
   componentDidMount() {
     setTimeout(() => {
+      console.log(this)
       this._obj.dimensions().then((dimensions) => {
         this.setState({dimensions})
       }).catch((e) => {
@@ -136,14 +140,16 @@ class LabelerComponent extends Component {
     const totalLabels = this.totalLabels()
     const ac = this.amountComplete()
 
-    let LabelerWrapper = DefaultLabeler
+    let LabelerWrapper = Default
 
     if (labelGeometry === "box") {
-      LabelerWrapper = SquareBox.Label
+      LabelerWrapper = BoxLabeler
+    } else if (labelGeometry === "polygon") {
+      LabelerWrapper = PolygonLabeler
     }
 
     return (
-      <DefaultLabeler className="default-labeler">
+      <Main className="main-labeler">
         <KeyWatch
           onSubmit={(e) => {
             if (totalLabels > 0) {
@@ -229,7 +235,7 @@ class LabelerComponent extends Component {
             })
           }
         </InlineBlock>
-      </DefaultLabeler>
+      </Main>
     )
   }
 

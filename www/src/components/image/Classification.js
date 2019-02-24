@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Labeler from "labellab-components"
+import {Labeler} from "labellab-components"
 const blue = "#007bff"
 
 const bigHeader = {
@@ -23,17 +23,18 @@ const labels = [
 ]
 
 class Classification extends Component {
-  renderLabeler() {
+  renderLabeler(labelType, labelGeometry) {
+    const url = "http://www.nba.com/media/history/chamberlain_reb_200.jpg"
     return <div className="card">
       <div className="card-header">
-        <h4 className="text-center">{"Box Classification"}</h4>
+        <h4 className="text-center">Image {labelType} {labelGeometry}</h4>
       </div>
       <div className="card-body">
-          <Labeler.Labeler
-            url="http://www.nba.com/media/history/chamberlain_reb_200.jpg"
+          <Labeler
+            url={url}
             fileType="image"
-            labelType="classification"
-            labelGeometry="box"
+            labelType={labelType}
+            labelGeometry={labelGeometry}
             previewSize={400}
             labelChoices={labels}
             labels={[]}
@@ -54,7 +55,12 @@ class Classification extends Component {
       </div>
       <div className="row">
         <div className="col-12">
-          {this.renderLabeler()}
+          {
+            this.renderLabeler("classification", "box")
+          }
+          {
+            this.renderLabeler("classification", "polygon")
+          }
         </div>
       </div>
     </div>

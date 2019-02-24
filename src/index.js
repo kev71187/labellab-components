@@ -2,11 +2,13 @@
 import Common from "./common"
 import Image from "./image"
 import Text from "./text"
-import Labeler from "./Labeler"
+import LabelerComponent from "./Labeler"
+
+export const Labeler = LabelerComponent
 
 export default {
   Image,
   Text,
   Common,
-  Labeler
+  Labeler: LabelerComponent
 }
