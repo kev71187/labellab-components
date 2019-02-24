@@ -56,6 +56,9 @@ class Classification extends Component {
       <div className="row">
         <div className="col-12">
           {
+            this.renderLabeler("classification", "none")
+          }
+          {
             this.renderLabeler("classification", "box")
           }
           {

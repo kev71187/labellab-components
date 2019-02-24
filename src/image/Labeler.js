@@ -56,11 +56,13 @@ class Labeler extends Component {
 
   dag() {
     const { file, labelType, labelGeometry, labelChoices } = this.props
+    console.log("HERE", labelGeometry, Dags.label)
     if (labelGeometry === "box" || labelGeometry === "polygon") {
       return Dags.geometry
     }
 
-    return Dags.labelType
+    console.log("HERE", Dags.label)
+    return Dags.label
   }
 
   amountComplete() {

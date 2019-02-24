@@ -65,7 +65,7 @@ class LabelerComponent extends Component {
       return Dags.geometry
     }
 
-    return Dags.labelType
+    return Dags.label
   }
 
 
