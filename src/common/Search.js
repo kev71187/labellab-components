@@ -22,7 +22,6 @@ class Search extends Component {
 
   submit(key) {
     const canSearch = this.props.onSearch(this.state.term, key) === false
-    console.log(key)
     if (canSearch) {
       this.done()
     }
@@ -45,7 +44,7 @@ class Search extends Component {
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       this.submit(e.key)
     }
   }

@@ -81,7 +81,6 @@ class Labeler extends Component {
 
   addAnother() {
     let labels = this.state.labels
-    console.log(labels)
     labels.push(this.state.current)
     let current = this.defaultLabel()
     this.setState({labels, current})
@@ -93,8 +92,6 @@ class Labeler extends Component {
     const size = this.props.size || IMAGE_SIZE
     const totalLabels = this.totalLabels()
     const ac = this.amountComplete()
-
-    if (!file) return this.renderEmpty()
 
     let LabelerWrapper = DefaultLabeler
 

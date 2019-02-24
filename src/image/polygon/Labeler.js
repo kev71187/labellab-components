@@ -85,7 +85,6 @@ class Labeler extends Component {
   render() {
     const { file, containerStyle } = this.props
     let cs = containerStyle ? JSON.parse(JSON.stringify(containerStyle)) : {}
-    console.log(cs)
     const { box, rotation } = this.state
     const size = this.props.size || IMAGE_SIZE
 

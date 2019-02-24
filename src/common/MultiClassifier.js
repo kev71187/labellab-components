@@ -58,10 +58,8 @@ class MultiClassifier extends Component {
               key={i + JSON.stringify(item)}
               placeholder={place}
               onRemove={(label)=> {
-                console.log(selected)
                 const select = JSON.parse(JSON.stringify(selected))
                 select.shift(i)
-                console.log(select)
                 this.setState({selected: select})
               }}
               selected={item}

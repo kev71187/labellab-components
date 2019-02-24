@@ -107,7 +107,6 @@ class Preview extends Component {
           break
         case "xml":
           out = prettifyXml(contents)
-          console.log(out)
           break
         default:
           out = contents

@@ -82,47 +82,6 @@ class Home extends Component {
           </div>
           <div className="container-fluid" style={{marginLeft: "15px", paddingTop: "15px", flex: 1}}>
             <ImageClassification/>
-            <h4>Image:</h4>
-            <div className="row">
-              <h4 style={bigHeader}>Labelers.Image.SquareBox</h4>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <ImageSquareBoxLabeler/>
-              </div>
-              <div className="col-6">
-                  <ImageSquareBoxPreview/>
-              </div>
-            </div>
-            <div className="row">
-              <h4 style={bigHeader}>Labelers.Image.Polygon</h4>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <ImagePolygonLabeler/>
-              </div>
-              <div className="col-6">
-                <ImagePolygonPreview/>
-              </div>
-            </div>
-            <h4>Text:</h4>
-            <div className="row">
-              <h4 style={bigHeader}>Labelers.Text.Classification</h4>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <TextClassificationPreview/>
-              </div>
-              <div className="col-6">
-                <TextJsonPreview/>
-              </div>
-              <div className="col-6">
-                <TextXmlPreview/>
-              </div>
-            </div>
-            <div className="row">
-              <h4 style={bigHeader}>Labelers.Common</h4>
-            </div>
           </div>
         </div>
       </div>
