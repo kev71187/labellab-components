@@ -128,6 +128,21 @@ class LabelerComponent extends Component {
     this.setState({done: true})
   }
 
+  notSupported() {
+    const {
+      fileType,
+      labelType,
+      labelGeometry
+    } = this.props
+
+    return (
+      <div>
+          {`labelGeometry: ${labelGeometry} and fileType: ${fileType} combination is not currently supported. Help get this supported by contributing `}
+        <a href="https://github.com/kev71187/labellab-components">Here</a>
+      </div>
+    )
+  }
+
   render() {
     const { url,
       data,
@@ -151,10 +166,22 @@ class LabelerComponent extends Component {
     let LabelerWrapper = Default
     let help = `classify this ${fileType}`
 
+    let Context = Text.Preview
+
+    if (fileType === "image") {
+      Context = Image.Image
+    }
+
     if (labelGeometry === "box") {
+      if (fileType !== "image") {
+        return this.notSupported()
+      }
       LabelerWrapper = BoxLabeler
       help = `box and ${help}`
     } else if (labelGeometry === "polygon") {
+      if (fileType !== "image") {
+        return this.notSupported()
+      }
       help = `bound and ${help}`
       LabelerWrapper = PolygonLabeler
     }
@@ -178,7 +205,7 @@ class LabelerComponent extends Component {
                     this.onChange(e, type)
                   }}
                 >
-                  <Image.Image
+                  <Context
                     ref={c => (this._obj = c)}
                     file={file}
                     size={size}
