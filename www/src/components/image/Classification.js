@@ -9,42 +9,63 @@ const bigHeader = {
   padding: "10px",
   marginTop: "30px"
 }
-const labels = [
-  "airplane",
-  "automobile",
-  "bird",
-  "cat",
-  "deer",
-  "dog",
-  "frog",
-  "horse",
-  "ship",
-  "truck",
+const state = [
+  {
+    url: "https://www.hakaimagazine.com/wp-content/uploads/header-bald-eagle-nests.jpg",
+    labelChoices: ["bug", "whale", "bird", "dog", "cat", "human"],
+    labelGeometry: "none",
+    labelType: "classification",
+  },
+  {
+    url: "http://www.nba.com/media/history/chamberlain_reb_200.jpg",
+    labelChoices: ["basketball", "head", "foot", "arm", "body"],
+    labelGeometry: "box",
+    labelType: "classification",
+  },
+  {
+    url: "https://images.pond5.com/girl-driving-motorcycles-first-person-footage-084718933_prevstill.jpeg",
+    labelChoices: ["car", "motorcycle", "road", "person", "body", "stopped", "outbound", "inbound"],
+    labelGeometry: "polygon",
+    labelType: "classification",
+  },
 ]
 
 class Classification extends Component {
-  renderLabeler(labelType, labelGeometry) {
-    const url = "http://www.nba.com/media/history/chamberlain_reb_200.jpg"
-    return <div className="card">
-      <div className="card-header">
-        <h4 className="text-center">Image {labelType} {labelGeometry}</h4>
-      </div>
+  renderLabeler(item) {
+    const {labelGeometry, labelType, labelChoices, url} = item
+    return <div className="card" style={{marginBottom: "30px"}}>
       <div className="card-body">
           <Labeler
+            key="some-unique-key-for-the-file"
             url={url}
             fileType="image"
             labelType={labelType}
             labelGeometry={labelGeometry}
-            previewSize={400}
-            labelChoices={labels}
+            previewSize={600}
+            labelChoices={labelChoices}
             labels={[]}
-            onComplete={(label) => {
-              console.log(label)
+            onComplete={(labels) => {
+              console.log(labels)
             }}
           />
-        <div
-          style={{marginTop: "15px", marginBottom: "10px"}}
-          className="col-12 text-center">Image Classification</div>
+          <hr/>
+          <pre>
+            {`
+  <Labeler
+    key="some-unique-key-for-the-file"
+    url="${url}"
+    fileType="image"
+    labelType="${labelType}"
+    labelGeometry="${labelGeometry}"
+    previewSize={450}
+    labelChoices={["${labelChoices.join('","')}"]}
+    labels={[]}
+    onComplete={(labels) => {
+      console.log(labels)
+    }}
+  />`
+            }
+          </pre>
       </div>
     </div>
   }
@@ -55,14 +76,11 @@ class Classification extends Component {
       </div>
       <div className="row">
         <div className="col-12">
-          {
-            this.renderLabeler("classification", "none")
-          }
-          {
-            this.renderLabeler("classification", "box")
-          }
-          {
-            this.renderLabeler("classification", "polygon")
+          { state.map((item, i) => {
+            return <div key={i}>
+              { this.renderLabeler(item)}
+            </div>
+            })
           }
         </div>
       </div>

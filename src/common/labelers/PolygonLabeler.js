@@ -87,6 +87,7 @@ class PolygonLabeler extends Component {
           onComplete={(c) => {
             this.onComplete(c)
           }}
+          mouseTracking="tracer"
           box={box}
           size={size}
           dimensions={dimensions}

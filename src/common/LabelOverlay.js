@@ -13,6 +13,7 @@ const Label = styled.div`
 `
 
 export default (props) => {
-  const {name} = props
-  return <Label>{name}</Label>
+  const {name, offset} = props
+  const top = offset ? 5 + offset + "px" : "5px"
+  return <Label style={{top}}>{name}</Label>
 }

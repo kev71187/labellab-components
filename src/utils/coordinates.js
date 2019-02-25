@@ -7,7 +7,7 @@ const preCalc = (dimensions, viewSize) => {
   if (aspectRatio < 1) {
     padWidth = ((dimensions.height - dimensions.width) * ratio) / 2
   } else if (aspectRatio > 1) {
-    ratio = dimensions.width / viewSize
+    ratio = viewSize / dimensions.width
     padHeight = ((dimensions.width - dimensions.height) * ratio) / 2
   }
   return {

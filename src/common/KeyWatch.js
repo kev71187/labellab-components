@@ -27,7 +27,7 @@ class KeyWatch extends Component {
 
   render() {
     return (
-      <div/>
+      <div style={{display: "none"}}/>
     )
   }
 }

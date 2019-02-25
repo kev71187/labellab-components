@@ -18,7 +18,7 @@ class ImageComponent extends Component {
       img.onerror = function(e){
         reject(e)
       }
-      img.onload = function(){
+      img.onload = () => {
         var height = img.height
         var width = img.width
         resolve({width, height})
@@ -33,8 +33,6 @@ class ImageComponent extends Component {
   }
   render() {
     const { file, rotation, size } = this.props
-    if (!file) return null
-
     const imageStyles = {
       width: size + 'px',
       height: size + 'px',

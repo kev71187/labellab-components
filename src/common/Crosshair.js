@@ -59,3 +59,4 @@ class Crosshair extends Component {
 }
 
 export default Crosshair
+

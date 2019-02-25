@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextClassificationLabeler from "../components/text/classification/Labeler"
-import TextJsonPreview from "../components/text/Json"
-import TextXmlPreview from "../components/text/Xml"
-import TextClassificationPreview from "../components/text/classification/Preview"
-import CommonClassifier from "../components/common/Classifier"
-import MultiCommonClassifier from "../components/common/MultiClassifier"
-import ImageSquareBoxPreview from "../components/image/square_box/Preview"
-import ImageSquareBoxLabeler from "../components/image/square_box/Labeler"
-import ImagePolygonLabeler from "../components/image/polygon/Labeler"
-import ImagePolygonPreview from "../components/image/polygon/Preview"
 import ImageClassification from "../components/image/Classification"
 
 const contents = [
@@ -37,19 +27,13 @@ const contents = [
   },
 ]
 const blue = "#007bff"
-const bigHeader = {
-  backgroundColor: blue,
-  color: "white", width: "100%",
-  textAlign: "center",
-  padding: "10px",
-  marginTop: "30px"
-}
 class Home extends Component {
   render() {
     return <div>
       <nav className="navbar navbar-dark" style={{backgroundColor: blue}}>
-        <a className="navbar-brand" href="#">
+        <a  className="navbar-brand" href="/">
           <img
+            alt="labellab-logo"
             style={{width: "40px", height: "40px"}}
             src="https://d1d09e79yja1m6.cloudfront.net/annotation-web/build/static/media/logo-over-dark.72869e75.png"/>
           <span style={{marginLeft: "10px", verticalAlign: "middle"}}>

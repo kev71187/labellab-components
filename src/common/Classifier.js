@@ -69,6 +69,7 @@ class Classifier extends Component {
   valid(item) {
     this.props.valid && this.props.valid(item)
   }
+
   render() {
     const {labels, selected, term, selectedStyle} = this.state
     const selectedS = selectedStyle || { marginLeft: "5px"}

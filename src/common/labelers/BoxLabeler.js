@@ -95,6 +95,7 @@ class BoxLabeler extends Component {
           }}
           box={box}
           size={size}
+          mouseTracking="crosshair"
           dimensions={dimensions}
           rotation={rotation}
           complete={box.length === 4}

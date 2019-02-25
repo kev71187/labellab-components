@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import Box from './Box'
 import Crosshair from '../common/Crosshair'
+import Tracer from '../common/Tracer'
 import {
   mouseEventToCoordinate,
-  coordToPoint
+  coordToPoint,
+  pointToCoord
 } from '../utils/coordinates'
 
 class Bounding extends Component {
@@ -20,6 +22,7 @@ class Bounding extends Component {
     const coords = mouseEventToCoordinate(e, this._input)
     const point = coordToPoint(coords, dimensions, size)
     if (this.invalidPoint(point)) {
+      console.log(coords, point, dimensions, size)
       return
     }
     this.props.onClick(point.x, point.y)
@@ -84,7 +87,18 @@ class Bounding extends Component {
   }
 
   render() {
-    const { complete, boxes, box, size } = this.props
+    const { complete, boxes, box, size, mouseTracking } = this.props
+    let MouseTool = Crosshair
+    const point = box[box.length - 1]
+    let coord
+
+    if (point) {
+      coord = pointToCoord(point, this.props.dimensions, size)
+    }
+
+    if (mouseTracking === 'tracer') {
+      MouseTool = Tracer
+    }
 
 
     const containerStyle = {
@@ -114,8 +128,9 @@ class Bounding extends Component {
         onClick={e => this.contextClicked(e)}
       >
         { !complete &&
-          <Crosshair
+          <MouseTool
             ref={c => (this._crosshair = c)}
+            coord={coord}
             size={size}
           />
         }
