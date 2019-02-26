@@ -27,8 +27,11 @@ Labellab Components is [MIT licensed](./LICENSE).
 
 ### Screenshots
 
-<img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-labeler.png"/><img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-preview.png"/>
+##Classify Images
+<img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-labeler.png"/>      <img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-preview.png"/>
 
-<img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-labeler.png"/><img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-preview.png"/>
+##Box and Classify Images
+<img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-labeler.png"/>      <img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-preview.png"/>
 
-<img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-labeler.png"/><img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-preview.png"/>
+##Polygon and Classify Images
+<img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-labeler.png"/>      <img height="150px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-preview.png"/>
