@@ -16,17 +16,7 @@ The main purpose of this repository is to continue to evolve how we label Datase
 * Text - document classification
 * Image - document classification, box tool, polygon tool
 
-### Roadmap of Features
-* Text - word classification
-* Audio - time series classification
-* Video - time series classification, polygon tool for frames
-
-### License
-
-Labellab Components is [MIT licensed](./LICENSE).
-
 ### Screenshots
-
 * Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-preview.png"/>
@@ -38,3 +28,13 @@ Labellab Components is [MIT licensed](./LICENSE).
 * Polygon and Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-preview.png"/>
+
+### Roadmap of Features
+* Text - word classification
+* Audio - time series classification
+* Video - time series classification, polygon tool for frames
+
+### License
+
+Labellab Components is [MIT licensed](./LICENSE).
+
