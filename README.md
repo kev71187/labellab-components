@@ -16,6 +16,12 @@ The main purpose of this repository is to continue to evolve how we label Datase
 * Text - document classification
 * Image - document classification, box tool, polygon tool
 
+### Install
+
+```
+npm install labellab-components --save
+```
+
 ### Screenshots
 * Classify Images
 <p/>
