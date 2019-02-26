@@ -25,8 +25,6 @@ The main purpose of this repository is to continue to evolve how we label Datase
   <Labeler
     url="https://www.hakaimagazine.com/wp-content/uploads/header-bald-eagle-nests.jpg"
     fileType="image"
-    labelType="classification"
-    labelGeometry="none"
     labelChoices={["bug","whale","bird","dog","cat","human"]}
     onComplete={(labels) => {
       console.log(labels)
@@ -42,7 +40,6 @@ The main purpose of this repository is to continue to evolve how we label Datase
   <Labeler
     url="http://www.nba.com/media/history/chamberlain_reb_200.jpg"
     fileType="image"
-    labelType="classification"
     labelGeometry="box"
     labelChoices={["basketball","head","foot","arm","body"]}
     onComplete={(labels) => {
@@ -59,7 +56,6 @@ The main purpose of this repository is to continue to evolve how we label Datase
   <Labeler
     url="https://images.pond5.com/girl-driving-motorcycles-first-person-footage-084718933_prevstill.jpeg"
     fileType="image"
-    labelType="classification"
     labelGeometry="polygon"
     labelChoices={["car","motorcycle","road","person","body","stopped","outbound","inbound"]}
     onComplete={(labels) => {
