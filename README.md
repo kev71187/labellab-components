@@ -27,7 +27,6 @@ The main purpose of this repository is to continue to evolve how we label Datase
     fileType="image"
     labelType="classification"
     labelGeometry="none"
-    previewSize={450}
     labelChoices={["bug","whale","bird","dog","cat","human"]}
     onComplete={(labels) => {
       console.log(labels)
@@ -45,7 +44,6 @@ The main purpose of this repository is to continue to evolve how we label Datase
     fileType="image"
     labelType="classification"
     labelGeometry="box"
-    previewSize={450}
     labelChoices={["basketball","head","foot","arm","body"]}
     onComplete={(labels) => {
       console.log(labels)
@@ -63,7 +61,6 @@ The main purpose of this repository is to continue to evolve how we label Datase
     fileType="image"
     labelType="classification"
     labelGeometry="polygon"
-    previewSize={450}
     labelChoices={["car","motorcycle","road","person","body","stopped","outbound","inbound"]}
     onComplete={(labels) => {
       console.log(labels)
