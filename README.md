@@ -21,45 +21,48 @@ The main purpose of this repository is to continue to evolve how we label Datase
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-preview.png"/>
 
-```<Labeler
-  key="some-unique-key-for-the-file"
-  url="https://www.hakaimagazine.com/wp-content/uploads/header-bald-eagle-nests.jpg"
-  fileType="image"
-  labelType="classification"
-  labelGeometry="none"
-  previewSize={450}
-  labelChoices={["bug","whale","bird","dog","cat","human"]}
-  labels={[]}
-  onComplete={(labels) => {
-    console.log(labels)
-  }}
-/>
+```javascript
+  <Labeler
+    key="some-unique-key-for-the-file"
+    url="https://www.hakaimagazine.com/wp-content/uploads/header-bald-eagle-nests.jpg"
+    fileType="image"
+    labelType="classification"
+    labelGeometry="none"
+    previewSize={450}
+    labelChoices={["bug","whale","bird","dog","cat","human"]}
+    labels={[]}
+    onComplete={(labels) => {
+      console.log(labels)
+    }}
+  />
 ```
 
 * Box and Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-preview.png"/>
 
-```<Labeler
-  key="some-unique-key-for-the-file"
-  url="http://www.nba.com/media/history/chamberlain_reb_200.jpg"
-  fileType="image"
-  labelType="classification"
-  labelGeometry="box"
-  previewSize={450}
-  labelChoices={["basketball","head","foot","arm","body"]}
-  labels={[]}
-  onComplete={(labels) => {
-    console.log(labels)
-  }}
-/>
+```javascript
+  <Labeler
+    key="some-unique-key-for-the-file"
+    url="http://www.nba.com/media/history/chamberlain_reb_200.jpg"
+    fileType="image"
+    labelType="classification"
+    labelGeometry="box"
+    previewSize={450}
+    labelChoices={["basketball","head","foot","arm","body"]}
+    labels={[]}
+    onComplete={(labels) => {
+      console.log(labels)
+    }}
+  />
 ```
 
 * Polygon and Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-preview.png"/>
 
-```<Labeler
+```javascript
+  <Labeler
     key="some-unique-key-for-the-file"
     url="https://images.pond5.com/girl-driving-motorcycles-first-person-footage-084718933_prevstill.jpeg"
     fileType="image"
