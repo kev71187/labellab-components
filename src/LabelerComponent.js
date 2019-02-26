@@ -8,7 +8,6 @@ import Classifier from './common/Classifier'
 import KeyWatch from './common/KeyWatch'
 import PolygonLabeler from './common/labelers/PolygonLabeler'
 import BoxLabeler from './common/labelers/BoxLabeler'
-import Polygon from './image/polygon'
 import Default from './Default'
 import Preview from './Preview'
 import {IMAGE_SIZE} from "./constants/image"
