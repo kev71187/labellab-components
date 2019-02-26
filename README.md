@@ -20,6 +20,7 @@ The main purpose of this repository is to continue to evolve how we label Datase
 * Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/classify-preview.png"/>
+
 ```<Labeler
   key="some-unique-key-for-the-file"
   url="https://www.hakaimagazine.com/wp-content/uploads/header-bald-eagle-nests.jpg"
@@ -34,9 +35,11 @@ The main purpose of this repository is to continue to evolve how we label Datase
   }}
 />
 ```
+
 * Box and Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/box-preview.png"/>
+
 ```<Labeler
   key="some-unique-key-for-the-file"
   url="http://www.nba.com/media/history/chamberlain_reb_200.jpg"
@@ -55,6 +58,7 @@ The main purpose of this repository is to continue to evolve how we label Datase
 * Polygon and Classify Images
 <p/>
 <img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-labeler.png"/>&emsp;<img height="300px" src="https://github.com/kev71187/labellab-components/raw/master/assets/polygon-preview.png"/>
+
 ```<Labeler
     key="some-unique-key-for-the-file"
     url="https://images.pond5.com/girl-driving-motorcycles-first-person-footage-084718933_prevstill.jpeg"
@@ -69,6 +73,7 @@ The main purpose of this repository is to continue to evolve how we label Datase
     }}
   />
 ```
+
 ### Roadmap of Features
 * Text - word classification
 * Audio - time series classification
