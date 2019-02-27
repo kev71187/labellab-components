@@ -8,7 +8,7 @@ These are the components that drive Labellab. We have open sourced this to facil
 
 ## Documentation
 
-You can find the Labellab Components documentation [on the website](https://components.labellab.io).
+You can find the Labellab Components documentation [on the website](http://components.labellab.io/index.html).
 
 ## Contributing
 

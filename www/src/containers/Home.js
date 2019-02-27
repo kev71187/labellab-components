@@ -1,30 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageClassification from "../components/image/Classification"
-
+import Package from "../../package.json"
 const contents = [
   {
-    type: "Image",
+    type: "image",
     items: [
-      "Labellab.Image.SquareBox",
-      "Labellab.Image.Polygon",
-      "Labellab.Image.Classification",
+      {
+        type: "classification",
+        geometry: [
+          "none",
+          "box",
+          "polygon"
+        ]
+      }
     ]
-  },
-  {
-    type: "Text",
-    items: [
-      "Labellab.Text.Classification",
-    ]
-  },
-  {
-    type: "Common",
-    items: [
-      "Labellab.Common.Classifier",
-      "Labellab.Common.MultiClassifier",
-      "Labellab.Common.Preview",
-    ]
-  },
+  }
 ]
 const blue = "#007bff"
 class Home extends Component {
@@ -40,6 +31,7 @@ class Home extends Component {
             Labellab Developer Components
           </span>
         </a>
+        <div style={{color: "white"}}>Version {Package.version}</div>
       </nav>
       <div className="container-fluid" style={{borderLeft: "1px solid lightgrey", borderRight: "1px solid lightgrey"}}>
         <div style={{display: "flex", flexDirection: "row", paddingLeft: "15px", paddingRight: "15px"}}>
@@ -48,24 +40,41 @@ class Home extends Component {
               <h4>Components</h4>
               {
                 contents.map((content, idx) => {
-                  return <div key={idx}>
-                    <div>
-                      {content.type}
+                  return <div key={idx} style={{ textTransform: 'capitalize'}}>
+                    <a className="btn btn-link text-muted" href={`#${content.type}`}>
+                      File: { content.type }
+                    </a>
+                    <div style={{paddingLeft: "15px"}}>
+                      {
+                        content.items.map((comp, i) => {
+                          return <div key={i}>
+                            <a className="btn btn-link text-muted" href={`#${content.type}-${comp.type}`}>
+                              Label: { comp.type }
+                            </a>
+                            <div style={{paddingLeft: "15px"}}>
+                              {
+                                comp.geometry.map((geometry, ii)=> {
+                                  return <div key={ii}>
+                                    <a className="btn btn-link text-muted" href={`#${content.type}-${comp.type}-${geometry}`} >
+                                      Geometry: { geometry }
+                                    </a>
+                                  </div>
+                                })
+                              }
+                            </div>
+                          </div>
+                        })
+                      }
                     </div>
-                    {
-                      content.items.map((comp) => {
-                        return <div className="btn btn-link" key={comp}>
-                          {comp}
-                        </div>
-                      })
-                    }
                   </div>
                 })
               }
             </div>
           </div>
           <div className="container-fluid" style={{marginLeft: "15px", paddingTop: "15px", flex: 1}}>
-            <ImageClassification/>
+            <div id="image">
+              <ImageClassification/>
+            </div>
           </div>
         </div>
       </div>

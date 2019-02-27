@@ -36,7 +36,7 @@ const state = [
 class Classification extends Component {
   renderLabeler(item) {
     const {labelGeometry, labelType, labelChoices, url} = item
-    return <div className="card" style={{marginBottom: "30px"}}>
+    return <div id={`image-${labelType}-${labelGeometry}`} className="card" style={{marginBottom: "30px"}}>
       <div className="card-body">
           <Labeler
             key="some-unique-key-for-the-file"
@@ -83,7 +83,7 @@ class Classification extends Component {
   render() {
    return  <div>
       <div className="row">
-        <h4 style={bigHeader}>Image Classification Labeler</h4>
+        <h4 id="image-classification" style={bigHeader}>Image Classification Labeler</h4>
       </div>
       <div className="row">
         <div className="col-12">
