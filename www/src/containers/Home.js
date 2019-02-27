@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageClassification from "../components/image/Classification"
-import Package from "../../package.json"
+import {Version} from "labellab-components"
 const contents = [
   {
     type: "image",
@@ -31,7 +31,7 @@ class Home extends Component {
             Labellab Developer Components
           </span>
         </a>
-        <div style={{color: "white"}}>Version {Package.version}</div>
+        <div style={{color: "white"}}>Version {Version}</div>
       </nav>
       <div className="container-fluid" style={{borderLeft: "1px solid lightgrey", borderRight: "1px solid lightgrey"}}>
         <div style={{display: "flex", flexDirection: "row", paddingLeft: "15px", paddingRight: "15px"}}>
