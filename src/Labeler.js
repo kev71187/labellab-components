@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import LabelerComponent from "./LabelerComponent"
 
+const Main = styled.div`
+`
+
 class Labeler extends Component {
   constructor(props) {
     super()
@@ -18,7 +21,8 @@ class Labeler extends Component {
     const { hover } = this.state
 
     return (
-      <div
+      <Main
+        style={this.props.style}
         onMouseLeave={(e) => {
           this.setState({hover: false})
         }}
@@ -27,7 +31,7 @@ class Labeler extends Component {
         }}
       >
         <LabelerComponent hover={hover} key={url || data} {...this.props}/>
-      </div>
+      </Main>
     )
   }
 }

@@ -57,12 +57,13 @@ class Box extends Component {
         <svg
           onMouseUp={(e) => {
             this.setState({dragging: null})
-
             this.callbackCompleteIfComplete()
           }}
+
           onMouseLeave={() => {
             this.setState({dragging: null, cornerHover: null, hover: null})
           }}
+
           onMouseMove={(e) => {
             if (isDragging) {
               if (dragging !== "all") {
@@ -106,7 +107,7 @@ class Box extends Component {
             >
             </polygon>
           }
-          { points.map((b, i) => {
+          { editing && points.map((b, i) => {
             const completeWithMe = editing && this.props.onComplete && i === 0 && !complete
             const active = i === cornerHover && editing
             const edgeColor = active || (completeWithMe) ? "white" : color

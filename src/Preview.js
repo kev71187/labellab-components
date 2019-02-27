@@ -12,10 +12,9 @@ class Preview extends Component {
   render() {
     const {size, fileType, url, data, labels} = this.props
     let File = Image.Image
-    console.log(url)
 
     return (
-      <PreviewComponent>
+      <PreviewComponent style={this.props.style}>
         <File
           file={{url, data}}
           size={size}

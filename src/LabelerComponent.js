@@ -10,6 +10,8 @@ import PolygonLabeler from './common/labelers/PolygonLabeler'
 import BoxLabeler from './common/labelers/BoxLabeler'
 import Default from './Default'
 import Preview from './Preview'
+import Label from './common/Label'
+import {generateId} from "./utils/ids"
 import {IMAGE_SIZE} from "./constants/image"
 
 const Main = styled.div`
@@ -32,7 +34,7 @@ class LabelerComponent extends Component {
     super()
     this.state = {
       dimensions: null,
-      current: this.defaultLabel(),
+      current: this.defaultLabel(props),
       labels: props.labels || [],
       done: false
     }
@@ -50,20 +52,34 @@ class LabelerComponent extends Component {
     },1)
   }
 
-  defaultLabel() {
+  defaultLabel(props) {
+    const {labelType, labelGeometry} = props
+    let state = {}
+
+    if (labelGeometry !== 'none') {
+      state.geometry = []
+    }
+
     return {
+      uuid: generateId(),
+      labelType,
+      labelGeometry,
+      label: null,
+      options: {
+      },
+      state,
     }
   }
 
   onChange(e, type) {
     let current = JSON.parse(JSON.stringify(this.state.current))
-    current[type] = e
-    this.setState({current})
-  }
+    if (type === "label") {
+      current.label = e
+    } else {
+      current.state[type] = e
+    }
 
-  totalLabels() {
-    const {labels} = this.state
-    return labels.length + (this.validLabel() ? 1 : 0)
+    this.next(current)
   }
 
   dag() {
@@ -78,51 +94,47 @@ class LabelerComponent extends Component {
 
   toLabel(current) {
     const {dimensions} = this.state
-    const {labelType, labelGeometry} = this.props
-    let state = {}
-    const { geometry } = this.state.current
 
-    if (geometry) {
-      state.geometry = geometry
-    }
-
-    return {
-      labelType,
-      labelGeometry,
-      label: current.label,
-      options: {
+    if (dimensions) {
+      current.options = {
         dimensions
-      },
-      state,
+      }
     }
+
+    return current
   }
 
-  amountComplete() {
+  amountComplete(current) {
     const dag = this.dag()
-    const count = dag.requires.filter((f) => this.state.current[f]).length
-
+    const count = dag.requires.filter((f) => {
+      if (f === "label") return current.label
+      if (f === "geometry") return current.state.geometry && current.state.geometry.length > 0
+      return true
+    }).length
     return [count, dag.requires.length]
   }
 
-  validLabel() {
-    const ac = this.amountComplete()
+  validLabel(current) {
+    const ac = this.amountComplete(current)
     return ac[0] === ac[1]
   }
 
-  addAnother() {
+  next(c) {
+    let current = c || this.state.current
     let labels = this.state.labels
-    const label = this.toLabel(this.state.current)
-    labels.push(label)
-    let current = this.defaultLabel()
+
+    if (this.validLabel(current)) {
+      const label = this.toLabel(c)
+      labels.push(label)
+      current = this.defaultLabel(this.props)
+    }
+
     this.setState({labels, current})
     return labels
   }
 
   complete() {
     let {labels} = this.state
-    if (this.validLabel()) {
-      labels = this.addAnother()
-    }
     this.props.onComplete(labels)
     this.setState({done: true})
   }
@@ -155,12 +167,12 @@ class LabelerComponent extends Component {
       helpText,
       hover
     } = this.props
-    const {labels, done} = this.state
+    const {labels, done, current} = this.state
 
     const file = {url, data}
     const size = previewSize || IMAGE_SIZE
-    const totalLabels = this.totalLabels()
-    const ac = this.amountComplete()
+    const totalLabels = labels.length
+    const ac = this.amountComplete(current)
 
     let LabelerWrapper = Default
     let help = `classify this ${fileType}`
@@ -236,8 +248,7 @@ class LabelerComponent extends Component {
                       this.onChange(label, "label")
                     }}
                   />
-                  { this.validLabel() &&
-
+                  { false && this.validLabel(current) &&
                     <div>
                       <KeyWatch
                         onSubmit={() => {
@@ -279,12 +290,25 @@ class LabelerComponent extends Component {
                     }}
                   >Save {totalLabels} Labels</button>
                 </div>
+                <h6 style={{marginTop: "10px"}}>
+                  Labels:
+                </h6>
                 {
                   this.state.labels.map((label, i) => {
-                    return <div key={label.label + "-" + i}>{label.label}</div>
+                    return <Label style={{marginRight: "5px", marginTop: "5px"}} key={label.label + "-" + i} name={label.label}></Label>
                   })
                 }
               </div>
+              { labelGeometry !== 'none' &&
+                <Preview
+                  fileType={fileType}
+                  style={{marginTop: "5px"}}
+                  url={url}
+                  size={100}
+                  data={data}
+                  labels={this.state.labels}
+                />
+              }
             </InlineBlock>
           </Main>
         </div>
