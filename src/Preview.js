@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import Image from './image'
 import Box from './common/Box'
 import colors from './constants/colors'
-import LabelOverlay from './common/LabelOverlay'
+import Label from './common/Label'
 
 const PreviewComponent = styled.div`
+  position: relative;
 `
 
 class Preview extends Component {
@@ -29,13 +30,23 @@ class Preview extends Component {
                   name={label.label}
                  />
               }
-              if (label.labelGeometry === 'none') {
-                return <LabelOverlay key={i} offset={i * 30} color={colors.blue} name={label.label}/>
-              }
 
               return null
             })
           }
+          <div style={{wordBreak: "break-all", position: "absolute", top: "5px", left: "5px"}}>
+            {
+              labels.map((label, i) => {
+                if (label.labelGeometry === 'none') {
+                  return <span key={label.label + "-" + i} style={{marginRight: "5px", marginTop: "10px", display: "inline-block"}} >
+                    <Label name={label.label}></Label>
+                  </span>
+                }
+
+                return null
+              })
+            }
+          </div>
         </File>
       </PreviewComponent>
     )

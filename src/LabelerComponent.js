@@ -13,6 +13,8 @@ import Preview from './Preview'
 import Label from './common/Label'
 import {generateId} from "./utils/ids"
 import {IMAGE_SIZE} from "./constants/image"
+import ButtonSuccess from "./components/ButtonSuccess"
+import ButtonSecondary from "./components/ButtonSecondary"
 
 const Main = styled.div`
   display: flex;
@@ -35,8 +37,7 @@ class LabelerComponent extends Component {
     this.state = {
       dimensions: null,
       current: this.defaultLabel(props),
-      labels: props.labels || [],
-      done: false
+      labels: props.labels || []
     }
   }
 
@@ -136,7 +137,6 @@ class LabelerComponent extends Component {
   complete() {
     let {labels} = this.state
     this.props.onComplete(labels)
-    this.setState({done: true})
   }
 
   notSupported() {
@@ -154,29 +154,161 @@ class LabelerComponent extends Component {
     )
   }
 
-  render() {
+  renderPreview() {
     const { url,
+      labelChoices,
       data,
-      fileType,
-      format,
+      labelGeometry,
+      fileType
+    } = this.props
+
+    const {labels} = this.state
+
+    if (labelGeometry !== 'none') {
+      return <Preview
+        fileType={fileType}
+        style={{marginTop: "5px"}}
+        url={url}
+        size={100}
+        data={data}
+        labels={this.state.labels}
+      />
+    }
+  }
+
+  renderEditControls() {
+    { false && this.validLabel(current) &&
+      <div>
+        <KeyWatch
+          onSubmit={() => {
+            if (hover) {
+              this.addAnother()
+            }
+          }}
+          keyboardKey="Enter"
+          ctrl={true}
+        />
+        <button
+          onClick={() => {
+            this.addAnother()
+          }}
+          style={{marginTop: "10px"}}
+          className="btn btn-primary"
+        >
+          Add another label
+        </button>
+      </div>
+    }
+  }
+
+  renderFinishControls() {
+    const {labels} = this.state
+    const totalLabels = labels.length
+
+    return <div style={{textAlign: "left", display: "flex", marginTop: "15px"}}>
+      <ButtonSecondary
+        style={{flex: 1}}
+        disabled={totalLabels > 0}
+        onClick={() => {
+          if (confirm("Confirm this file does not belong in this dataset")) {
+            this.props.onReject()
+          }
+        }}
+      >Reject</ButtonSecondary>
+      <ButtonSuccess
+        disabled={totalLabels === 0}
+        style={{marginLeft: "10px", flex: 1}}
+        onClick={() => {
+          this.complete()
+        }}
+      >Save All</ButtonSuccess>
+    </div>
+  }
+
+  renderRightPanel() {
+    const {
       labelChoices,
       hideLabels,
+      labelType,
+      labelGeometry,
+      hover,
+    } = this.props
+    const {labels, current} = this.state
+    const ac = this.amountComplete(current)
+
+    return <InlineBlock style={{marginLeft: "15px", width: "100%", maxWidth: "800px"}}>
+      <div>
+        <div style={{height: "290px"}}>
+          <div style={{marginBottom: "5px"}}>
+            Requirements { ac[0] } / {[ac[1]]}
+          </div>
+          <KeyWatch
+            onSubmit={(e) => {
+              if (totalLabels > 0 && hover) {
+                this.complete()
+              }
+            }}
+            keyboardKey="Enter"
+            shift={true}
+          />
+          <Classifier
+            key={labels.length}
+            labels={labelChoices}
+            selected={ this.state.current.label }
+            onSelect={(label) => {
+              this.onChange(label, "label")
+            }}
+          />
+        </div>
+        <h6 style={{marginTop: "10px"}}>
+          Complete Labels: {labels.length}
+        </h6>
+        <div style={{wordBreak: "break-all"}}>
+          {
+            this.state.labels.map((label, i) => {
+              return <span key={label.label + "-" + i} style={{marginRight: "5px", marginTop: "10px", display: "inline-block"}} >
+                <Label name={label.label}></Label>
+              </span>
+            })
+          }
+        </div>
+      </div>
+      { this.renderPreview() }
+      { this.renderFinishControls() }
+    </InlineBlock>
+  }
+
+  renderHelpText() {
+    const { helpText, labelGeometry, fileType } = this.props
+
+    let help = `classify this ${fileType}`
+
+    if (labelGeometry === "box") {
+      help = `box and ${help}`
+    } else if (labelGeometry === "polygon") {
+      help = `bound and ${help}`
+    }
+
+    if ( helpText) {
+      help = helpText
+    }
+
+    return <Title>{help}</Title>
+  }
+
+  renderLabeler() {
+    const {
+      url,
+      data,
+      fileType,
       previewSize,
       labelType,
       labelGeometry,
-      helpText,
-      hover
     } = this.props
-    const {labels, done, current} = this.state
-
+    const {labels} = this.state
     const file = {url, data}
     const size = previewSize || IMAGE_SIZE
-    const totalLabels = labels.length
-    const ac = this.amountComplete(current)
-
     let LabelerWrapper = Default
-    let help = `classify this ${fileType}`
-
     let Context = Text.Preview
 
     if (fileType === "image") {
@@ -188,144 +320,42 @@ class LabelerComponent extends Component {
         return this.notSupported()
       }
       LabelerWrapper = BoxLabeler
-      help = `box and ${help}`
     } else if (labelGeometry === "polygon") {
       if (fileType !== "image") {
         return this.notSupported()
       }
-      help = `bound and ${help}`
       LabelerWrapper = PolygonLabeler
     }
 
-    if ( helpText) {
-      help = helpText
-    }
+    return <LabelerWrapper
+          key={labels.length}
+          size={size}
+          dimensions={this.state.dimensions}
+          onComplete={(e, type) => {
+            this.onChange(e, type)
+          }}
+        >
+      <Context
+        ref={c => (this._obj = c)}
+        file={file}
+        size={size}
+        rotation={0}
+      />
+    </LabelerWrapper>
+  }
+
+  render() {
+    const {fileType, url, data} = this.props
 
     return (
       <div>
-        { !done &&
-          <div>
-            <Title>{help}</Title>
-            <Main className="main-labeler">
-              <InlineBlock>
-                <LabelerWrapper
-                  key={labels.length}
-                  size={size}
-                  dimensions={this.state.dimensions}
-                  onComplete={(e, type) => {
-                    this.onChange(e, type)
-                  }}
-                >
-                  <Context
-                    ref={c => (this._obj = c)}
-                    file={file}
-                    size={size}
-                    rotation={0}
-                  />
-                </LabelerWrapper>
-              </InlineBlock>
-              <InlineBlock style={{marginLeft: "15px", width: "100%"}}>
-                <div>
-                <div style={{height: "290px"}}>
-                  <div style={{marginBottom: "5px"}}>
-                    Requirements { ac[0] } / {[ac[1]]}
-                  </div>
-                  <KeyWatch
-                    onSubmit={(e) => {
-                      if (totalLabels > 0 && hover) {
-
-                        this.complete()
-                      }
-                    }}
-                    keyboardKey="Enter"
-                    shift={true}
-                  />
-                  <Classifier
-                    key={labels.length}
-                    labels={labelChoices}
-                    selected={ this.state.current.label }
-                    onSelect={(label) => {
-                      this.onChange(label, "label")
-                    }}
-                  />
-                  { false && this.validLabel(current) &&
-                    <div>
-                      <KeyWatch
-                        onSubmit={() => {
-                          if (hover) {
-                            this.addAnother()
-                          }
-                        }}
-                        keyboardKey="Enter"
-                        ctrl={true}
-                      />
-                      <button
-                        onClick={() => {
-                          this.addAnother()
-                        }}
-                        style={{marginTop: "10px"}}
-                        className="btn btn-primary"
-                      >
-                        Add another label
-                      </button>
-                    </div>
-                  }
-                </div>
-                <div style={{textAlign: "right"}}>
-                  <button className="btn btn-secondary"
-                    style={{width: "180px"}}
-                    disabled={totalLabels > 0}
-                    onClick={() => {
-                      if (confirm("Confirm this file does not belong in this dataset")) {
-                        alert("removed")
-                      }
-                    }}
-                  >Not Applicable</button>
-                  <button
-                    className="btn btn-success"
-                    disabled={totalLabels === 0}
-                    style={{marginLeft: "10px", width: "180px"}}
-                    onClick={() => {
-                      this.complete()
-                    }}
-                  >Save {totalLabels} Labels</button>
-                </div>
-                <h6 style={{marginTop: "10px"}}>
-                  Labels:
-                </h6>
-                <div style={{wordBreak: "break-all"}}>
-                  {
-                    this.state.labels.map((label, i) => {
-                      return <span key={label.label + "-" + i} style={{marginRight: "5px", marginTop: "10px", display: "inline-block"}} >
-                        <Label name={label.label}></Label>
-                      </span>
-                    })
-                  }
-                </div>
-              </div>
-              { labelGeometry !== 'none' &&
-                <Preview
-                  fileType={fileType}
-                  style={{marginTop: "5px"}}
-                  url={url}
-                  size={100}
-                  data={data}
-                  labels={this.state.labels}
-                />
-              }
-            </InlineBlock>
-          </Main>
-        </div>
-        }
-        { done &&
-          <Preview
-            fileType={fileType}
-            url={url}
-            size={size}
-            data={data}
-            labels={this.state.labels}
-          />
-        }
+        { this.renderHelpText()}
+        <Main className="main-labeler">
+          <InlineBlock>
+            { this.renderLabeler() }
+          </InlineBlock>
+          { this.renderRightPanel() }
+        </Main>
       </div>
     )
   }
@@ -340,6 +370,8 @@ LabelerComponent.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   helpText: PropTypes.string,
   interval: PropTypes.number,
-  hover: PropTypes.bool
+  hover: PropTypes.bool,
+  onComplete: PropTypes.func.isRequired,
+  onReject: PropTypes.func.isRequired,
 }
 export default LabelerComponent

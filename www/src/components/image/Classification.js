@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {Labeler, Preview} from "labellab-components"
+import ReactJson from 'react-json-view'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { base16AteliersulphurpoolLight as dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 const blue = "#007bff"
 
 const bigHeader = {
@@ -34,8 +38,15 @@ const state = [
 ]
 
 class Classification extends Component {
-  renderLabeler(item) {
+  constructor() {
+    super()
+    this.state = {
+      savedLabels: []
+    }
+  }
+  renderLabeler(item, i) {
     const {labelGeometry, labelType, labelChoices, url} = item
+    const currentLabels = this.state.savedLabels[i]
     return <div id={`image-${labelType}-${labelGeometry}`} className="card" style={{marginBottom: "30px"}}>
       <div className="card-body">
           <Labeler
@@ -48,11 +59,29 @@ class Classification extends Component {
             labelChoices={labelChoices}
             labels={[]}
             onComplete={(labels) => {
+              const { savedLabels } = this.state
+              savedLabels[i] = labels
+              this.setState({savedLabels})
               console.log(labels)
             }}
+            onReject={() => {
+              console.log("File has been rejected")
+            }}
           />
+          { currentLabels &&
+            <div>
+              <h6>Label output</h6>
+              <ReactJson
+                displayDataTypes={false}
+                displayObjectSize={false}
+                groupArraysAfterLength={4}
+                indentWidth={2}
+                sortKeys={true}
+                src={currentLabels}/>
+            </div>
+          }
           <hr/>
-          <pre>
+          <SyntaxHighlighter language="javascript" style={dark}>
             {`
   <Labeler
     key="some-unique-key-for-the-file"
@@ -66,9 +95,12 @@ class Classification extends Component {
     onComplete={(labels) => {
       console.log(labels)
     }}
+    onReject={() => {
+      console.log("File has been rejected")
+    }}
   />`
             }
-          </pre>
+          </SyntaxHighlighter>
           <hr/>
           <h4 style={{textAlign: "center"}}>Preview</h4>
           <Preview
@@ -89,7 +121,7 @@ class Classification extends Component {
         <div className="col-12">
           { state.map((item, i) => {
             return <div key={i}>
-              { this.renderLabeler(item)}
+              { this.renderLabeler(item, i)}
             </div>
             })
           }
