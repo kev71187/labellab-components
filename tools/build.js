@@ -46,6 +46,7 @@ const buildLib = step('commonjs modules', libRoot, async () => {
  * compiled es modules (but otherwise es5) to /es
  */
 const buildEsm = step('es modules', esRoot, async () => {
+  await  shell(`mkdir -p ${esRoot}`);
   await  shell(`cp ./package.json ${esRoot}/cached-package.json`);
   await shell(`npx babel ${srcRoot} --out-dir ${esRoot} --env-name "esm"`);
   // await copyTypes(esRoot);

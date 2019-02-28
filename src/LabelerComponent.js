@@ -293,11 +293,15 @@ class LabelerComponent extends Component {
                 <h6 style={{marginTop: "10px"}}>
                   Labels:
                 </h6>
-                {
-                  this.state.labels.map((label, i) => {
-                    return <Label style={{marginRight: "5px", marginTop: "5px"}} key={label.label + "-" + i} name={label.label}></Label>
-                  })
-                }
+                <div style={{wordBreak: "break-all"}}>
+                  {
+                    this.state.labels.map((label, i) => {
+                      return <span key={label.label + "-" + i} style={{marginRight: "5px", marginTop: "10px", display: "inline-block"}} >
+                        <Label name={label.label}></Label>
+                      </span>
+                    })
+                  }
+                </div>
               </div>
               { labelGeometry !== 'none' &&
                 <Preview
