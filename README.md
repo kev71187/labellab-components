@@ -2,7 +2,7 @@
 
 Labellab Components is a JavaScript library for providing a ui to label images, text, video, audio.
 
-These are the components that drive Labellab. We have open sourced this to facilitate ownship of your data once labeled.
+These are the components that drive Labellab. We have open sourced this to facilitate ownership of your data once labeled.
 
 * **Unified UI and labels:** Labellab Components makes it painless to generate labeled datasets.
 
