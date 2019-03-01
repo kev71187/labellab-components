@@ -1,14 +1,14 @@
 {
   "name": "labellab-components",
   "description": "Labellab components",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "author": "Kevin Woods",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "module": "es/index.js",
   "jsdelivr": "dist/labellab-components.min.js",
   "unpkg": "dist/labellab-components.min.js",
-  "cdn": "dist/labellab-componentsmin.js",
+  "cdn": "dist/labellab-components.min.js",
   "esnext": "src/index.js",
   "keywords": [
     "labellab",
@@ -25,7 +25,7 @@
   "scripts": {
     "start": "watch 'npm run build' ./src",
     "test": "npm run lint && npm run unittest",
-    "dist": "node tools/dist.js",
+    "dist": "rollup -c",
     "build": "node tools/build.js"
   },
   "peerDependencies": {
@@ -65,6 +65,11 @@
     "fs-extra": "^7.0.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-babel-minify": "^7.0.0",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-replace": "^2.1.0",
     "style-loader": "^0.23.1",
     "watch": "^1.0.2",
     "webpack": "^4.28.0"
