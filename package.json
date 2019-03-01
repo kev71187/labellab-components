@@ -1,10 +1,15 @@
 {
   "name": "labellab-components",
   "description": "Labellab components",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "author": "Kevin Woods",
-  "main": "./lib/index.js",
-  "module": "./lib/es/index.js",
+  "main": "lib/index.js",
+  "jsnext:main": "es/index.js",
+  "module": "es/index.js",
+  "jsdelivr": "dist/labellab-components.min.js",
+  "unpkg": "dist/labellab-components.min.js",
+  "cdn": "dist/labellab-componentsmin.js",
+  "esnext": "src/index.js",
   "keywords": [
     "labellab",
     "labellab.io",

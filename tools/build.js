@@ -82,6 +82,7 @@ console.log(
 //   .then(() =>
 //     Promise.all([
 //       // has('lib') && buildLib(),
+      buildLib()
       buildEsm()
       // // has('dist') && buildDist(),
     // ]),
