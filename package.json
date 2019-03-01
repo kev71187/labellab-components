@@ -1,7 +1,7 @@
 {
   "name": "labellab-components",
   "description": "Labellab components",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "author": "Kevin Woods",
   "main": "./lib/index.js",
   "module": "./lib/es/index.js",
@@ -20,6 +20,7 @@
   "scripts": {
     "start": "watch 'npm run build' ./src",
     "test": "npm run lint && npm run unittest",
+    "dist": "node tools/dist.js",
     "build": "node tools/build.js"
   },
   "peerDependencies": {
