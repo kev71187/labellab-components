@@ -49,6 +49,8 @@ class Classification extends Component {
     const currentLabels = this.state.savedLabels[i]
     return <div id={`image-${labelType}-${labelGeometry}`} className="card" style={{marginBottom: "30px"}}>
       <div className="card-body">
+          <h4 style={{textAlign: "left"}}>Labeler Component</h4>
+          <hr/>
           <Labeler
             key="some-unique-key-for-the-file"
             url={url}
@@ -70,16 +72,30 @@ class Classification extends Component {
           />
           { currentLabels &&
             <div>
-              <h6>Label output</h6>
+              <hr/>
+              <h4 style={{textAlign: "left"}}>Label Output</h4>
+              <hr/>
               <ReactJson
                 displayDataTypes={false}
                 displayObjectSize={false}
-                groupArraysAfterLength={4}
+                groupArraysAfterLength={1}
                 indentWidth={2}
                 sortKeys={true}
+                enableClipboard={false}
                 src={currentLabels}/>
             </div>
           }
+          <hr/>
+          <h4 style={{textAlign: "left"}}>Previously Labeled Preview</h4>
+          <hr/>
+          <Preview
+            size={300}
+            url={url}
+            fileType="image"
+            labels={item.exampleLabels}
+          />
+          <hr/>
+          <h4 style={{textAlign: "left"}}>Example Usage</h4>
           <hr/>
           <SyntaxHighlighter language="javascript" style={dark}>
             {`
@@ -101,14 +117,6 @@ class Classification extends Component {
   />`
             }
           </SyntaxHighlighter>
-          <hr/>
-          <h4 style={{textAlign: "center"}}>Preview</h4>
-          <Preview
-            size={300}
-            url={url}
-            fileType="image"
-            labels={item.exampleLabels}
-          />
       </div>
     </div>
   }
