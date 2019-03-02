@@ -37,6 +37,9 @@ npm install labellab-components --save
     onComplete={(labels) => {
       console.log(labels)
     }}
+    onReject={() => {
+      console.log("rejected")
+    }}
   />
 ```
 
@@ -53,6 +56,9 @@ npm install labellab-components --save
     onComplete={(labels) => {
       console.log(labels)
     }}
+    onReject={() => {
+      console.log("rejected")
+    }}
   />
 ```
 
@@ -68,6 +74,9 @@ npm install labellab-components --save
     labelChoices={["car","motorcycle","road","person","body","stopped","outbound","inbound"]}
     onComplete={(labels) => {
       console.log(labels)
+    }}
+    onReject={() => {
+      console.log("rejected")
     }}
   />
 ```

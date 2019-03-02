@@ -7,6 +7,7 @@ import Label from './common/Label'
 
 const PreviewComponent = styled.div`
   position: relative;
+  display: inline-bloack;
 `
 
 class Preview extends Component {

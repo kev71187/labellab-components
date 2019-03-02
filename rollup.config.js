@@ -83,12 +83,13 @@ function baseUmdConfig(minified) {
   Goal of this configuration is to generate bundles to be consumed by bundlers.
   This configuration is not minimized and will import all dependencies.
 */
+const name = 'LabellabComponents'
 const libConfig = baseConfig();
 // Do not include any of the dependencies
 libConfig.external = peerDependencies.concat(dependencies);
 libConfig.output = [
-  { sourcemap: true, name: 'LabellabComponents', file: 'dist/labellab-components.cjs.js', format: 'cjs' },
-  { sourcemap: true, name: 'LabellabComponents', file: 'dist/labellab-components.es.js', format: 'es' },
+  { sourcemap: true, name: name, file: 'dist/labellab-components.cjs.js', format: 'cjs' },
+  { sourcemap: true, name: name, file: 'dist/labellab-components.es.js', format: 'es' },
 ];
 
 /*
@@ -111,7 +112,7 @@ libConfig.output = [
 */
 const umdFullConfig = baseUmdConfig(false);
 umdFullConfig.output = [
-  { globals: globals(), sourcemap: true, name: 'labellab-components', file: 'dist/labellab-components.full.js', format: 'umd' },
+  { globals: globals(), sourcemap: true, name, file: 'dist/labellab-components.full.js', format: 'umd' },
 ];
 
 // Validate globals in main UMD config
@@ -125,7 +126,7 @@ if (missingGlobals.length) {
 
 const umdFullConfigMin = baseUmdConfig(true);
 umdFullConfigMin.output = [
-  { globals: globals(), sourcemap: true, name: 'labellab-components', file: 'dist/labellab-components.full.min.js', format: 'umd' },
+  { globals: globals(), sourcemap: true, name, file: 'dist/labellab-components.full.min.js', format: 'umd' },
 ];
 
 const external = umdFullConfig.external.slice();
@@ -141,13 +142,13 @@ const allGlobals = Object.assign({}, globals(), {
 const umdConfig = baseUmdConfig(false);
 umdConfig.external = external;
 umdConfig.output = [
-  { globals: allGlobals, sourcemap: true, name: 'labellab-components', file: 'dist/labellab-components.js', format: 'umd' },
+  { globals: allGlobals, sourcemap: true, name, file: 'dist/labellab-components.js', format: 'umd' },
 ];
 
 const umdConfigMin = baseUmdConfig(true);
 umdConfigMin.external = external;
 umdConfigMin.output = [
-  { globals: allGlobals, sourcemap: true, name: 'labellab-components', file: 'dist/labellab-components.min.js', format: 'umd' },
+  { globals: allGlobals, sourcemap: true, name, file: 'dist/labellab-components.min.js', format: 'umd' },
 ];
 
 
