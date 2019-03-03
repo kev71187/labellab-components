@@ -10,9 +10,9 @@ import PolygonLabeler from './common/labelers/PolygonLabeler'
 import BoxLabeler from './common/labelers/BoxLabeler'
 import Default from './Default'
 import Preview from './Preview'
-import Label from './common/Label'
 import {generateId} from "./utils/ids"
 import {IMAGE_SIZE} from "./constants/image"
+import LabelPreview from "./common/LabelPreview"
 import ButtonSuccess from "./components/ButtonSuccess"
 import ButtonSecondary from "./components/ButtonSecondary"
 import Colors from "./constants/colors"
@@ -55,10 +55,18 @@ const MainContent = styled.div`
 class LabelerComponent extends Component {
   constructor(props) {
     super()
+    const labels = props.labels || []
+
+    labels.forEach((label) => {
+      if (!label.uuid) {
+        label.uuid = generateId()
+      }
+    })
+
     this.state = {
       dimensions: null,
       current: this.defaultLabel(props),
-      labels: props.labels || [],
+      labels,
       editing: false
     }
   }
@@ -118,9 +126,10 @@ class LabelerComponent extends Component {
 
 
   toLabel(current) {
+    const {labelGeometry} = this.props
     const {dimensions} = this.state
 
-    if (dimensions) {
+    if (dimensions && labelGeometry !== "none") {
       current.options = {
         dimensions
       }
@@ -150,6 +159,12 @@ class LabelerComponent extends Component {
 
     if (this.validLabel(current)) {
       const label = this.toLabel(c)
+      if (label.state && Object.keys(label.state).length === 0) {
+        delete(label.state)
+      }
+      if (label.state && Object.keys(label.options).length === 0) {
+        delete(label.options)
+      }
       labels.push(label)
       current = this.defaultLabel(this.props)
     }
@@ -212,7 +227,7 @@ class LabelerComponent extends Component {
     const {labels} = this.state
     const totalLabels = labels.length
 
-    return <div style={{textAlign: "left", display: "flex", marginTop: "15px"}}>
+    return <div style={{textAlign: "left", display: "flex", marginTop: "30px"}}>
       <ButtonSecondary
         style={{flex: 1}}
         onClick={() => {
@@ -227,11 +242,13 @@ class LabelerComponent extends Component {
         onClick={() => {
           this.complete()
         }}
-      >Save All</ButtonSuccess>
+      >Save {this.state.labels.length} Labels</ButtonSuccess>
     </div>
   }
 
   removeLabel(label) {
+    const labels = this.state.labels.filter((l) => { return label.uuid !== l.uuid})
+    this.setState({labels, editing: false, current: this.defaultLabel(this.props)})
   }
 
   renderRightPanel() {
@@ -280,32 +297,29 @@ class LabelerComponent extends Component {
               <ButtonSecondary
                 style={{flex: 1}}
                 onClick={() => {
-                  if (confirm("Confirm remove this label")) {
-                    this.removeLabel(label)
-                  }
+                 this.removeLabel(current)
                 }}
               >Remove Label</ButtonSecondary>
               <ButtonSuccess
                 style={{flex: 1, marginLeft: "15px"}}
                 onClick={() => {
+                  const co = JSON.parse(JSON.stringify(current))
                   this.setState({editing: false, current: this.defaultLabel(this.props)})
+                  setTimeout(() => {
+                    this.removeLabel(co)
+                    this.next(co)
+                  }, 1)
                 }}
               >Done editing</ButtonSuccess>
             </div>
           }
         </div>
-        <h6 style={{paddingTop: "20px", borderTop: "1px solid lightgrey"}}>
-          Complete Labels: {labels.length}
-        </h6>
-        <div style={{wordBreak: "break-all"}}>
-          {
-            this.state.labels.map((label, i) => {
-              return <span key={label.label + "-" + i} style={{marginRight: "5px", marginTop: "10px", display: "inline-block"}} >
-                <Label onClick={() => this.labelClicked(label)}name={label.label}></Label>
-              </span>
-            })
-          }
-        </div>
+        <LabelPreview
+          labels={this.state.labels}
+          labelClicked={(label) => {
+            this.labelClicked(label)
+          }}
+        />
       </div>
       { this.renderPreview() }
       { this.renderFinishControls() }

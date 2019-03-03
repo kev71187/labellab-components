@@ -15,10 +15,8 @@ class BoxLabeler extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.labelState.geometry !== this.props.labelState.geometry) {
-      console.log("updated", prevProps.labelState, this.props.labelState)
-      this.setState({geometry: this.props.labelState.geometry})
+      this.setState({box: this.props.labelState.geometry})
     }
-
   }
 
   defaultState() {

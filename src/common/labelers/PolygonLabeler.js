@@ -15,7 +15,7 @@ class PolygonLabeler extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.labelState.geometry !== this.props.labelState.geometry) {
-      this.setState({geometry: this.props.labelState.geometry})
+      this.setState({box: this.props.labelState.geometry})
     }
   }
 
@@ -23,7 +23,6 @@ class PolygonLabeler extends Component {
     return {
       box: [],
       rotation: 0,
-      complete: false,
     }
   }
 
@@ -37,12 +36,8 @@ class PolygonLabeler extends Component {
   }
 
   undo() {
-    if (this.state.complete) {
-      this.setState({complete: false})
-    } else {
-      this.state.box.pop()
-      this.setState({box: this.state.box})
-    }
+    this.state.box.pop()
+    this.setState({box: this.state.box})
   }
 
   clear() {
@@ -54,23 +49,31 @@ class PolygonLabeler extends Component {
   }
 
   contextClick(x, y) {
-    if (this.state.complete) return
+    if (this.complete()) return
     const {box} = this.state
-    const newBox = JSON.parse(JSON.stringify(box))
-    newBox.push({x, y})
-    this.setState({box: newBox})
+    box.push({x, y})
+    this.setState({box: box})
+  }
+
+  complete() {
+    const { box } = this.state
+    if (box.length < 2) return false
+    const first = box[0]
+    const last = box[box.length - 1]
+    return first.x === last.x && first.y === last.y
   }
 
   onPointMove(point, i) {
-    const { box } = this.state
-    const newBox = JSON.parse(JSON.stringify(box))
-    newBox[i] = point
-    this.setState({box: newBox})
+    let { box } = this.state
+    box[i] = point
+    this.setState({box: box})
   }
 
   onComplete() {
-    this.setState({complete: true})
-    this.props.onComplete(this.state.box, "geometry")
+    let {box} = this.state
+    box.push(box[0])
+    this.setState({box})
+    this.props.onComplete(box, "geometry")
   }
 
   onAllMove(box) {
@@ -104,7 +107,7 @@ class PolygonLabeler extends Component {
           size={size}
           dimensions={dimensions}
           rotation={rotation}
-          complete={this.state.complete}
+          complete={this.complete()}
           file={file}
           onClick={(x,y) => this.contextClick(x, y)}
         >
