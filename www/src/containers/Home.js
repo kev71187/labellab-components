@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components'
 import ImageClassification from "../components/image/Classification"
-import {Version} from "labellab-components"
+import {Version} from "../labellab-components"
 const contents = [
   {
     type: "image",
@@ -17,6 +18,25 @@ const contents = [
     ]
   }
 ]
+const SideNav = styled.div`
+  border-right: 1px solid lightgrey;
+  height: 100%;
+  padding-top: 15px;
+
+  @media (max-width: 986px) {
+    display: none;
+  }
+`
+const MainContent = styled.div`
+  margin-left: 15px;
+  paddingTop: 15px;
+  flex: 1;
+
+  @media (max-width: 986px) {
+    margin-left: 0;
+    padding: 0;
+  }
+`
 const blue = "#007bff"
 class Home extends Component {
   render() {
@@ -36,7 +56,7 @@ class Home extends Component {
       <div className="container-fluid" style={{borderLeft: "1px solid lightgrey", borderRight: "1px solid lightgrey"}}>
         <div style={{display: "flex", flexDirection: "row", paddingLeft: "15px", paddingRight: "15px"}}>
           <div style={{paddingRight: 0, width: "300px"}}>
-            <div style={{borderRight: "1px solid lightgrey", height: "100%", paddingTop: "15px"}}>
+            <SideNav>
               <h4>Components</h4>
               {
                 contents.map((content, idx) => {
@@ -69,13 +89,13 @@ class Home extends Component {
                   </div>
                 })
               }
-            </div>
+          </SideNav>
           </div>
-          <div className="container-fluid" style={{marginLeft: "15px", paddingTop: "15px", flex: 1}}>
+          <MainContent className="container-fluid">
             <div id="image">
               <ImageClassification/>
             </div>
-          </div>
+          </MainContent>
         </div>
       </div>
     </div>

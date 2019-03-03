@@ -54,6 +54,13 @@ class Classifier extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this._search && this.props.autoFocus === true && prevProps.autoFocus === false) {
+      this._search.focus()
+    }
+    return true
+  }
+
   substring(term, name) {
     let resp = false
     var ii = 0
@@ -87,9 +94,10 @@ class Classifier extends Component {
     return (
       <LLClassifier className={this.state.labels.length > 5 ? 'scrollable' : ''}>
         <Search
+          ref={(e) => this._search = e }
           placeholder="Type Label"
           term={term}
-          autoFocus
+          autoFocus={this.props.autoFocus}
           onSearch={(term, key)=> {
             if (key === "Enter") {
               if (labels.length > 0 ) {

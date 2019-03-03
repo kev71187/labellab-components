@@ -15,9 +15,16 @@ import {generateId} from "./utils/ids"
 import {IMAGE_SIZE} from "./constants/image"
 import ButtonSuccess from "./components/ButtonSuccess"
 import ButtonSecondary from "./components/ButtonSecondary"
+import Colors from "./constants/colors"
 
 const Main = styled.div`
   display: flex;
+  @media (max-width: 986px) {
+    display: block;
+    .ll-bounding {
+      margin: 0 auto;
+    }
+  }
 `
 
 const Title = styled.h4`
@@ -29,6 +36,20 @@ const Title = styled.h4`
 const InlineBlock = styled.div`
   display: inline-block;
   vertical-align: top;
+  width: 100%;
+  @media (max-width: 986px) {
+    width: auto;
+    &.ll-classification {
+      margin-top: 15px;
+    }
+    margin: 0 auto;
+    display: block;
+  }
+`
+const MainContent = styled.div`
+  @media (max-width: 986px) {
+    margin: 0 auto;
+  }
 `
 
 class LabelerComponent extends Component {
@@ -236,10 +257,10 @@ class LabelerComponent extends Component {
     const {labels, current} = this.state
     const ac = this.amountComplete(current)
 
-    return <InlineBlock style={{marginLeft: "15px", width: "100%", maxWidth: "800px"}}>
+    return <InlineBlock className="ll-classification" style={{marginLeft: "15px", maxWidth: "800px"}}>
       <div>
         <div style={{height: "290px"}}>
-          <div style={{marginBottom: "5px"}}>
+          <div style={{marginBottom: "5px", color: Colors.red}}>
             Requirements { ac[0] } / {[ac[1]]}
           </div>
           <KeyWatch
@@ -253,6 +274,7 @@ class LabelerComponent extends Component {
           />
           <Classifier
             key={labels.length}
+            autoFocus={ac[1] - ac[0] === 1}
             labels={labelChoices}
             selected={ this.state.current.label }
             onSelect={(label) => {
@@ -352,7 +374,9 @@ class LabelerComponent extends Component {
         { this.renderHelpText()}
         <Main className="main-labeler">
           <InlineBlock>
-            { this.renderLabeler() }
+            <MainContent>
+              { this.renderLabeler() }
+            </MainContent>
           </InlineBlock>
           { this.renderRightPanel() }
         </Main>

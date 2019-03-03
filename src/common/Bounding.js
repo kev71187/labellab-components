@@ -7,6 +7,9 @@ import {
   coordToPoint,
   pointToCoord
 } from '../utils/coordinates'
+import {mobilecheck} from "../utils/index"
+
+const isMobile = mobilecheck()
 
 class Bounding extends Component {
   constructor() {
@@ -31,12 +34,6 @@ class Bounding extends Component {
   invalidPoint(point) {
     const {dimensions} = this.props
     return point.x < 0 || point.x > dimensions.width || point.y < 0 || point.y > dimensions.height
-  }
-
-  shouldRenderBox() {
-    if (!this.props.box) return false
-
-    return this.props.box.length === 4
   }
 
   onPointMove(e, i) {
@@ -105,7 +102,7 @@ class Bounding extends Component {
       backgroundColor: '#333',
       position: 'relative',
       height: size + "px",
-      width: size + 'px'
+      width: size + 'px',
     }
 
     if (!complete) containerStyle.cursor = 'crosshair'
@@ -113,21 +110,22 @@ class Bounding extends Component {
     return (
       <div
         ref={c => (this._input = c)}
+        className="ll-bounding"
         style={containerStyle}
         onMouseOut={(e) => {
-          if (this._crosshair) {
+          if (!isMobile && this._crosshair) {
             this._crosshair.onMouseMove(null)
           }
         }}
         onMouseMove={(e) => {
-          if (this._crosshair) {
+          if (!isMobile && this._crosshair) {
             const coords = mouseEventToCoordinate(e, this._input)
             this._crosshair.onMouseMove(coords)
           }
         }}
         onClick={e => this.contextClicked(e)}
       >
-        { !complete &&
+        { !complete && !isMobile &&
           <MouseTool
             ref={c => (this._crosshair = c)}
             coord={coord}

@@ -35,6 +35,9 @@ export const pointToCoord = (point, dimensions, viewSize) => {
 }
 
 export const mouseEventToCoordinate = (e, el) => {
+  if (e.mobileDrag) {
+    return {x: e.clientX, y: e.clientY }
+  }
   const rect =  el.getBoundingClientRect()
   const y =  e.clientY - rect.top
   const x =  e.clientX - rect.left

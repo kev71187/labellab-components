@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import SearchBar from "./SearchBar"
+import {mobilecheck} from "../utils/index"
+const isMobile = mobilecheck()
+
 class Search extends Component {
   constructor(props) {
     super(props)
@@ -70,6 +73,12 @@ class Search extends Component {
     }, 100)
   }
 
+  focus() {
+    if (!isMobile) {
+      // focus on mobile is a bad experience
+      this._searchBar.focus()
+    }
+  }
   render() {
     let { scope } = this.state
     let { placeholder, width } = this.props
@@ -91,7 +100,7 @@ class Search extends Component {
               role="combobox"
               spellCheck="true"
               autoComplete="off"
-              autoFocus={this.props.autoFocus}
+              autoFocus={this.props.autoFocus && !isMobile}
               onBlur={this.onBlur}
               onFocus={this.onFocus}
               onKeyDown={this.handleKeyDown}

@@ -37,12 +37,15 @@ class ImageComponent extends Component {
       width: size + 'px',
       height: size + 'px',
       background: `#333 url("${file.url}") center/contain no-repeat`,
-      transform: `rotate(${this.props.rotation}deg)`
+      transform: `rotate(${this.props.rotation}deg)`,
     }
 
     return <ImageView
       style={imageStyles}
       className="ll-image-view"
+      onTouchStart={(e) => {
+        e.preventDefault()
+      }}
       onClick={e => this.onClick(e)}>
        {this.props.children}
       </ImageView>

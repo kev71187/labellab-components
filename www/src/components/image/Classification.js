@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Labeler, Preview} from "labellab-components"
+import {Labeler, Preview} from "../../labellab-components"
 import ReactJson from 'react-json-view'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { base16AteliersulphurpoolLight as dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -16,10 +16,10 @@ const bigHeader = {
 const state = [
   {
     url: "https://www.hakaimagazine.com/wp-content/uploads/header-bald-eagle-nests.jpg",
-    labelChoices: ["bug", "whale", "bird", "dog", "cat", "human"],
+    labelChoices: ["bug", "whale", "bird", "dog", "cat", "human", "clouds", "eagle"],
     labelGeometry: "none",
     labelType: "classification",
-    exampleLabels: [{"labelType":"classification","labelGeometry":"none","label":"bird","options":{"dimensions":{"width":2500,"height":1201}},"state":{}}]
+    exampleLabels: [{"labelType":"classification","labelGeometry":"none","label":"bird","options":{"dimensions":{"width":2500,"height":1201}},"state":{}}, {"labelType":"classification","labelGeometry":"none","label":"eagle","options":{"dimensions":{"width":2500,"height":1201}},"state":{}}, {"labelType":"classification","labelGeometry":"none","label":"clouds","options":{"dimensions":{"width":2500,"height":1201}},"state":{}}]
   },
   {
     url: "http://www.nba.com/media/history/chamberlain_reb_200.jpg",

@@ -1,7 +1,6 @@
 version: '3'
 services:
   label-build:
-    command: npm start
     build:
       context: .
     volumes:
@@ -14,4 +13,4 @@ services:
       context: ./
     volumes:
       - ./www:/app
-      - ./:/components/labellab-components
+      - ./src:/app/src/labellab-components
