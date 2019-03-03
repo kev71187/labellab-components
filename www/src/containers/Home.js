@@ -92,6 +92,7 @@ class Home extends Component {
           </SideNav>
           </div>
           <MainContent className="container-fluid">
+            <button className="btn btn-link danger">Reject</button>
             <div id="image">
               <ImageClassification/>
             </div>

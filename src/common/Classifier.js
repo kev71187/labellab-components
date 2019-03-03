@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Search from "./Search"
 import styled from 'styled-components'
+import Search from "./Search"
+import Label from "./Label"
 
 const LLClassifier = styled.div`
   .classifier-item {
@@ -78,21 +79,20 @@ class Classifier extends Component {
   }
 
   render() {
-    const {labels, selected, term, selectedStyle} = this.state
-    const selectedS = selectedStyle || { marginLeft: "5px"}
-
+    const {labels, selected, term, style} = this.state
+    let className = this.props.className + ' '
     if (selected) {
-      return <span style={selectedS}>
-        {selected}
-        <a href="javascript:void(0)" style={{marginLeft: "5px"}} onClick={() => {
+      return <div className={className + 'll-edit-view'} >
+        <a href="javascript:void(0)" style={{marginRight: "15px"}} onClick={() => {
           this.setState({selected: null})
           this.props.onRemove && this.props.onRemove()
         }}>change</a>
-      </span>
+        <Label name={selected}/>
+      </div>
     }
-
+    className =  className + (this.state.labels.length > 5 ? 'scrollable' : '')
     return (
-      <LLClassifier className={this.state.labels.length > 5 ? 'scrollable' : ''}>
+      <LLClassifier style={this.props.style} className={className}>
         <Search
           ref={(e) => this._search = e }
           placeholder="Type Label"
