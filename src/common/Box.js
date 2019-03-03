@@ -174,7 +174,6 @@ class Box extends Component {
 
               onTouchEnd={(e) => {
                 this.setState({dragging: null})
-                alert()
                 e.preventDefault()
               }}
 
@@ -185,6 +184,8 @@ class Box extends Component {
                 this.setState({dragging: "all"})
                 e.preventDefault()
               }}
+
+              onClick={() => this.props.onClick && this.props.onClick()}
 
               points={joinedPoints}
               strokeWidth="2"

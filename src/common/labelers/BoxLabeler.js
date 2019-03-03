@@ -2,9 +2,23 @@ import React, { Component } from 'react'
 import Bounding from '../Bounding'
 
 class BoxLabeler extends Component {
-  constructor() {
+  constructor(props) {
     super()
-    this.state = this.defaultState()
+    let state = this.defaultState()
+
+    if (props.labelState && props.labelState.geometry) {
+      state.box = props.labelState.geometry
+    }
+
+    this.state = state
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.labelState.geometry !== this.props.labelState.geometry) {
+      console.log("updated", prevProps.labelState, this.props.labelState)
+      this.setState({geometry: this.props.labelState.geometry})
+    }
+
   }
 
   defaultState() {

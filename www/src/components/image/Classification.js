@@ -59,7 +59,7 @@ class Classification extends Component {
             labelGeometry={labelGeometry}
             previewSize={600}
             labelChoices={labelChoices}
-            labels={[]}
+            labels={item.exampleLabels}
             onComplete={(labels) => {
               const { savedLabels } = this.state
               savedLabels[i] = labels
@@ -76,9 +76,9 @@ class Classification extends Component {
               <h4 style={{textAlign: "left"}}>Label Output</h4>
               <hr/>
               <ReactJson
+                key={JSON.stringify(currentLabels.length)}
                 displayDataTypes={false}
                 displayObjectSize={false}
-                groupArraysAfterLength={1}
                 indentWidth={2}
                 sortKeys={true}
                 enableClipboard={false}

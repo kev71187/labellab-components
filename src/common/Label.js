@@ -7,9 +7,14 @@ const Label = styled.span`
   color: #fff;
   padding: 5px;
   border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
 `
 
 export default (props) => {
   const {name, style} = props
-  return <Label style={style}>{name}</Label>
+  return <Label onClick={() => props.onClick && props.onClick() } style={style}>{name}</Label>
 }

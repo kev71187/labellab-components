@@ -58,7 +58,8 @@ class LabelerComponent extends Component {
     this.state = {
       dimensions: null,
       current: this.defaultLabel(props),
-      labels: props.labels || []
+      labels: props.labels || [],
+      editing: false
     }
   }
 
@@ -94,14 +95,16 @@ class LabelerComponent extends Component {
   }
 
   onChange(e, type) {
-    let current = JSON.parse(JSON.stringify(this.state.current))
+    let current = this.state.current
     if (type === "label") {
       current.label = e
     } else {
       current.state[type] = e
     }
 
-    this.next(current)
+    if (!this.state.editing) {
+      this.next(current)
+    }
   }
 
   dag() {
@@ -175,6 +178,13 @@ class LabelerComponent extends Component {
     )
   }
 
+  labelClicked(label) {
+    if (!label.uuid) {
+      label.uuid = generateId()
+    }
+    this.setState({current: label, editing: true})
+  }
+
   renderPreview() {
     const { url,
       labelChoices,
@@ -192,33 +202,9 @@ class LabelerComponent extends Component {
         url={url}
         size={100}
         data={data}
+        onClick={(label) => this.labelClicked(label)}
         labels={this.state.labels}
       />
-    }
-  }
-
-  renderEditControls() {
-    { false && this.validLabel(current) &&
-      <div>
-        <KeyWatch
-          onSubmit={() => {
-            if (hover) {
-              this.addAnother()
-            }
-          }}
-          keyboardKey="Enter"
-          ctrl={true}
-        />
-        <button
-          onClick={() => {
-            this.addAnother()
-          }}
-          style={{marginTop: "10px"}}
-          className="btn btn-primary"
-        >
-          Add another label
-        </button>
-      </div>
     }
   }
 
@@ -229,7 +215,6 @@ class LabelerComponent extends Component {
     return <div style={{textAlign: "left", display: "flex", marginTop: "15px"}}>
       <ButtonSecondary
         style={{flex: 1}}
-        disabled={totalLabels > 0}
         onClick={() => {
           if (confirm("Confirm this file does not belong in this dataset")) {
             this.props.onReject()
@@ -246,6 +231,9 @@ class LabelerComponent extends Component {
     </div>
   }
 
+  removeLabel(label) {
+  }
+
   renderRightPanel() {
     const {
       labelChoices,
@@ -254,14 +242,20 @@ class LabelerComponent extends Component {
       labelGeometry,
       hover,
     } = this.props
-    const {labels, current} = this.state
+    const {labels, editing, current} = this.state
     const ac = this.amountComplete(current)
 
+    const complete = ac[0] === ac[1]
     return <InlineBlock className="ll-classification" style={{marginLeft: "15px", maxWidth: "800px"}}>
       <div>
-        <div style={{height: "290px"}}>
-          <div style={{marginBottom: "5px", color: Colors.red}}>
-            Requirements { ac[0] } / {[ac[1]]}
+        <div style={{height: "340px"}}>
+          <div style={{display: "flex", marginBottom: "15px"}}>
+            <div style={{marginBottom: "5px", flex: 1}}>
+              Total Labels {labels.length}
+            </div>
+            <div style={{flex: 1, marginBottom: "5px", color: complete ? Colors.green : Colors.red}}>
+              Label Requirements { ac[0] } / {[ac[1]]}
+            </div>
           </div>
           <KeyWatch
             onSubmit={(e) => {
@@ -273,7 +267,7 @@ class LabelerComponent extends Component {
             shift={true}
           />
           <Classifier
-            key={labels.length}
+            key={this.state.current.uuid}
             autoFocus={ac[1] - ac[0] === 1}
             labels={labelChoices}
             selected={ this.state.current.label }
@@ -281,15 +275,33 @@ class LabelerComponent extends Component {
               this.onChange(label, "label")
             }}
           />
+          { editing &&
+            <div style={{marginTop: "15px", display: "flex"}}>
+              <ButtonSecondary
+                style={{flex: 1}}
+                onClick={() => {
+                  if (confirm("Confirm remove this label")) {
+                    this.removeLabel(label)
+                  }
+                }}
+              >Remove Label</ButtonSecondary>
+              <ButtonSuccess
+                style={{flex: 1, marginLeft: "15px"}}
+                onClick={() => {
+                  this.setState({editing: false, current: this.defaultLabel(this.props)})
+                }}
+              >Done editing</ButtonSuccess>
+            </div>
+          }
         </div>
-        <h6 style={{marginTop: "10px"}}>
+        <h6 style={{paddingTop: "20px", borderTop: "1px solid lightgrey"}}>
           Complete Labels: {labels.length}
         </h6>
         <div style={{wordBreak: "break-all"}}>
           {
             this.state.labels.map((label, i) => {
               return <span key={label.label + "-" + i} style={{marginRight: "5px", marginTop: "10px", display: "inline-block"}} >
-                <Label name={label.label}></Label>
+                <Label onClick={() => this.labelClicked(label)}name={label.label}></Label>
               </span>
             })
           }
@@ -327,7 +339,7 @@ class LabelerComponent extends Component {
       labelType,
       labelGeometry,
     } = this.props
-    const {labels} = this.state
+    const {labels, current} = this.state
     const file = {url, data}
     const size = previewSize || IMAGE_SIZE
     let LabelerWrapper = Default
@@ -350,12 +362,13 @@ class LabelerComponent extends Component {
     }
 
     return <LabelerWrapper
-          key={labels.length}
-          size={size}
-          dimensions={this.state.dimensions}
-          onComplete={(e, type) => {
-            this.onChange(e, type)
-          }}
+        key={current.uuid}
+        labelState={current.state}
+        size={size}
+        dimensions={this.state.dimensions}
+        onComplete={(e, type) => {
+          this.onChange(e, type)
+        }}
         >
       <Context
         ref={c => (this._obj = c)}

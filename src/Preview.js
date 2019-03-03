@@ -26,6 +26,9 @@ class Preview extends Component {
                 return <Box
                   key={i}
                   box={label.state.geometry}
+                  onClick={() => {
+                    this.props.onClick && this.props.onClick(label)
+                  }}
                   viewSize={size}
                   dimensions={label.options.dimensions}
                   name={label.label}
