@@ -33,9 +33,7 @@ const LabelEdit = styled.div`
       border-top: 1px solid lightgrey;
       display: flex;
   }
-  .ll-labels-content {
-    min-height: 260px;
-  }
+
   &.editing {
     .ll-labels-content {
       padding: 15px;
@@ -68,21 +66,21 @@ class LabelEditComponent extends Component {
 
             { complete &&
               <ButtonLink
-                style={{flex: 1, color: "#dc3545"}}
+                style={{flex: 1, color: "#dc3545", marginRight: "2px"}}
                 onClick={() => {
                  this.props.onRemove(label)
                 }}
               >Remove</ButtonLink>
             }
             <ButtonLink
-              style={{flex: 1}}
+              style={{flex: 1, marginLeft: "2px", marginRight: "2px"}}
               onClick={() => {
                this.props.onCancel()
               }}
             >Cancel</ButtonLink>
             { complete && changed &&
               <ButtonLink
-                style={{flex: 1, color: "#28a745"}}
+                style={{flex: 1, color: "#28a745", marginLeft: "2px"}}
                 onClick={() => {
                  this.props.onSave(label)
                 }}

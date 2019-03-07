@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Image from './image'
 import Box from './common/Box'
+import GeoJson from './components/GeoJson'
 import colors from './constants/colors'
 import Label from './common/Label'
+import {convertGeoJsonToGeometry} from "./utils/geoJson"
 
 const PreviewComponent = styled.div`
   position: relative;
@@ -11,6 +13,20 @@ const PreviewComponent = styled.div`
 `
 
 class Preview extends Component {
+  renderBox(label, geometry, i) {
+    const {size} = this.props
+
+    return <Box
+      key={i}
+      box={geometry}
+      onClick={() => {
+        this.props.onClick && this.props.onClick(label)
+      }}
+      viewSize={size}
+      dimensions={label.options.dimensions}
+      name={label.label}
+     />
+  }
   render() {
     const {size, fileType, url, data, labels} = this.props
     let File = Image.Image
@@ -22,19 +38,21 @@ class Preview extends Component {
           size={size}
         >
           { labels.map((label, i) => {
-              if (label.labelGeometry !== 'none') {
-                return <Box
-                  key={i}
-                  box={label.state.geometry}
-                  onClick={() => {
-                    this.props.onClick && this.props.onClick(label)
-                  }}
-                  viewSize={size}
-                  dimensions={label.options.dimensions}
-                  name={label.label}
-                 />
-              }
+              if (['polygon', 'box', 'geoJson'].includes(label.labelGeometry)) {
 
+                if (label.labelGeometry === "geoJson") {
+                  const multiPolygons = convertGeoJsonToGeometry(label.state.geoJson, label.options.bounds, label.options.dimensions)
+
+                  return multiPolygons.map((polygons, ii) => {
+                    return polygons.map((polygon, iii) => {
+                      return this.renderBox(label, polygon, `${i}-${ii}-${iii}`)
+                    })
+                  })
+
+                }
+
+                return this.renderBox(label, label.state.geometry, i)
+              }
               return null
             })
           }

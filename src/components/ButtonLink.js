@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
-export default styled.button`
+export default styled.div`
+    cursor: pointer;
     border: none;
+    paddingBottom: 5px;
     font-weight: 400;
     color: #007bff;
     text-decoration: none;
@@ -13,7 +15,7 @@ export default styled.button`
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    padding: 0.375rem 0.75rem;
+    padding: 0.375rem 0;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;

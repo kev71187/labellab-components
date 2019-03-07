@@ -252,23 +252,22 @@ class LabelerComponent extends Component {
     const {labels} = this.state
     const totalLabels = labels.length
 
-    if (this.state.editing) return null
     return <div style={{textAlign: "left", display: "flex", marginTop: "15px"}}>
-      <ButtonSuccess
-        disabled={totalLabels === 0}
-        style={{ flex: 1, marginRight: "5px"}}
-        onClick={() => {
-          this.onComplete()
-        }}
-      >Save {this.state.labels.length} Labels</ButtonSuccess>
       <ButtonLink
-        style={{flex: 1, color: "#dc3545", marginLeft: "5px"}}
+        style={{flex: 1, color: "#dc3545", textAlign: "left"}}
         onClick={() => {
           if (confirm("Confirm this file does not belong in this dataset")) {
             this.props.onReject()
           }
         }}
       >Reject File</ButtonLink>
+      <ButtonSuccess
+        disabled={totalLabels === 0}
+        style={{marginRight: "5px"}}
+        onClick={() => {
+          this.onComplete()
+        }}
+      >Complete</ButtonSuccess>
     </div>
   }
 
@@ -347,6 +346,7 @@ class LabelerComponent extends Component {
           }
         </div>
       </LabelEdit>
+      { this.renderFilePreview() }
       <div>
         <LabelPreview
           labels={this.state.labels}
@@ -355,7 +355,6 @@ class LabelerComponent extends Component {
           }}
         />
       </div>
-      { this.renderFilePreview() }
       { this.renderFinishControls() }
     </InlineBlock>
   }

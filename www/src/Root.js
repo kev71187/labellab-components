@@ -2,13 +2,18 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './containers/Home'
+import Geo from './containers/Geo'
 // import 'bootstrap/dist/css/bootstrap.css'
 
+        // <Route path="/" component={Home} />
 const Root = ({ store }) => (
   <div className="labellab-docs" >
     <Provider store={store}>
       <Router>
-        <Route path="/" component={Home} />
+        <div>
+          <Route exact path="/geo" component={Geo} />
+          <Route exact path="/" component={Home} />
+        </div>
       </Router>
     </Provider>
   </div>

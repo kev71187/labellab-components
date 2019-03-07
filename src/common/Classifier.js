@@ -79,8 +79,9 @@ class Classifier extends Component {
   }
 
   render() {
-    const {labels, selected, term, style} = this.state
+    const {labels, selected, term} = this.state
     let className = this.props.className + ' '
+
     if (selected) {
       return <div className={className + 'll-edit-view'} >
         <a href="javascript:void(0)" style={{marginRight: "15px"}} onClick={() => {
@@ -91,8 +92,9 @@ class Classifier extends Component {
       </div>
     }
     className =  className + (this.state.labels.length > 5 ? 'scrollable' : '')
+    let height = (this.props.labels.length * 35) + 45
     return (
-      <LLClassifier style={this.props.style} className={className}>
+      <LLClassifier style={{minHeight: ( height > 200 ? 200 : height) + "px"}} className={className}>
         <Search
           ref={(e) => this._search = e }
           placeholder="Type Label"
