@@ -3,22 +3,18 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 // import Text from './text'
 import Image from '../image'
-import Classifier from '../common/Classifier'
 import KeyWatch from '../common/KeyWatch'
+import StateInterface from "./StateInterface"
 import GeoJsonLabeler from '../common/labelers/GeoJsonLabeler'
 import PolygonLabeler from '../common/labelers/PolygonLabeler'
 import BoxLabeler from '../common/labelers/BoxLabeler'
 import Default from '../Default'
 import Preview from '../elements/Preview'
-import LabelPreview from "../common/LabelPreview"
-import LabelEdit from "../common/LabelEdit"
-import ButtonSuccess from "../ButtonSuccess"
-import ButtonSecondary from "../ButtonSecondary"
-import ButtonLink from "../ButtonLink"
 import Colors from "../../constants/colors"
 import Dags from "../../utils/dags"
 import {generateId} from "../../utils/ids"
 import {IMAGE_SIZE} from "../../constants/image"
+import InlineBlock from  './InlineBlock'
 
 const Main = styled.div`
   display: flex;
@@ -36,19 +32,6 @@ const Title = styled.h4`
   text-align: center;
 `
 
-const InlineBlock = styled.div`
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-  @media (max-width: 986px) {
-    width: auto;
-    &.ll-classification {
-      margin-top: 15px;
-    }
-    margin: 0 auto;
-    display: block;
-  }
-`
 const MainContent = styled.div`
   @media (max-width: 986px) {
     margin: 0 auto;
@@ -249,115 +232,24 @@ class LabelerComponent extends Component {
     }
   }
 
-  renderFinishControls() {
-    const {labels} = this.state
-    const totalLabels = labels.length
 
-    return <div style={{textAlign: "left", display: "flex", marginTop: "15px"}}>
-      <ButtonLink
-        style={{flex: 1, color: "#dc3545", textAlign: "left"}}
-        onClick={() => {
-          if (confirm("Confirm this file does not belong in this dataset")) {
-            this.props.onReject()
-          }
-        }}
-      >Reject File</ButtonLink>
-      <ButtonSuccess
-        disabled={totalLabels === 0}
-        style={{marginRight: "5px"}}
-        onClick={() => {
-          this.onComplete()
-        }}
-      >Complete</ButtonSuccess>
-    </div>
+  onCancel() {
+    this.setState({editing: false,
+      current: this.defaultLabel(this.props)
+    })
   }
 
-  renderRightPanel() {
-    const {
-      labelChoices,
-      hideLabels,
-      labelType,
-      labelGeometry,
-      hover,
-    } = this.props
-    const {labels, editing, current} = this.state
-    const ac = this.amountComplete(current)
-    const savedLabel = this.savedLabel()
-    let changed = ac[0] > 0
+  onSave() {
+    const savedIndex = this.savedIndex()
 
-    if (savedLabel) {
-      changed = JSON.stringify(savedLabel) !== JSON.stringify(current)
+    if (savedIndex !== -1) {
+      this.state.labels[savedIndex] = this.state.current
     }
 
-    const complete = ac[0] === ac[1]
-    return <InlineBlock className="ll-classification" style={{marginLeft: "15px", maxWidth: "800px"}}>
-      <LabelEdit
-        amountComplete={ac}
-        label={current}
-        savedLabel={this.savedLabel(current)}
-        editing={this.state.editing}
-        changed={changed}
-        onCancel={() => {
-          this.setState({editing: false,
-            current: this.defaultLabel(this.props)
-          })
-        }}
-        onSave={() => {
-          const savedIndex = this.savedIndex()
-
-          if (savedIndex !== -1) {
-            this.state.labels[savedIndex] = this.state.current
-          }
-
-          this.setState({
-            editing: false,
-            current: this.defaultLabel(this.props),
-          })
-        }}
-        onRemove={() => {
-          this.removeLabel(current)
-        }}
-      >
-        <div>
-          <div style={{display: "flex"}}>
-            { editing && <div style={{flex: .5}}>Label: </div>}
-            <div className="ll-label-wrapper">
-              <Classifier
-                className="ll-label-item"
-                key={this.state.current.uuid}
-                autoFocus={ac[1] - ac[0] === 1}
-                labels={labelChoices}
-                selected={ current.label }
-                onSelect={(label) => {
-                  this.onChange(label, "label")
-                  this.shouldEdit(current)
-                }}
-              />
-            </div>
-          </div>
-          { editing && current.state && current.state.geometry &&
-            <div style={{display: "flex", marginTop: "15px"}}>
-              <div style={{flex: .5}}>
-                Geometry:
-              </div>
-              <div style={{flex: 1, textAlign: "right" }}>
-                shown on image
-              </div>
-          </div>
-          }
-        </div>
-      </LabelEdit>
-      { this.renderFilePreview() }
-      <div>
-        <LabelPreview
-          labels={this.state.labels}
-          labelClicked={(label) => {
-            this.labelClicked(label)
-          }}
-        />
-      </div>
-      { this.renderFinishControls() }
-    </InlineBlock>
+    this.setState({
+      editing: false,
+      current: this.defaultLabel(this.props),
+    })
   }
 
   renderHelpText() {
@@ -443,6 +335,47 @@ class LabelerComponent extends Component {
     </LabelerWrapper>
   }
 
+  onSelect(label) {
+    this.onChange(label, "label")
+    this.shouldEdit(label)
+  }
+  renderStateInterface() {
+    const {
+      labelChoices,
+      hideLabels,
+      labelType,
+      labelGeometry,
+      hover,
+    } = this.props
+
+    const {
+      labels,
+      editing,
+      current
+    } = this.state
+
+    return <StateInterface
+      labelChoices={labelChoices}
+      hideLabels={hideLabels}
+      labelType={labelType}
+      labelGeometry={labelGeometry}
+      hover={hover}
+      labels={labels}
+      editing={editing}
+      current={current}
+      savedLabel={this.savedLabel(current)}
+      amountComplete={this.amountComplete(current)}
+      onCancel={() => this.onCancel()}
+      onSave={() => this.onSave()}
+      onRemove={(label) => this.removeLabel(label)}
+      onSelect={(label) => this.onSelect(label)}
+      onComplete={() => this.onComplete()}
+      onReject={() => this.onReject()}
+      labelClicked={(label) => this.labelClicked(label)}
+      filePreview={this.renderFilePreview()}
+    />
+  }
+
   render() {
     const {fileType, url, data} = this.props
 
@@ -455,7 +388,7 @@ class LabelerComponent extends Component {
               { this.renderLabeler() }
             </MainContent>
           </InlineBlock>
-          { this.renderRightPanel() }
+          { this.renderStateInterface()}
         </Main>
       </div>
     )
