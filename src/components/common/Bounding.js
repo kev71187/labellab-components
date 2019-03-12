@@ -6,8 +6,8 @@ import {
   mouseEventToCoordinate,
   coordToPoint,
   pointToCoord
-} from '../utils/coordinates'
-import {mobilecheck} from "../utils/index"
+} from '../../utils/coordinates'
+import {mobilecheck} from "../../utils/index"
 
 const isMobile = mobilecheck()
 

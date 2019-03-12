@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SearchBar from "./SearchBar"
-import {mobilecheck} from "../utils/index"
+import {mobilecheck} from "../../utils/index"
 const isMobile = mobilecheck()
 
 class Search extends Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Bounding from '../Bounding'
-import {convertGeoJsonToGeometry} from "../../utils/geoJson"
+import {convertGeoJsonToGeometry} from "../../../utils/geoJson"
 
 export default class extends Component {
   constructor(props) {

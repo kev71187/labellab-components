@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Image from './image'
-import Box from './common/Box'
-import GeoJson from './components/GeoJson'
-import colors from './constants/colors'
-import Label from './common/Label'
-import {convertGeoJsonToGeometry} from "./utils/geoJson"
+import Image from '../image'
+import Box from '../common/Box'
+import GeoJson from '../GeoJson'
+import colors from '../../constants/colors'
+import Label from '../common/Label'
+import {convertGeoJsonToGeometry} from "../../utils/geoJson"
 
 const PreviewComponent = styled.div`
   position: relative;
@@ -29,7 +29,7 @@ class Preview extends Component {
   }
   render() {
     const {size, fileType, url, data, labels} = this.props
-    let File = Image.Image
+    let File = Image.File
 
     return (
       <PreviewComponent style={this.props.style}>

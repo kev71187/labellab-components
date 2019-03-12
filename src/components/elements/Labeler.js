@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import LabelerComponent from "./LabelerComponent"
+import LabelerComponent from "../LabelerComponent"
 
 const Main = styled.div`
 `
@@ -50,7 +50,10 @@ Labeler.propTypes = {
   url: PropTypes.string,
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   helpText: PropTypes.string,
-  interval: PropTypes.number
+  interval: PropTypes.number,
+  options: PropTypes.shape({
+    bounds: PropTypes.array
+  })
 }
 
 export default Labeler

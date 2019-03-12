@@ -1,18 +1,12 @@
 // const Image = require("./image")
-import Common from "./common"
-import Image from "./image"
-import Text from "./text"
-import preview from "./Preview"
-import labeler from "./Labeler"
+import preview from "./components/elements/Preview"
+import labeler from "./components/elements/Labeler"
 const version = "1.0.20"
 export const Preview = preview
 export const Labeler = labeler
 export const Version = version
 export default {
   Version,
-  Image,
-  Text,
-  Common,
   Labeler,
   Preview
 }

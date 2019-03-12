@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import colors from "../constants/colors"
+import colors from "../../constants/colors"
 import Classifier from "./Classifier"
 
 import styled from 'styled-components'

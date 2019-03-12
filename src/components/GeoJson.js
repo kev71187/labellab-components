@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import colors from '../constants/colors'
-import LabelOverlay from '../common/LabelOverlay'
+import LabelOverlay from './common/LabelOverlay'
 import {
   convertGeoJsonToGeometry
 } from '../utils/geoJson'

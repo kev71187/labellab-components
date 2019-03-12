@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Dags from "./utils/dags"
-import Text from './text'
+// import Text from './text'
 import Image from './image'
 import Classifier from './common/Classifier'
 import KeyWatch from './common/KeyWatch'
@@ -10,15 +9,16 @@ import GeoJsonLabeler from './common/labelers/GeoJsonLabeler'
 import PolygonLabeler from './common/labelers/PolygonLabeler'
 import BoxLabeler from './common/labelers/BoxLabeler'
 import Default from './Default'
-import Preview from './Preview'
-import {generateId} from "./utils/ids"
-import {IMAGE_SIZE} from "./constants/image"
+import Preview from './elements/Preview'
 import LabelPreview from "./common/LabelPreview"
 import LabelEdit from "./common/LabelEdit"
-import ButtonSuccess from "./components/ButtonSuccess"
-import ButtonSecondary from "./components/ButtonSecondary"
-import ButtonLink from "./components/ButtonLink"
-import Colors from "./constants/colors"
+import ButtonSuccess from "./ButtonSuccess"
+import ButtonSecondary from "./ButtonSecondary"
+import ButtonLink from "./ButtonLink"
+import Colors from "../constants/colors"
+import Dags from "../utils/dags"
+import {generateId} from "../utils/ids"
+import {IMAGE_SIZE} from "../constants/image"
 
 const Main = styled.div`
   display: flex;
@@ -399,7 +399,7 @@ class LabelerComponent extends Component {
     let Context = Text.Preview
 
     if (fileType === "image") {
-      Context = Image.Image
+      Context = Image.File
     }
 
     if (labelGeometry === "box") {

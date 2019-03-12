@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import colors from '../constants/colors'
+import colors from '../../constants/colors'
 import LabelOverlay from '../common/LabelOverlay'
 import KeyWatch from '../common/KeyWatch'
 import {
   pointToCoord
-} from '../utils/coordinates'
-import {mobilecheck} from "../utils/index"
+} from '../../utils/coordinates'
+import {mobilecheck} from "../../utils/index"
 
 const isMobile = mobilecheck()
 

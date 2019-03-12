@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import colors from "../constants/colors"
-import ButtonLink from "../components/ButtonLink"
+import colors from "../../constants/colors"
+import ButtonLink from "../ButtonLink"
 
 const LabelEdit = styled.div`
 

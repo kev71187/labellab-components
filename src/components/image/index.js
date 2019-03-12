@@ -1,5 +1,5 @@
 import Image from "./Image"
 
 export default {
-  Image
+  File: Image
 }

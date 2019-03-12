@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import colors from "../constants/colors"
+import colors from "../../constants/colors"
 import Label from './Label'
 
 const LabelPreview = styled.div`
