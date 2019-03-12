@@ -2,23 +2,23 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 // import Text from './text'
-import Image from './image'
-import Classifier from './common/Classifier'
-import KeyWatch from './common/KeyWatch'
-import GeoJsonLabeler from './common/labelers/GeoJsonLabeler'
-import PolygonLabeler from './common/labelers/PolygonLabeler'
-import BoxLabeler from './common/labelers/BoxLabeler'
-import Default from './Default'
-import Preview from './elements/Preview'
-import LabelPreview from "./common/LabelPreview"
-import LabelEdit from "./common/LabelEdit"
-import ButtonSuccess from "./ButtonSuccess"
-import ButtonSecondary from "./ButtonSecondary"
-import ButtonLink from "./ButtonLink"
-import Colors from "../constants/colors"
-import Dags from "../utils/dags"
-import {generateId} from "../utils/ids"
-import {IMAGE_SIZE} from "../constants/image"
+import Image from '../image'
+import Classifier from '../common/Classifier'
+import KeyWatch from '../common/KeyWatch'
+import GeoJsonLabeler from '../common/labelers/GeoJsonLabeler'
+import PolygonLabeler from '../common/labelers/PolygonLabeler'
+import BoxLabeler from '../common/labelers/BoxLabeler'
+import Default from '../Default'
+import Preview from '../elements/Preview'
+import LabelPreview from "../common/LabelPreview"
+import LabelEdit from "../common/LabelEdit"
+import ButtonSuccess from "../ButtonSuccess"
+import ButtonSecondary from "../ButtonSecondary"
+import ButtonLink from "../ButtonLink"
+import Colors from "../../constants/colors"
+import Dags from "../../utils/dags"
+import {generateId} from "../../utils/ids"
+import {IMAGE_SIZE} from "../../constants/image"
 
 const Main = styled.div`
   display: flex;
@@ -383,6 +383,26 @@ class LabelerComponent extends Component {
     return this.state.labels.find((l) => l.uuid === current.uuid)
   }
 
+  getLabelWrapper() {
+    const {
+      fileType,
+      labelGeometry,
+    } = this.props
+
+    if (labelGeometry === "box") {
+      if (fileType !== "image") return this.notSupported()
+      return BoxLabeler
+    } else if (labelGeometry === "polygon") {
+      if (fileType !== "image") return this.notSupported()
+      return PolygonLabeler
+    } else if (labelGeometry === "geoJson") {
+      if (fileType !== "image")  return this.notSupported()
+      return GeoJsonLabeler
+    }
+
+    return Default
+  }
+
   renderLabeler() {
     const {
       url,
@@ -395,30 +415,13 @@ class LabelerComponent extends Component {
     const {labels, current} = this.state
     const file = {url, data}
     const size = previewSize || IMAGE_SIZE
-    let LabelerWrapper = Default
+    const LabelerWrapper = this.getLabelWrapper()
+
     let Context = Text.Preview
 
     if (fileType === "image") {
       Context = Image.File
     }
-
-    if (labelGeometry === "box") {
-      if (fileType !== "image") {
-        return this.notSupported()
-      }
-      LabelerWrapper = BoxLabeler
-    } else if (labelGeometry === "polygon") {
-      if (fileType !== "image") {
-        return this.notSupported()
-      }
-      LabelerWrapper = PolygonLabeler
-    } else if (labelGeometry === "geoJson") {
-      if (fileType !== "image") {
-        return this.notSupported()
-      }
-      LabelerWrapper = GeoJsonLabeler
-    }
-
 
     return <LabelerWrapper
         key={current.uuid}

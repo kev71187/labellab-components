@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import LabelerComponent from "../LabelerComponent"
+import LabelerComponent from "../labeler/LabelerComponent"
 
 const Main = styled.div`
 `
