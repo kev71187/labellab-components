@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import Display from "../components/Display"
 import Labeler from "../components/image/Labeler"
 import items from '../assets/imageData.js'
-console.log(items)
+const {labelGeometry, labelType, labelChoices, url, exampleLabels} = items.box
 
 export default class extends Component {
   render() {
     return <Display>
-      <Labeler item={items.box}/>
+      <Labeler
+        labelGeometry={labelGeometry}
+        labelType={labelType}
+        labelChoices={labelChoices}
+        exampleLabels={exampleLabels}
+        url={url}
+      />
     </Display>
   }
 }

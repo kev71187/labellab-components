@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components'
-import ImageClassification from "../components/image/Classification"
+import ImageClassification from "../containers/ImageClassification"
+import ImageBox from "../containers/ImageBox"
+import ImagePolygon from "../containers/ImagePolygon"
+import ImageGeo from "../containers/ImageGeo"
 import {Version} from "../labellab-components"
 class Home extends Component {
   render() {
     return <div id="image">
       <ImageClassification/>
+      <div style={{marginTop: "15px"}}/>
+      <ImageBox/>
+      <div style={{marginTop: "15px"}}/>
+      <ImagePolygon/>
+      <div style={{marginTop: "15px"}}/>
+      <ImageGeo/>
     </div>
   }
 

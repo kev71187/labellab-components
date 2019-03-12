@@ -68,15 +68,15 @@ const LeftNav = () => {
       {
         contents.map((content, idx) => {
           return <div key={idx} style={{ textTransform: 'capitalize'}}>
-            <a className="btn btn-link text-muted" href={`#${content.type}`}>
+            <a className="btn btn-link text-muted" href={`/#${content.type}`}>
               File: { content.type }
             </a>
             <div style={{paddingLeft: "15px"}}>
               {
                 content.items.map((comp, i) => {
                   return <div key={i}>
-                    <a className="btn btn-link text-muted" href={`#${content.type}-${comp.type}`}>
-                      Label: { comp.type }
+                    <a className="btn btn-link text-muted" href={`/#${content.type}-${comp.type}`}>
+                      { comp.type }
                     </a>
                     <div style={{paddingLeft: "15px"}}>
                       {

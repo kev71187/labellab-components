@@ -9,9 +9,6 @@ const ClassificationDiv = styled.div`
   hr {
     margin: 20px 0;
   }
-  h4 {
-    margin-top: 60px;
-  }
 `
 
 const blue = "#007bff"
@@ -32,12 +29,9 @@ export default class extends Component {
     }
   }
   render() {
-    const { item } = this.props
-    const {labelGeometry, labelType, labelChoices, url} = this.props.item
+    const {labelGeometry, labelType, labelChoices, url, exampleLabels} = this.props
     const currentLabels = this.state.savedLabels
     return <ClassificationDiv id={`image-${labelType}-${labelGeometry}`}>
-          <h4 style={{textAlign: "left", marginTop: 0}}>Labeler Component</h4>
-          <hr/>
           <Labeler
             url={url}
             fileType="image"
@@ -45,18 +39,17 @@ export default class extends Component {
             labelGeometry={labelGeometry}
             previewSize={600}
             labelChoices={labelChoices}
-            labels={item.exampleLabels}
+            labels={exampleLabels}
             onComplete={(labels) => {
               const { savedLabels } = this.state
-              savedLabels = labels
-              this.setState({savedLabels})
+              this.setState({savedLabels: labels})
               console.log(labels)
             }}
             onReject={() => {
               console.log("File has been rejected")
             }}
           />
-          { currentLabels &&
+            { currentLabels.length > 0 &&
             <div>
               <h4 style={{textAlign: "left"}}>Label Output</h4>
               <hr/>
@@ -71,25 +64,24 @@ export default class extends Component {
                 src={currentLabels}/>
             </div>
           }
-          <h4 style={{textAlign: "left"}}>Previously Labeled Preview</h4>
+          <h4 style={{textAlign: "left", marginTop: "60px"}}>Previously Labeled Preview</h4>
           <hr/>
             <Preview
               size={300}
               url={url}
               fileType="image"
-              labels={item.exampleLabels}
+              labels={exampleLabels}
             />
-          <h4 style={{textAlign: "left"}}>Example Usage</h4>
+          <h4 style={{textAlign: "left", marginTop: "60px"}}>Example Usage</h4>
           <hr/>
           <SyntaxHighlighter language="javascript" style={dark}>
             {`
   <Labeler
-    key="some-unique-key-for-the-file"
     url="${url}"
     fileType="image"
     labelType="${labelType}"
     labelGeometry="${labelGeometry}"
-    previewSize={450}
+    previewSize={600}
     labelChoices={["${labelChoices.join('","')}"]}
     labels={[]}
     onComplete={(labels) => {
