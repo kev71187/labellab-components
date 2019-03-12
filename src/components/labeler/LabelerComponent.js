@@ -15,6 +15,7 @@ import Dags from "../../utils/dags"
 import {generateId} from "../../utils/ids"
 import {IMAGE_SIZE} from "../../constants/image"
 import InlineBlock from  './InlineBlock'
+import HelpText from  './HelpText'
 
 const Main = styled.div`
   display: flex;
@@ -25,20 +26,12 @@ const Main = styled.div`
     }
   }
 `
-
-const Title = styled.h4`
-  text-transform: capitalize;
-  margin-bottom: 15px;
-  text-align: center;
-`
-
 const MainContent = styled.div`
   @media (max-width: 986px) {
     margin: 0 auto;
   }
 `
-
-class LabelerComponent extends Component {
+export default class extends Component {
   constructor(props) {
     super()
     const labels = props.labels || []
@@ -252,24 +245,6 @@ class LabelerComponent extends Component {
     })
   }
 
-  renderHelpText() {
-    const { helpText, labelGeometry, fileType } = this.props
-
-    let help = `classify this ${fileType}`
-
-    if (labelGeometry === "box") {
-      help = `box and ${help}`
-    } else if (labelGeometry === "polygon") {
-      help = `bound and ${help}`
-    }
-
-    if ( helpText) {
-      help = helpText
-    }
-
-    return <Title>{help}</Title>
-  }
-
   savedLabel(c) {
     let current = c || this.state.current
     return this.state.labels.find((l) => l.uuid === current.uuid)
@@ -377,11 +352,13 @@ class LabelerComponent extends Component {
   }
 
   render() {
-    const {fileType, url, data} = this.props
+    const {fileType, url, data, helpText, labelGeometry} = this.props
 
     return (
       <div>
-        { this.renderHelpText()}
+        <HelpText
+          helpText={helpText} labelGeometry={labelGeometry} fileType={fileType}
+        />
         <Main className="main-labeler">
           <InlineBlock>
             <MainContent>
@@ -394,5 +371,3 @@ class LabelerComponent extends Component {
     )
   }
 }
-
-export default LabelerComponent
