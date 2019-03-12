@@ -4,7 +4,6 @@ import ReactJson from 'react-json-view'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { base16AteliersulphurpoolLight as dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import styled from 'styled-components'
-// import state from './data.js'
 
 const ClassificationDiv = styled.div`
   hr {
@@ -25,18 +24,18 @@ const bigHeader = {
   marginTop: "30px"
 }
 
-class Classification extends Component {
+export default class extends Component {
   constructor() {
     super()
     this.state = {
       savedLabels: []
     }
   }
-  renderLabeler(item, i) {
-    const {labelGeometry, labelType, labelChoices, url} = item
-    const currentLabels = this.state.savedLabels[i]
-    return <ClassificationDiv id={`image-${labelType}-${labelGeometry}`} className="card" style={{marginBottom: "30px"}}>
-      <div className="card-body">
+  render() {
+    const { item } = this.props
+    const {labelGeometry, labelType, labelChoices, url} = this.props.item
+    const currentLabels = this.state.savedLabels
+    return <ClassificationDiv id={`image-${labelType}-${labelGeometry}`}>
           <h4 style={{textAlign: "left", marginTop: 0}}>Labeler Component</h4>
           <hr/>
           <Labeler
@@ -49,7 +48,7 @@ class Classification extends Component {
             labels={item.exampleLabels}
             onComplete={(labels) => {
               const { savedLabels } = this.state
-              savedLabels[i] = labels
+              savedLabels = labels
               this.setState({savedLabels})
               console.log(labels)
             }}
@@ -102,27 +101,6 @@ class Classification extends Component {
   />`
             }
           </SyntaxHighlighter>
-      </div>
     </ClassificationDiv>
   }
-  render() {
-   return  <div>
-      <div className="row">
-        <h4 id="image-classification" style={bigHeader}>Image Classification Labeler</h4>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          { state.map((item, i) => {
-            return <div key={i}>
-              { this.renderLabeler(item, i)}
-            </div>
-            })
-          }
-        </div>
-      </div>
-    </div>
-  }
-
 }
-
-export default Classification

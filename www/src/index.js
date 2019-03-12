@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './scss/index.scss';
 import configureStore from './store/configureStore'
-import Root from './Root';
+import Root from './containers/Root';
 import * as serviceWorker from './serviceWorker';
 const store = configureStore(window.__data)
 

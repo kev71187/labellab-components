@@ -6,6 +6,7 @@ import Text from './text'
 import Image from './image'
 import Classifier from './common/Classifier'
 import KeyWatch from './common/KeyWatch'
+import GeoJsonLabeler from './common/labelers/GeoJsonLabeler'
 import PolygonLabeler from './common/labelers/PolygonLabeler'
 import BoxLabeler from './common/labelers/BoxLabeler'
 import Default from './Default'
@@ -411,13 +412,20 @@ class LabelerComponent extends Component {
         return this.notSupported()
       }
       LabelerWrapper = PolygonLabeler
+    } else if (labelGeometry === "geoJson") {
+      if (fileType !== "image") {
+        return this.notSupported()
+      }
+      LabelerWrapper = GeoJsonLabeler
     }
+
 
     return <LabelerWrapper
         key={current.uuid}
         labelState={current.state}
         size={size}
         dimensions={this.state.dimensions}
+        bounds={this.props.fileBounds}
         onComplete={(e, type) => {
           this.onChange(e, type)
           this.shouldEdit(current)
@@ -451,17 +459,4 @@ class LabelerComponent extends Component {
   }
 }
 
-LabelerComponent.propTypes = {
-  fileType: PropTypes.oneOf(['text', 'json', 'xml', 'image']).isRequired,
-  labelChoices: PropTypes.array,
-  labelGeometry: PropTypes.oneOf(['none', 'box', 'polygon']),
-  labelType: PropTypes.oneOf(['classification', 'freeform']),
-  url: PropTypes.string,
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  helpText: PropTypes.string,
-  interval: PropTypes.number,
-  hover: PropTypes.bool,
-  onComplete: PropTypes.func.isRequired,
-  onReject: PropTypes.func.isRequired,
-}
 export default LabelerComponent

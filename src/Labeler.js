@@ -45,7 +45,7 @@ Labeler.defaultProps = {
 Labeler.propTypes = {
   fileType: PropTypes.oneOf(['text', 'json', 'xml', 'image']).isRequired,
   labelChoices: PropTypes.array,
-  labelGeometry: PropTypes.oneOf(['none', 'box', 'polygon']),
+  labelGeometry: PropTypes.oneOf(['none', 'box', 'polygon', 'geoJson']),
   labelType: PropTypes.oneOf(['classification', 'freeform']),
   url: PropTypes.string,
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
