@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Bounding from '../Bounding'
+import Bounding from '../common/Bounding'
 
 class BoxLabeler extends Component {
   constructor(props) {

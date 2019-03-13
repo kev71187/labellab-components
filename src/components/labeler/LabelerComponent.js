@@ -5,11 +5,11 @@ import styled from 'styled-components'
 import Image from '../image'
 import KeyWatch from '../common/KeyWatch'
 import StateInterface from "./StateInterface"
-import GeoJsonLabeler from '../common/labelers/GeoJsonLabeler'
-import PolygonLabeler from '../common/labelers/PolygonLabeler'
-import BoxLabeler from '../common/labelers/BoxLabeler'
+import StatePreview from "./StatePreview"
+import GeoJsonLabeler from '../labelers/GeoJsonLabeler'
+import PolygonLabeler from '../labelers/PolygonLabeler'
+import BoxLabeler from '../labelers/BoxLabeler'
 import Default from '../Default'
-import Preview from '../elements/Preview'
 import Colors from "../../constants/colors"
 import Dags from "../../utils/dags"
 import {generateId} from "../../utils/ids"
@@ -55,10 +55,19 @@ export default class extends Component {
       if (this._obj) {
         this._obj.dimensions().then((dimensions) => {
           this.setState({dimensions})
+          this.workOn()
         }).catch((e) => {
           console.log(e)
         })
       }
+    },1)
+  }
+
+  workOn() {
+    console.log("remove me", this.state)
+    const {labels} = this.state
+    setTimeout(() => {
+      this.labelClicked(labels[labels.length - 1])
     },1)
   }
 
@@ -202,29 +211,6 @@ export default class extends Component {
     )
   }
 
-  renderFilePreview() {
-    const { url,
-      labelChoices,
-      data,
-      labelGeometry,
-      fileType
-    } = this.props
-
-    const {labels} = this.state
-
-    if (labelGeometry !== 'none') {
-      return <Preview
-        fileType={fileType}
-        style={{marginTop: "15px"}}
-        url={url}
-        size={150}
-        data={data}
-        onClick={(label) => this.labelClicked(label)}
-        labels={this.state.labels}
-      />
-    }
-  }
-
 
   onCancel() {
     this.setState({editing: false,
@@ -295,7 +281,7 @@ export default class extends Component {
         labelState={current.state}
         size={size}
         dimensions={this.state.dimensions}
-        bounds={this.props.fileBounds}
+        bounds={this.props.labelMetadata && this.props.labelMetadata.bounds}
         onComplete={(e, type) => {
           this.onChange(e, type)
           this.shouldEdit(current)
@@ -314,6 +300,29 @@ export default class extends Component {
     this.onChange(label, "label")
     this.shouldEdit(label)
   }
+
+  renderStatePreview() {
+    const {
+      labelType,
+      labelGeometry,
+      url,
+      data
+    } = this.props
+
+    const {
+      labels,
+    } = this.state
+
+    return <StatePreview
+      labels={labels}
+      url={url}
+      data={data}
+      labelType={labelType}
+      labelGeometry={labelGeometry}
+      labelClicked={(label) => this.labelClicked(label)}
+    />
+  }
+
   renderStateInterface() {
     const {
       labelChoices,
@@ -329,25 +338,27 @@ export default class extends Component {
       current
     } = this.state
 
+    const callbacks = {
+      onCancel: () => this.onCancel(),
+      onRemove: (label) => this.removeLabel(label),
+      onSave: () => this.onSave(),
+      onSelect: (label) => this.onSelect(label),
+      onComplete: () => this.onComplete(),
+      onReject: () => this.onReject(),
+    }
     return <StateInterface
       labelChoices={labelChoices}
+      savedLabel={this.savedLabel(current)}
       hideLabels={hideLabels}
       labelType={labelType}
       labelGeometry={labelGeometry}
       hover={hover}
       labels={labels}
       editing={editing}
-      current={current}
-      savedLabel={this.savedLabel(current)}
+      label={current}
       amountComplete={this.amountComplete(current)}
-      onCancel={() => this.onCancel()}
-      onSave={() => this.onSave()}
-      onRemove={(label) => this.removeLabel(label)}
-      onSelect={(label) => this.onSelect(label)}
-      onComplete={() => this.onComplete()}
-      onReject={() => this.onReject()}
-      labelClicked={(label) => this.labelClicked(label)}
-      filePreview={this.renderFilePreview()}
+      dimensions={this.state.dimensions}
+      callbacks={callbacks}
     />
   }
 
@@ -364,6 +375,7 @@ export default class extends Component {
             <MainContent>
               { this.renderLabeler() }
             </MainContent>
+            { this.renderStatePreview()}
           </InlineBlock>
           { this.renderStateInterface()}
         </Main>

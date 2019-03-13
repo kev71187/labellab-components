@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import LabelEdit from "../common/LabelEdit"
 import LabelPreview from "../common/LabelPreview"
 import Classifier from '../common/Classifier'
+import StatePreview from './StatePreview'
 import ButtonSuccess from "../ButtonSuccess"
 import ButtonLink from "../ButtonLink"
 import InlineBlock from  './InlineBlock'
+import Box from '../common/Box'
 
 export default class extends Component {
   renderFinishControls() {
@@ -18,7 +20,7 @@ export default class extends Component {
         style={{flex: 1, color: "#dc3545", textAlign: "left"}}
         onClick={() => {
           if (confirm("Confirm this file does not belong in this dataset")) {
-            this.props.onReject()
+            this.props.callbacks.onReject()
           }
         }}
       >Reject File</ButtonLink>
@@ -26,12 +28,34 @@ export default class extends Component {
         disabled={totalLabels === 0}
         style={{marginRight: "5px"}}
         onClick={() => {
-          this.props.onComplete()
+          this.props.callbacks.onComplete()
         }}
       >Complete</ButtonSuccess>
     </div>
   }
 
+  renderGeometry()  {
+    const {label} = this.props
+    const {geometry} = label.state
+    const viewSize = 100
+
+    return <div style={{display: "flex", marginTop: "15px", justifyContent: 'space-between'}}>
+      <div>
+        Geometry:
+      </div>
+      <div style={{textAlign: "right", height: viewSize, width: viewSize, border: "1px solid rgba(0, 0, 0, 0.1)", borderRadius: "3px" }}>
+        <Box
+          box={geometry}
+          onClick={() => {
+            console.log("clicked", label)
+          }}
+          viewSize={viewSize}
+          dimensions={this.props.dimensions}
+          name={label.label}
+         />
+      </div>
+  </div>
+  }
   render() {
     const {
       labelChoices,
@@ -42,34 +66,33 @@ export default class extends Component {
       labels,
       savedLabel,
       editing,
-      current,
-      labelClicked,
-      filePreview,
+      label,
       amountComplete
     } = this.props
     const ac = amountComplete
     let changed = ac[0] > 0
 
     if (savedLabel) {
-      changed = JSON.stringify(savedLabel) !== JSON.stringify(current)
+      changed = JSON.stringify(savedLabel) !== JSON.stringify(label)
     }
 
     const complete = ac[0] === ac[1]
     return <InlineBlock className="ll-classification" style={{marginLeft: "15px", maxWidth: "800px"}}>
+      <div style={{marginTop: "15px"}}/>
       <LabelEdit
         amountComplete={ac}
-        label={current}
+        label={label}
         savedLabel={savedLabel}
         editing={editing}
         changed={changed}
         onCancel={() => {
-          this.props.onCancel()
+          this.props.callbacks.onCancel()
         }}
         onSave={() => {
-          this.props.onSave()
+          this.props.callbacks.onSave()
         }}
         onRemove={() => {
-          this.props.onRemove(current)
+          this.props.callbacks.onRemove(label)
         }}
       >
         <div>
@@ -78,37 +101,19 @@ export default class extends Component {
             <div className="ll-label-wrapper">
               <Classifier
                 className="ll-label-item"
-                key={current.uuid}
+                key={label.uuid}
                 autoFocus={ac[1] - ac[0] === 1}
                 labels={labelChoices}
-                selected={ current.label }
+                selected={ label.label }
                 onSelect={(label) => {
-                  this.props.onSelect(label)
+                  this.props.callbacks.onSelect(label)
                 }}
               />
             </div>
           </div>
-          { editing && current.state && current.state.geometry &&
-            <div style={{display: "flex", marginTop: "15px"}}>
-              <div style={{flex: .5}}>
-                Geometry:
-              </div>
-              <div style={{flex: 1, textAlign: "right" }}>
-                shown on image
-              </div>
-          </div>
-          }
+          { editing && label.state && label.state.geometry && this.renderGeometry() }
         </div>
       </LabelEdit>
-      { filePreview }
-      <div>
-        <LabelPreview
-          labels={labels}
-          labelClicked={(label) => {
-            this.props.labelClicked(label)
-          }}
-        />
-      </div>
       { this.renderFinishControls() }
     </InlineBlock>
   }

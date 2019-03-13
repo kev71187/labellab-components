@@ -11,7 +11,7 @@ class Preview extends Component {
 
     return (
       <LabelPreview>
-        <h6 style={{paddingTop: "15px"}}>
+        <h6>
           Labels:
         </h6>
         <div style={{wordBreak: "break-all"}}>

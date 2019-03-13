@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Bounding from '../Bounding'
+import Bounding from '../common/Bounding'
 
 class PolygonLabeler extends Component {
   constructor(props) {
@@ -7,7 +7,7 @@ class PolygonLabeler extends Component {
     let state = this.defaultState()
 
     if (props.labelState && props.labelState.geometry) {
-      state.box = props.labelState.geometry
+      state.geometry = props.labelState.geometry
     }
 
     this.state = state
@@ -15,13 +15,13 @@ class PolygonLabeler extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.labelState.geometry !== this.props.labelState.geometry) {
-      this.setState({box: this.props.labelState.geometry})
+      this.setState({geometry: this.props.labelState.geometry})
     }
   }
 
   defaultState() {
     return {
-      box: [],
+      geometry: [],
       rotation: 0,
     }
   }
@@ -36,8 +36,8 @@ class PolygonLabeler extends Component {
   }
 
   undo() {
-    this.state.box.pop()
-    this.setState({box: this.state.box})
+    this.state.geometry.pop()
+    this.setState({geometry: this.state.geometry})
   }
 
   clear() {
@@ -45,39 +45,39 @@ class PolygonLabeler extends Component {
   }
 
   toLabel() {
-    return this.state.box
+    return this.state.geometry
   }
 
   contextClick(x, y) {
     if (this.complete()) return
-    const {box} = this.state
-    box.push({x, y})
-    this.setState({box: box})
+    const {geometry} = this.state
+    geometry.push({x, y})
+    this.setState({geometry: geometry})
   }
 
   complete() {
-    const { box } = this.state
-    if (box.length < 2) return false
-    const first = box[0]
-    const last = box[box.length - 1]
+    const { geometry } = this.state
+    if (geometry.length < 2) return false
+    const first = geometry[0]
+    const last = geometry[geometry.length - 1]
     return first.x === last.x && first.y === last.y
   }
 
   onPointMove(point, i) {
-    let { box } = this.state
-    box[i] = point
-    this.setState({box: box})
+    let { geometry } = this.state
+    geometry[i] = point
+    this.setState({geometry: geometry})
   }
 
   onComplete() {
-    let {box} = this.state
-    box.push(box[0])
-    this.setState({box})
-    this.props.onComplete(box, "geometry")
+    let {geometry} = this.state
+    geometry.push(geometry[0])
+    this.setState({geometry})
+    this.props.onComplete(geometry, "geometry")
   }
 
-  onAllMove(box) {
-    this.setState({box})
+  onAllMove(geometry) {
+    this.setState({geometry})
   }
 
   cancel() {
@@ -86,7 +86,7 @@ class PolygonLabeler extends Component {
   render() {
     const { file, containerStyle, dimensions, size } = this.props
     let cs = containerStyle ? JSON.parse(JSON.stringify(containerStyle)) : {}
-    const { box, rotation } = this.state
+    const { geometry, rotation } = this.state
     cs.width = size + "px"
 
     return (
@@ -103,7 +103,7 @@ class PolygonLabeler extends Component {
             this.onComplete(c)
           }}
           mouseTracking="tracer"
-          box={box}
+          box={geometry}
           size={size}
           dimensions={dimensions}
           rotation={rotation}

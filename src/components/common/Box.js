@@ -139,7 +139,7 @@ class Box extends Component {
           }}
 
 
-          style={{ position: 'absolute', left: 0, top: 0}}
+          style={{ position: 'absolute', left: 0, top: 0, width: viewSize, height: viewSize}}
           viewBox={`0 0 ${viewSize} ${viewSize}`} xmlns="http://www.w3.org/2000/svg">
           { points.length > 1 && !complete &&
             <polyline points={joinedPoints} fill="transparent" stroke={color} strokeWidth="3" />

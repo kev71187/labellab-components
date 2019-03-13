@@ -20,6 +20,7 @@ class Labeler extends Component {
     } = this.props
     const { hover } = this.state
 
+    console.log("1", this)
     return (
       <Main
         style={this.props.style}
@@ -51,9 +52,7 @@ Labeler.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   helpText: PropTypes.string,
   interval: PropTypes.number,
-  options: PropTypes.shape({
-    bounds: PropTypes.array
-  })
+  labelMetadata: PropTypes.object
 }
 
 export default Labeler

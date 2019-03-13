@@ -29,7 +29,7 @@ export default class extends Component {
     }
   }
   render() {
-    const {labelGeometry, labelType, labelChoices, url, exampleLabels} = this.props
+    const {labelGeometry, labelType, labelChoices, labelMetadata, url, exampleLabels} = this.props
     const currentLabels = this.state.savedLabels
     return <ClassificationDiv id={`image-${labelType}-${labelGeometry}`}>
           <Labeler
@@ -40,6 +40,7 @@ export default class extends Component {
             previewSize={600}
             labelChoices={labelChoices}
             labels={exampleLabels}
+            labelMetadata={labelMetadata}
             onComplete={(labels) => {
               const { savedLabels } = this.state
               this.setState({savedLabels: labels})
@@ -83,6 +84,7 @@ export default class extends Component {
     labelGeometry="${labelGeometry}"
     previewSize={600}
     labelChoices={["${labelChoices.join('","')}"]}
+    labelMetadata={${JSON.stringify(labelMetadata)}}
     labels={[]}
     onComplete={(labels) => {
       console.log(labels)

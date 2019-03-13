@@ -11,9 +11,9 @@ export default class extends Component {
         labelGeometry={labelGeometry}
         labelType={labelType}
         labelChoices={labelChoices}
+        labelMetadata={options}
         exampleLabels={exampleLabels}
         url={url}
-        options={options}
       />
     </Display>
   }
