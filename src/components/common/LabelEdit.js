@@ -37,7 +37,6 @@ const LabelEdit = styled.div`
   &.editing {
     .ll-labels-content {
       padding: 15px;
-      min-height: calc(260px - 30px);
     }
   }
 `
@@ -45,7 +44,7 @@ class LabelEditComponent extends Component {
   render() {
     const { amountComplete, changed, editing, label } = this.props
     const complete = amountComplete[0] == amountComplete[1]
-
+    const saveable = complete && changed
     return (
       <LabelEdit className={editing ? "editing" : ""}>
         { !editing &&
@@ -78,14 +77,15 @@ class LabelEditComponent extends Component {
                this.props.onCancel()
               }}
             >Cancel</ButtonLink>
-            { complete && changed &&
               <ButtonLink
-                style={{flex: 1, color: "#28a745", marginLeft: "2px"}}
+                style={{flex: 1, color: saveable ? "#28a745" : "lightgrey", marginLeft: "2px"}}
+                disabled={!saveable}
                 onClick={() => {
-                 this.props.onSave(label)
+                  if (saveable) {
+                    this.props.onSave(label)
+                  }
                 }}
               >Save</ButtonLink>
-            }
           </div>
         }
       </LabelEdit>

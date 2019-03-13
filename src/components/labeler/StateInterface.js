@@ -17,7 +17,7 @@ export default class extends Component {
 
     return <div style={{textAlign: "left", display: "flex", marginTop: "15px"}}>
       <ButtonLink
-        style={{flex: 1, color: "#dc3545", textAlign: "left"}}
+        style={{flex: 1, color: "#dc3545"}}
         onClick={() => {
           if (confirm("Confirm this file does not belong in this dataset")) {
             this.props.callbacks.onReject()
@@ -26,11 +26,11 @@ export default class extends Component {
       >Reject File</ButtonLink>
       <ButtonSuccess
         disabled={totalLabels === 0}
-        style={{marginRight: "5px"}}
+        style={{ flex: 1}}
         onClick={() => {
           this.props.callbacks.onComplete()
         }}
-      >Complete</ButtonSuccess>
+      >Complete File</ButtonSuccess>
     </div>
   }
 
@@ -77,8 +77,7 @@ export default class extends Component {
     }
 
     const complete = ac[0] === ac[1]
-    return <InlineBlock className="ll-classification" style={{marginLeft: "15px", maxWidth: "800px"}}>
-      <div style={{marginTop: "15px"}}/>
+    return <InlineBlock className="ll-classification" style={{marginLeft: "15px", display: "flex", flexDirection: "column", justifyContent: "space-between", maxWidth: "800px"}}>
       <LabelEdit
         amountComplete={ac}
         label={label}

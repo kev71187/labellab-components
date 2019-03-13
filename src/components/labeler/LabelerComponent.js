@@ -55,7 +55,7 @@ export default class extends Component {
       if (this._obj) {
         this._obj.dimensions().then((dimensions) => {
           this.setState({dimensions})
-          this.workOn()
+          // this.workOn()
         }).catch((e) => {
           console.log(e)
         })
