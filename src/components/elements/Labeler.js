@@ -20,7 +20,6 @@ class Labeler extends Component {
     } = this.props
     const { hover } = this.state
 
-    console.log("1", this)
     return (
       <Main
         style={this.props.style}

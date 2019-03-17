@@ -50,6 +50,7 @@ class BoxLabeler extends Component {
       newBox.push({x, y: box[0].y})
       newBox.push({x, y})
       newBox.push({x: box[0].x, y})
+      newBox.push({x: box[0].x, y: box[0].y})
       this.setState({box: newBox})
       this.onComplete(newBox)
     }
@@ -66,6 +67,10 @@ class BoxLabeler extends Component {
   onPointMove(point, i) {
     const { box } = this.state
     const newBox = JSON.parse(JSON.stringify(box))
+    if (i === 4) {
+      i = 0
+    }
+
     newBox[i] = point
     if (newBox.length > 1) {
       newBox[3 - i].x = point.x
@@ -74,6 +79,7 @@ class BoxLabeler extends Component {
       if (i === 2) newBox[3].y = point.y
       if (i === 3) newBox[2].y = point.y
     }
+    newBox[4] = newBox[0]
 
     this.setState({box: newBox})
   }
@@ -110,7 +116,7 @@ class BoxLabeler extends Component {
           mouseTracking="crosshair"
           dimensions={dimensions}
           rotation={rotation}
-          complete={box.length === 4}
+          complete={box.length === 5}
           file={file}
           onClick={(x,y) => this.contextClick(x, y)}
         >

@@ -97,10 +97,11 @@ export default class extends Component {
     } else {
       current.state[type] = e
     }
+    this.setState({current})
 
-    if (!this.autoSave(current)) {
-      this.setState({})
-    }
+    // if (!this.autoSave(current)) {
+    //   this.setState({})
+    // }
   }
 
   dag() {
@@ -223,6 +224,8 @@ export default class extends Component {
 
     if (savedIndex !== -1) {
       this.state.labels[savedIndex] = this.state.current
+    } else {
+      return this.autoSave(this.state.current)
     }
 
     this.setState({

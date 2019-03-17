@@ -6,6 +6,12 @@ import {
   pointToCoord
 } from '../../utils/coordinates'
 import {mobilecheck} from "../../utils/index"
+import Line from '../svg/Line'
+import styled from 'styled-components'
+
+const Svg = styled.svg`
+ cursor: pointer;
+`
 
 const isMobile = mobilecheck()
 
@@ -75,6 +81,10 @@ class Box extends Component {
     }
   }
 
+  onInsert(i, e) {
+    this.props.onInsert && this.props.onInsert(i, e)
+  }
+
   complete() {
     const {notComplete} = this.props
     return !(notComplete === true)
@@ -116,7 +126,7 @@ class Box extends Component {
     return <div style={containerStyle}
         >
           { hover && name && <LabelOverlay color={color} name={name}/> }
-        <svg
+        <Svg
           onMouseUp={(e) => {
             this.setState({dragging: null})
             this.callbackCompleteIfComplete()
@@ -139,11 +149,8 @@ class Box extends Component {
           }}
 
 
-          style={{ position: 'absolute', left: 0, top: 0, width: viewSize, height: viewSize}}
+          style={{ position: 'absolute', left: 0, top: 0}}
           viewBox={`0 0 ${viewSize} ${viewSize}`} xmlns="http://www.w3.org/2000/svg">
-          { points.length > 1 && !complete &&
-            <polyline points={joinedPoints} fill="transparent" stroke={color} strokeWidth="3" />
-          }
 
           { complete &&
             <polygon
@@ -186,12 +193,35 @@ class Box extends Component {
               }}
 
               onClick={() => this.props.onClick && this.props.onClick()}
-
               points={joinedPoints}
               strokeWidth="2"
-              fill={hover ? colorTransparent : 'transparent'} stroke={color}
+              fill={hover ? colorTransparent : 'transparent'} stroke={"transparent"}
             >
             </polygon>
+          }
+          { <polyline
+              points={joinedPoints}
+              fill="transparent"
+              stroke={color}
+              strokeWidth="3"
+            />
+          }
+          { editing && complete && points.length > 1 &&
+              points.map((p2, i) => {
+                if (i === 0) return null
+                const p1 = points[i - 1]
+                return <Line
+                  key={`${p2.x}-${p2.y}-${i}`}
+                  x1={p1.x}
+                  x2={p2.x}
+                  y1={p1.y}
+                  y2={p2.y}
+                  onClick={(e) => {
+                    this.onInsert(i, e)
+                    e.preventDefault()
+                  }}
+                />
+              })
           }
           { editing && points.map((b, i) => {
             const completeWithMe = editing && this.props.onComplete && i === 0 && !complete
@@ -214,7 +244,7 @@ class Box extends Component {
 
             return <circle
               key={i + 'invis'}
-              style={{ cursor: "pointer", pointerEvents: "auto", zIndex: 10}}
+              style={{ pointerEvents: "auto", zIndex: 10}}
               onMouseEnter={(e) => {
                 this.onMouseEnter(i)
                 e.preventDefault()
@@ -245,7 +275,7 @@ class Box extends Component {
               r={edgeSize * 1.3} fill={"transparent"} cy={b.y} cx={b.x}/>
             })
           }
-      </svg>
+      </Svg>
     </div>
   }
 }

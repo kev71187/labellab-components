@@ -30,6 +30,17 @@ class Bounding extends Component {
     }
     this.props.onClick(point.x, point.y)
   }
+  onInsert(i, e) {
+    const {dimensions, size} = this.props
+    if (this.props.frozen) return false
+    const coords = mouseEventToCoordinate(e, this._input)
+    const point = coordToPoint(coords, dimensions, size)
+    if (this.invalidPoint(point)) {
+      console.log(coords, point, dimensions, size)
+      return
+    }
+    this.props.onInsert && this.props.onInsert(i, {x: point.x, y: point.y})
+  }
 
   invalidPoint(point) {
     const {dimensions} = this.props
@@ -140,6 +151,9 @@ class Bounding extends Component {
           onPointMove={(e, i) => {this.onPointMove(e, i)}}
           setAnchor={(e) => {
             this.setAnchor(e)
+          }}
+          onInsert={(i, e) => {
+            this.onInsert(i, e)
           }}
           onAllMove={(e) => {
             this.onAllMove(e)

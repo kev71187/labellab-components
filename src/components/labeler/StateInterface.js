@@ -40,7 +40,7 @@ export default class extends Component {
     const viewSize = 100
 
     return <div style={{display: "flex", marginTop: "15px", justifyContent: 'space-between'}}>
-      <div>
+      <div style={{marginRight: "15px"}}>
         Geometry:
       </div>
       <div style={{textAlign: "right", height: viewSize, width: viewSize, border: "1px solid rgba(0, 0, 0, 0.1)", borderRadius: "3px" }}>
@@ -96,7 +96,7 @@ export default class extends Component {
       >
         <div>
           <div style={{display: "flex"}}>
-            { editing && <div style={{flex: .5}}>Label: </div>}
+            <div style={{marginRight: "15px"}}>Label: </div>
             <div className="ll-label-wrapper">
               <Classifier
                 className="ll-label-item"
@@ -110,7 +110,7 @@ export default class extends Component {
               />
             </div>
           </div>
-          { editing && label.state && label.state.geometry && this.renderGeometry() }
+          { this.props.labelGeometry !== "none" && this.renderGeometry() }
         </div>
       </LabelEdit>
       { this.renderFinishControls() }

@@ -46,52 +46,47 @@ class LabelEditComponent extends Component {
     const complete = amountComplete[0] == amountComplete[1]
     const saveable = complete && changed
     return (
-      <LabelEdit className={editing ? "editing" : ""}>
-        { !editing &&
-          <div style={{flex: 1, marginBottom: "5px"}}>
-            Label Requirements { amountComplete[0] } / {amountComplete[1]}
-          </div>
-        }
-        { editing &&
+      <LabelEdit className={"editing"}>
           <div className="edit-header">
             <h5>Current Label</h5>
           </div>
-        }
         <div className="ll-labels-content">
           {this.props.children}
         </div>
-        { editing &&
-          <div className="edit-footer">
-
-            { complete &&
-              <ButtonLink
-                style={{flex: 1, color: "#dc3545", marginRight: "2px"}}
-                onClick={() => {
-                 this.props.onRemove(label)
-                }}
-              >Remove</ButtonLink>
-            }
+        <div className="edit-footer">
+          { complete &&
             <ButtonLink
-              style={{flex: 1, marginLeft: "2px", marginRight: "2px"}}
+              style={{flex: 1, color: "#dc3545", marginRight: "2px"}}
               onClick={() => {
-               this.props.onCancel()
+               this.props.onRemove(label)
               }}
-            >Cancel</ButtonLink>
-              <ButtonLink
-                style={{flex: 1, color: saveable ? "#28a745" : "lightgrey", marginLeft: "2px"}}
-                disabled={!saveable}
-                onClick={() => {
-                  if (saveable) {
-                    this.props.onSave(label)
-                  }
-                }}
-              >Save</ButtonLink>
-          </div>
-        }
+            >Remove</ButtonLink>
+          }
+          <ButtonLink
+            style={{flex: 1, marginLeft: "2px", marginRight: "2px"}}
+            onClick={() => {
+             this.props.onCancel()
+            }}
+          >Cancel</ButtonLink>
+            <ButtonLink
+              style={{flex: 1, color: saveable ? "#28a745" : "lightgrey", marginLeft: "2px"}}
+              disabled={!saveable}
+              onClick={() => {
+                if (saveable) {
+                  this.props.onSave(label)
+                }
+              }}
+            >Save</ButtonLink>
+        </div>
       </LabelEdit>
     )
   }
 }
+        // { !editing &&
+        //   <div style={{flex: 1, marginBottom: "5px"}}>
+        //     Label Requirements { amountComplete[0] } / {amountComplete[1]}
+        //   </div>
+        // }
 
 export default LabelEditComponent
 

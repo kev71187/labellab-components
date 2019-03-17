@@ -48,6 +48,12 @@ class PolygonLabeler extends Component {
     return this.state.geometry
   }
 
+  onInsert(i, xy) {
+    const {geometry} = this.state
+    geometry.splice(i,0, xy)
+    this.setState({geometry: geometry})
+  }
+
   contextClick(x, y) {
     if (this.complete()) return
     const {geometry} = this.state
@@ -101,6 +107,9 @@ class PolygonLabeler extends Component {
           }}
           onComplete={(c) => {
             this.onComplete(c)
+          }}
+          onInsert={(i, xy) => {
+            this.onInsert(i, xy)
           }}
           mouseTracking="tracer"
           box={geometry}
