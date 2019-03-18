@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Image from '../image'
-import Box from '../common/Box'
+import Box from '../bounding/Box'
 import GeoJson from '../GeoJson'
 import colors from '../../constants/colors'
 import Label from '../common/Label'

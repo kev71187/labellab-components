@@ -38,14 +38,15 @@ class Box extends Component {
     }
   }
 
-  callbackCompleteIfComplete() {
+  callbackUpdateIfComplete() {
     const complete = this.complete()
+
     if (complete) {
-      if (this.props.onComplete) this.props.onComplete()
+      if (this.props.onUpdate) this.props.onUpdate()
     }
   }
 
-  onMouseUp() {
+  onMouseUp(i) {
     this.setState({dragging: null})
   }
   onMouseEnter(i) {
@@ -61,11 +62,11 @@ class Box extends Component {
   onMouseDown(i) {
     const {dragging} = this.state
     const complete = this.complete()
+    this.setState({dragging: i})
     if (i === 0 && complete === false) {
       if (this.props.onComplete) this.props.onComplete()
     } else {
     }
-    this.setState({dragging: i})
   }
 
   onDrag(e) {
@@ -114,6 +115,7 @@ class Box extends Component {
       containerStyle.zIndex = 15
       containerStyle.pointerEvents = 'none'
     }
+    // containerStyle.pointerEvents = 'auto'
     const points = box.map((b) => {
       const coord = pointToCoord(b, dimensions, viewSize)
       return coord
@@ -129,23 +131,23 @@ class Box extends Component {
         <Svg
           onMouseUp={(e) => {
             this.setState({dragging: null})
-            this.callbackCompleteIfComplete()
-            e.preventDefault()
+            // e.preventDefault()
+            this.callbackUpdateIfComplete()
           }}
 
           onMouseLeave={(e) => {
             this.setState({dragging: null, cornerHover: null, hover: null})
-            e.preventDefault()
+                // e.preventDefault()
           }}
 
           onMouseMove={(e) => {
             this.onDrag(e)
-            e.preventDefault()
+                // e.preventDefault()
           }}
           onTouchMove={(e) => {
             const {layerX, layerY} = e.nativeEvent
             this.onDrag({clientX: layerX, clientY: layerY, mobileDrag: true})
-            e.preventDefault()
+                // e.preventDefault()
           }}
 
 
@@ -158,30 +160,30 @@ class Box extends Component {
               onMouseEnter={(e) => {
                 if (isDragging) return
                 this.setState({hover: true})
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               onMouseUp={(e) => {
                 this.setState({dragging: null})
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               onMouseDown={(e) => {
                 if (!editing) return
                 this.props.setAnchor(e)
                 this.setState({dragging: "all"})
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               onMouseLeave={(e) => {
                 if (isDragging) return
                 this.setState({hover: false})
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               onTouchEnd={(e) => {
                 this.setState({dragging: null})
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               onTouchStart={(e) => {
@@ -189,7 +191,7 @@ class Box extends Component {
                 const {layerX, layerY} = e.nativeEvent
                 this.props.setAnchor({clientX: layerX, clientY: layerY, mobileDrag: true})
                 this.setState({dragging: "all"})
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               onClick={() => this.props.onClick && this.props.onClick()}
@@ -218,7 +220,7 @@ class Box extends Component {
                   y2={p2.y}
                   onClick={(e) => {
                     this.onInsert(i, e)
-                    e.preventDefault()
+                    // e.preventDefault()
                   }}
                 />
               })
@@ -247,29 +249,26 @@ class Box extends Component {
               style={{ pointerEvents: "auto", zIndex: 10}}
               onMouseEnter={(e) => {
                 this.onMouseEnter(i)
-                e.preventDefault()
+                // e.preventDefault()
               }}
               onMouseLeave={(e) => {
                 this.onMouseLeave()
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
-              onMouseUp={(e) => {
-                this.onMouseUp()
-                e.preventDefault()
-              }}
               onTouchEnd={(e) => {
-                this.onMouseUp()
-                e.preventDefault()
+                this.onMouseUp(i)
+                // e.preventDefault()
               }}
 
               onMouseDown={(e) => {
                 this.onMouseDown(i)
-                e.preventDefault()
+                // e.preventDefault()
               }}
+
               onTouchStart={(e) => {
                 this.onMouseDown(i)
-                e.preventDefault()
+                // e.preventDefault()
               }}
 
               r={edgeSize * 1.3} fill={"transparent"} cy={b.y} cx={b.x}/>

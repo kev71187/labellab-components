@@ -8,7 +8,7 @@ import StatePreview from './StatePreview'
 import ButtonSuccess from "../ButtonSuccess"
 import ButtonLink from "../ButtonLink"
 import InlineBlock from  './InlineBlock'
-import Box from '../common/Box'
+import Box from '../bounding/Box'
 
 export default class extends Component {
   renderFinishControls() {

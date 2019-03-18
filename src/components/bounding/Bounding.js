@@ -147,6 +147,7 @@ class Bounding extends Component {
           editing
           dimensions={this.props.dimensions}
           viewSize={size}
+          onUpdate={this.props.onUpdate}
           onComplete={this.props.onComplete}
           onPointMove={(e, i) => {this.onPointMove(e, i)}}
           setAnchor={(e) => {

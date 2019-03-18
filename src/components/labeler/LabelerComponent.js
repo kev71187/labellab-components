@@ -285,6 +285,9 @@ export default class extends Component {
         size={size}
         dimensions={this.state.dimensions}
         bounds={this.props.labelMetadata && this.props.labelMetadata.bounds}
+        onChange={() => {
+          this.setState({})
+        }}
         onComplete={(e, type) => {
           this.onChange(e, type)
           this.shouldEdit(current)

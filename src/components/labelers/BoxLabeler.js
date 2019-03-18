@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Bounding from '../common/Bounding'
+import Bounding from '../bounding/Bounding'
 
 class BoxLabeler extends Component {
   constructor(props) {
@@ -107,6 +107,9 @@ class BoxLabeler extends Component {
           }}
           onAllMove={(b) => {
             this.onAllMove(b)
+          }}
+          onUpdate={(c) => {
+            this.onComplete(c)
           }}
           onComplete={(c) => {
             this.onComplete(c)
