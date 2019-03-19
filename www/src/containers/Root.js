@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import {Version} from "../labellab-components"
 import Home from '../containers/Home'
-import ImageGeo from '../containers/ImageGeo'
 import ImagePolygon from '../containers/ImagePolygon'
 import ImageBox from '../containers/ImageBox'
 import ImageClassification from '../containers/ImageClassification'
@@ -22,7 +21,6 @@ const contents = [
           "none",
           "box",
           "polygon",
-          "geoJson"
         ]
       }
     ]
@@ -118,7 +116,6 @@ const Root = ({ store }) => (
                 <Route exact path="/image/classification/none" component={ImageClassification} />
                 <Route exact path="/image/classification/box" component={ImageBox} />
                 <Route exact path="/image/classification/polygon" component={ImagePolygon} />
-                <Route exact path="/image/classification/geoJson" component={ImageGeo} />
                 <Route exact path="/" component={Home} />
                 <Route component={NotFound} />
               </Switch>

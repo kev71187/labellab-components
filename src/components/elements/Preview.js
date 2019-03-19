@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Image from '../image'
 import Box from '../bounding/Box'
-import GeoJson from '../GeoJson'
 import colors from '../../constants/colors'
 import Label from '../common/Label'
-import {convertGeoJsonToGeometry} from "../../utils/geoJson"
 
 const PreviewComponent = styled.div`
   position: relative;
@@ -38,19 +36,7 @@ class Preview extends Component {
           size={size}
         >
           { labels.map((label, i) => {
-              if (['polygon', 'box', 'geoJson'].includes(label.labelGeometry)) {
-
-                if (label.labelGeometry === "geoJson") {
-                  const multiPolygons = convertGeoJsonToGeometry(label.state.geoJson, label.options.bounds, label.options.dimensions)
-
-                  return multiPolygons.map((polygons, ii) => {
-                    return polygons.map((polygon, iii) => {
-                      return this.renderBox(label, polygon, `${i}-${ii}-${iii}`)
-                    })
-                  })
-
-                }
-
+              if (['polygon', 'box'].includes(label.labelGeometry)) {
                 return this.renderBox(label, label.state.geometry, i)
               }
               return null

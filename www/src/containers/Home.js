@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import ImageClassification from "../containers/ImageClassification"
 import ImageBox from "../containers/ImageBox"
 import ImagePolygon from "../containers/ImagePolygon"
-import ImageGeo from "../containers/ImageGeo"
 import {Version} from "../labellab-components"
 class Home extends Component {
   render() {
@@ -14,8 +13,6 @@ class Home extends Component {
       <ImageBox/>
       <div style={{marginTop: "15px"}}/>
       <ImagePolygon/>
-      <div style={{marginTop: "15px"}}/>
-      <ImageGeo/>
     </div>
   }
 

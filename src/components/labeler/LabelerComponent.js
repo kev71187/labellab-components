@@ -6,7 +6,6 @@ import Image from '../image'
 import KeyWatch from '../common/KeyWatch'
 import StateInterface from "./StateInterface"
 import StatePreview from "./StatePreview"
-import GeoJsonLabeler from '../labelers/GeoJsonLabeler'
 import PolygonLabeler from '../labelers/PolygonLabeler'
 import BoxLabeler from '../labelers/BoxLabeler'
 import Default from '../Default'
@@ -76,7 +75,6 @@ export default class extends Component {
     let state = {}
 
     if (labelGeometry !== 'none') {
-      console.log("i am the problem")
       state.geometry = []
     }
 
@@ -252,9 +250,6 @@ export default class extends Component {
     } else if (labelGeometry === "polygon") {
       if (fileType !== "image") return this.notSupported()
       return PolygonLabeler
-    } else if (labelGeometry === "geoJson") {
-      if (fileType !== "image")  return this.notSupported()
-      return GeoJsonLabeler
     }
 
     return Default
