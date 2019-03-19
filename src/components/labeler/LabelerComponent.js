@@ -76,6 +76,7 @@ export default class extends Component {
     let state = {}
 
     if (labelGeometry !== 'none') {
+      console.log("i am the problem")
       state.geometry = []
     }
 
