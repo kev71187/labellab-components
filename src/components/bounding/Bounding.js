@@ -25,7 +25,6 @@ class Bounding extends Component {
     const coords = mouseEventToCoordinate(e, this._input)
     const point = coordToPoint(coords, dimensions, size)
     if (this.invalidPoint(point)) {
-      console.log(coords, point, dimensions, size)
       return
     }
     this.props.onClick(point.x, point.y)
@@ -36,7 +35,6 @@ class Bounding extends Component {
     const coords = mouseEventToCoordinate(e, this._input)
     const point = coordToPoint(coords, dimensions, size)
     if (this.invalidPoint(point)) {
-      console.log(coords, point, dimensions, size)
       return
     }
     this.props.onInsert && this.props.onInsert(i, {x: point.x, y: point.y})
