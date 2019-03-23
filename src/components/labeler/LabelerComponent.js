@@ -223,10 +223,13 @@ export default class extends Component {
     const {current} = this.state
     const savedIndex = this.savedIndex()
 
+
     if (savedIndex !== -1) {
       this.state.labels[savedIndex] = current
     } else {
-      return this.autoSave(current)
+      const labels = this.autoSave(current)
+      this.props.onSave && this.props.onSave(current)
+      return labels
     }
 
     this.props.onSave && this.props.onSave(current)

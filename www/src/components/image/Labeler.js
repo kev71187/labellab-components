@@ -41,6 +41,12 @@ export default class extends Component {
             labelChoices={labelChoices}
             labels={exampleLabels}
             labelMetadata={labelMetadata}
+            onSave={(label) => {
+              console.log("save", label)
+            }}
+            onRemove={(label) => {
+              console.log("remove", label)
+            }}
             onComplete={(labels) => {
               const { savedLabels } = this.state
               this.setState({savedLabels: labels})
