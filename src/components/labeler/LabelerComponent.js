@@ -169,6 +169,7 @@ export default class extends Component {
 
   removeLabel(label) {
     const labels = this.state.labels.filter((l) => { return label.uuid !== l.uuid})
+    this.props.onRemove && this.props.onRemove(label)
     this.setState({labels, editing: false, current: this.defaultLabel(this.props)})
   }
 
@@ -219,13 +220,16 @@ export default class extends Component {
   }
 
   onSave() {
+    const {current} = this.state
     const savedIndex = this.savedIndex()
 
     if (savedIndex !== -1) {
-      this.state.labels[savedIndex] = this.state.current
+      this.state.labels[savedIndex] = current
     } else {
-      return this.autoSave(this.state.current)
+      return this.autoSave(current)
     }
+
+    this.props.onSave && this.props.onSave(current)
 
     this.setState({
       editing: false,
