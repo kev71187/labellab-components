@@ -7,6 +7,5 @@ WORKDIR /app
 # RUN npm install webpack-cli -g
 RUN npm install npx -g
 RUN npm install yarn -g
-RUN npm install react-scripts -g
-RUN npm install --global rollup
+RUN npm install
 CMD ["sh", "-c", "while true; do sleep 1; done;"]
