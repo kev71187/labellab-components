@@ -88,6 +88,12 @@ npm install labellab-components --save
 * Audio - time series classification
 * Video - time series classification, polygon tool for frames
 
+### Running Locally
+```
+  docker-compose run label npm install
+  docker-compose up
+```
+
 ### License
 
 Labellab Components is [MIT licensed](./LICENSE).
