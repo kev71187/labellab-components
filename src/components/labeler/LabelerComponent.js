@@ -167,6 +167,10 @@ export default class extends Component {
     this.props.onComplete(labels)
   }
 
+  onReject() {
+    this.props.onReject()
+  }
+
   removeLabel(label) {
     const labels = this.state.labels.filter((l) => { return label.uuid !== l.uuid})
     this.props.onRemove && this.props.onRemove(label)
