@@ -35,7 +35,7 @@
   "devDependencies": {
     "dotenv": "5.0.1",
     "dotenv-expand": "4.2.0",
-    "react-scripts": "2.1.8",
+    "react-scripts": "5.0.1",
     "rollup": "1.7.0",
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",
